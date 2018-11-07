@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="ADMSProject">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>application.entities.Account</class>
+		<class>application.entities.Customer</class>
+		<class>application.entities.Employee</class>
+		<class>application.entities.InStockReport</class>
+		<class>application.entities.InStockReportDetail</class>
+		<class>application.entities.InStockReportDetailPK</class>
+		<class>application.entities.MaintenanceReport</class>
+		<class>application.entities.MaintenanceReportDetail</class>
+		<class>application.entities.MaintenanceReportDetailPK</class>
+		<class>application.entities.Model</class>
+		<class>application.entities.Motorbike</class>
+		<class>application.entities.Order</class>
+		<class>application.entities.OrderDetail</class>
+		<class>application.entities.OrderDetailPK</class>
+		<class>application.entities.Product</class>
+		<class>application.entities.Replacement</class>
+		<class>application.entities.Supplier</class>
+		<class>application.entities.ProductGen</class>
+		<class>application.entities.PersonGen</class>
+		<properties>
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.SQLServerDialect" />
+			<property name="hibernate.connection.url"
+				value="jdbc:sqlserver://localhost:1433;databaseName=MotorbikeManagement" />
+			<property name="hibernate.connection.driver_class"
+				value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+			<property name="hibernate.connection.username" value="sa" />
+			<property name="hibernate.connection.password"
+				value="sapassword" />
+			<property name="hibernate.connection.useUnicode"
+				value="true" />
+			<property name="hibernate.connection.characterEncoding"
+				value="UTF-8" />
+			<property name="hibernate.connection.charSet" value="UTF-8" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>

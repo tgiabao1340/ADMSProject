@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane stylesheets="@style.css"
+	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.gui.RoleUIController">
+	<children>
+		<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+			prefWidth="600.0" AnchorPane.bottomAnchor="20.0"
+			AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
+			AnchorPane.topAnchor="20.0">
+			<top>
+				<VBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0"
+					BorderPane.alignment="CENTER">
+					<children>
+						<Label text="CHỌN GIAO DIỆN CHỨC NĂNG">
+							<font>
+								<Font name="System Bold" size="27.0" />
+							</font>
+						</Label>
+					</children>
+				</VBox>
+			</top>
+			<center>
+				<AnchorPane>
+					<children>
+						<HBox alignment="CENTER" prefHeight="100.0" prefWidth="421.0"
+							AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0"
+							AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+							<children>
+								<Button fx:id="btnEmployeeUI" mnemonicParsing="false"
+									onAction="#roleAction" prefHeight="60.0" prefWidth="160.0">
+									<HBox.margin>
+										<Insets right="20.0" />
+									</HBox.margin>
+									<graphic>
+										<VBox alignment="TOP_CENTER" prefHeight="200.0"
+											prefWidth="100.0">
+											<children>
+												<ImageView fx:id="image_employee" fitHeight="90.0"
+													fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+													<VBox.margin>
+														<Insets bottom="12.0" />
+													</VBox.margin>
+													<viewport>
+														<Rectangle2D />
+													</viewport>
+												</ImageView>
+												<Label id="text-h" text="NHÂN VIÊN" />
+											</children>
+										</VBox>
+									</graphic>
+								</Button>
+								<Button fx:id="btnManager" mnemonicParsing="false"
+									onAction="#roleAction" prefHeight="60.0" prefWidth="160.0">
+									<HBox.margin>
+										<Insets right="20.0" />
+									</HBox.margin>
+									<graphic>
+										<VBox alignment="TOP_CENTER" prefHeight="200.0"
+											prefWidth="100.0">
+											<children>
+												<ImageView fx:id="image_manager" fitHeight="90.0"
+													fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+													<VBox.margin>
+														<Insets bottom="12.0" />
+													</VBox.margin>
+													<viewport>
+														<Rectangle2D />
+													</viewport>
+												</ImageView>
+												<Label id="text-h" text="QUẢN LÝ" />
+											</children>
+										</VBox>
+									</graphic>
+								</Button>
+								<Button fx:id="btnAdminUI" mnemonicParsing="false"
+									onAction="#roleAction" prefHeight="60.0" prefWidth="160.0">
+									<HBox.margin>
+										<Insets right="20.0" />
+									</HBox.margin>
+									<graphic>
+										<VBox alignment="TOP_CENTER" prefHeight="200.0"
+											prefWidth="100.0">
+											<children>
+												<ImageView fx:id="image_admin" fitHeight="90.0"
+													fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+													<VBox.margin>
+														<Insets bottom="12.0" />
+													</VBox.margin>
+													<viewport>
+														<Rectangle2D />
+													</viewport>
+												</ImageView>
+												<Label id="text-h" alignment="TOP_CENTER"
+													text="QUẢN TRỊ VIÊN" />
+											</children>
+										</VBox>
+									</graphic>
+								</Button>
+							</children>
+						</HBox>
+					</children>
+				</AnchorPane>
+			</center>
+			<bottom>
+				<VBox>
+					<children>
+						<HBox alignment="BOTTOM_RIGHT" prefHeight="100.0"
+							prefWidth="412.0" BorderPane.alignment="CENTER">
+							<children>
+								<Button fx:id="btnLogout" alignment="BASELINE_CENTER"
+									mnemonicParsing="false" onAction="#roleAction" text="ĐĂNG XUẤT" />
+							</children>
+							<VBox.margin>
+								<Insets />
+							</VBox.margin>
+						</HBox>
+					</children>
+					<BorderPane.margin>
+						<Insets bottom="24.0" right="24.0" />
+					</BorderPane.margin>
+				</VBox>
+			</bottom>
+		</BorderPane>
+	</children>
+</AnchorPane>

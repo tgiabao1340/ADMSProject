@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0"
+	prefWidth="320.0" xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.gui.LoadingScreenController">
+	<children>
+		<ImageView fitHeight="160.0" fitWidth="320.0"
+			pickOnBounds="true" preserveRatio="true"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+		<VBox prefHeight="240.0" prefWidth="320.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<Label text="Quản lý mua bán cửa hàng xe máy">
+					<font>
+						<Font name="System Bold" size="18.0" />
+					</font>
+					<VBox.margin>
+						<Insets left="12.0" top="12.0" />
+					</VBox.margin>
+				</Label>
+				<ProgressIndicator fx:id="progressIndicatior"
+					prefHeight="74.0" prefWidth="320.0" progress="0.0" />
+			</children>
+		</VBox>
+		<ProgressBar fx:id="progressBar" progress="0.0"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" />
+		<VBox layoutY="200.0" AnchorPane.bottomAnchor="0.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+	</children>
+</AnchorPane>

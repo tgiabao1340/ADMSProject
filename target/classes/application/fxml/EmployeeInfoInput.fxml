@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<VBox layoutX="10.0" layoutY="10.0" prefHeight="414.0"
+			prefWidth="268.0" AnchorPane.bottomAnchor="20.0"
+			AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
+			AnchorPane.topAnchor="20.0">
+			<children>
+				<Label prefWidth="130.0" text="Mã Nhân viên">
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</Label>
+				<TextField />
+				<Label prefWidth="130.0" text="Họ &amp; Tên">
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+					<VBox.margin>
+						<Insets top="4.0" />
+					</VBox.margin>
+				</Label>
+				<TextField />
+				<CheckBox mnemonicParsing="false" text="Nữ">
+					<VBox.margin>
+						<Insets top="4.0" />
+					</VBox.margin>
+				</CheckBox>
+				<Label prefWidth="100.0" text="Số điện thoại">
+					<HBox.margin>
+						<Insets left="12.0" />
+					</HBox.margin>
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</Label>
+				<TextField />
+				<HBox>
+					<children>
+						<Label prefWidth="130.0" text="Ngày sinh" />
+						<DatePicker />
+					</children>
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</HBox>
+				<Label prefWidth="130.0" text="Địa chỉ">
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</Label>
+				<TextField prefWidth="320.0" />
+				<Label prefWidth="120.0" text="AccountID">
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</Label>
+				<TextField />
+				<HBox fillHeight="false" prefHeight="100.0" prefWidth="200.0"
+					spacing="4.0">
+					<children>
+						<Button mnemonicParsing="false" text="Tạo" />
+						<Button mnemonicParsing="false" text="Hủy" />
+					</children>
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</HBox>
+			</children>
+			<padding>
+				<Insets left="12.0" right="24.0" />
+			</padding>
+		</VBox>
+	</children>
+</AnchorPane>
