@@ -20,12 +20,10 @@ public class OrderDetail {
 	@JoinColumn(name = "MotorbikeID", referencedColumnName = "MotorbikeID")
 	private Motorbike motorbike;
 	@Id
-//	@GenericGenerator(name = "sequence_ord_id", strategy = "entities.OrderDetailGen")
-//	@GeneratedValue(generator = "sequence_ord_id")
 	@Column(name = "OrderDetailID")
 	private String orderDetailID;
-	@Column(name = "RegistrationFee")
-	private double registrationFee;
+	@Column(name = "ChassisNo")
+	private String chassisNo;
 	@Column(name = "UnitPrice")
 	private double unitPrice;
 	@Column(name = "Quantity")
@@ -39,23 +37,13 @@ public class OrderDetail {
 		super();
 	}
 
-	public OrderDetail(Order order, Motorbike motorbike, double registrationFee, double unitPrice, int quantity,
-			double vAT) {
-		super();
-		this.order = order;
-		this.motorbike = motorbike;
-		this.registrationFee = registrationFee;
-		this.unitPrice = unitPrice;
-		this.quantity = quantity;
-		this.vAT = vAT;
-	}
 
-	public OrderDetail(Order order, Motorbike motorbike, double registrationFee, double unitPrice, int quantity,
+	public OrderDetail(Order order, Motorbike motorbike, String chassisNo, double unitPrice, int quantity,
 			double vAT, String color) {
 		super();
 		this.order = order;
 		this.motorbike = motorbike;
-		this.registrationFee = registrationFee;
+		this.chassisNo = chassisNo;
 		this.unitPrice = unitPrice;
 		this.quantity = quantity;
 		this.vAT = vAT;
@@ -118,13 +106,17 @@ public class OrderDetail {
 		this.motorbike = motorbike;
 	}
 
-	public double getRegistrationFee() {
-		return registrationFee;
+	
+
+	public String getChassisNo() {
+		return chassisNo;
 	}
 
-	public void setRegistrationFee(double registrationFee) {
-		this.registrationFee = registrationFee;
+
+	public void setChassisNo(String chassisNo) {
+		this.chassisNo = chassisNo;
 	}
+
 
 	public double getUnitPrice() {
 		return unitPrice;
@@ -160,20 +152,16 @@ public class OrderDetail {
 		return (long) (quantity * unitPrice * vAT);
 	}
 
-	public long getTotalReg() {
-
-		return (long) (quantity * unitPrice * registrationFee);
-	}
 
 	public long getSubTotal() {
 
-		return getTotalRaw() + getTotalReg() + getTotalVAT();
+		return getTotalRaw()  + getTotalVAT();
 	}
 
 	@Override
 	public String toString() {
 		return "OrderDetail [order=" + order + ", motorbike=" + motorbike + ", orderDetailID=" + orderDetailID
-				+ ", registrationFee=" + registrationFee + ", unitPrice=" + unitPrice + ", quantity=" + quantity
+				+ ", chassisNo=" + chassisNo + ", unitPrice=" + unitPrice + ", quantity=" + quantity
 				+ ", vAT=" + vAT + ", color=" + color + "]";
 	}
 

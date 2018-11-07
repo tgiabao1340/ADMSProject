@@ -366,11 +366,7 @@ public class CreateOrderController {
 						od_detail.setVAT(0);
 					od_detail.setUnitPrice(motorbike.get().getUnitPrice());
 					od_detail.setQuantity(quantity.get());
-					if (checkReg.isSelected()) {
-						od_detail.setRegistrationFee(0.1);
-					} else
-						od_detail.setRegistrationFee(0);
-
+					//Chèn thêm khung cho Số khung, số máy
 					od_detail.setColor(color_name.get());
 					list_detail.add(od_detail);
 					for (int i = 0; i < list_detail.size(); i++) {
@@ -418,14 +414,8 @@ public class CreateOrderController {
 		textTax.setText("");
 		double total = 0;
 		double tax = 0;
-		for (int i = 0; i < list.size(); i++) {
-			OrderDetail odd = list.get(i);
-
-			tax += odd.getRegistrationFee() * odd.getUnitPrice() * odd.getQuantity()
-					+ odd.getvAT() * odd.getUnitPrice() * odd.getQuantity();
-			total += list.get(i).getUnitPrice() * list.get(i).getQuantity();
-		}
-		total+=tax;
+		total += od.getSubTotal();
+		tax +=od.getTotalVAT();
 		textTax.setText(String.format("%,12.0f VND", tax));
 		textTotal.setText(String.format("%,12.0f VND", total));
 	}
