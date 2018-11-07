@@ -134,17 +134,10 @@ public class Order {
 		return total;
 	}
 
-	public long getTotalReg() {
-		long total = 0l;
-		for (int i = 0; i < listItems.size(); i++) {
-			total += listItems.get(i).getTotalReg();
-		}
-		return total;
-	}
 
 	public long getSubTotal() {
 
-		return getTotalRaw() + getTotalVAT() + getTotalReg();
+		return getTotalRaw() + getTotalVAT();
 	}
 
 	@Override

@@ -247,7 +247,7 @@ public class CreateOrderController {
 		List<OrderDetail> list_detail = new ArrayList<>();
 		List<Supplier> listSupplier = new SupplierDAO().getAll(Supplier.class);
 		List<String> listSuplierName = new ArrayList<>();
-		List<String> listType = new ArrayList();
+		List<String> listType = new ArrayList<String>();
 		for (int i = 0; i < listSupplier.size(); i++) {
 			Supplier sup = listSupplier.get(i);
 			if (!listSuplierName.contains(sup.getSupplierName()))
@@ -366,11 +366,7 @@ public class CreateOrderController {
 						od_detail.setVAT(0);
 					od_detail.setUnitPrice(motorbike.get().getUnitPrice());
 					od_detail.setQuantity(quantity.get());
-					if (checkReg.isSelected()) {
-						od_detail.setRegistrationFee(0.1);
-					} else
-						od_detail.setRegistrationFee(0);
-
+					//Chèn thêm khung cho Số khung, số máy
 					od_detail.setColor(color_name.get());
 					list_detail.add(od_detail);
 					for (int i = 0; i < list_detail.size(); i++) {
@@ -418,13 +414,8 @@ public class CreateOrderController {
 		textTax.setText("");
 		double total = 0;
 		double tax = 0;
-		for (int i = 0; i < list.size(); i++) {
-			OrderDetail odd = list.get(i);
-
-			tax += odd.getRegistrationFee() * odd.getUnitPrice() * odd.getQuantity()
-					+ odd.getvAT() * odd.getUnitPrice() * odd.getQuantity();
-			total += list.get(i).getUnitPrice() * list.get(i).getQuantity();
-		}
+		total += od.getSubTotal();
+		tax +=od.getTotalVAT();
 		textTax.setText(String.format("%,12.0f VND", tax));
 		textTotal.setText(String.format("%,12.0f VND", total));
 	}
@@ -437,6 +428,7 @@ public class CreateOrderController {
 		TableColumn<OrderDetail, String> colColor = new TableColumn<>("Màu");
 		TableColumn<OrderDetail, String> colQuantity = new TableColumn<>("Số Lượng");
 		TableColumn<OrderDetail, String> colUP = new TableColumn<>("Đơn giá");
+		TableColumn<OrderDetail, String> colST = new TableColumn<>("Thành tiền");
 		colNumbered.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<OrderDetail, OrderDetail>, ObservableValue<OrderDetail>>() {
 
@@ -452,11 +444,11 @@ public class CreateOrderController {
 
 					@Override
 					public TableCell<OrderDetail, OrderDetail> call(TableColumn<OrderDetail, OrderDetail> param) {
-						// TODO Auto-generated method stub
+	
 						return new TableCell<OrderDetail, OrderDetail>() {
 							@Override
 							protected void updateItem(OrderDetail arg0, boolean arg1) {
-								// TODO Auto-generated method stub
+							
 								super.updateItem(arg0, arg1);
 								if (this.getTableRow() != null && arg0 != null) {
 									setText(this.getTableRow().getIndex() + 1 + "");
@@ -476,11 +468,12 @@ public class CreateOrderController {
 		colQuantity.setCellValueFactory(
 				celldata -> new SimpleStringProperty(String.valueOf(celldata.getValue().getQuantity())));
 		colUP.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
+				celldata.getValue().getMotorbike().getUnitPrice())));
+		colST.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
 				celldata.getValue().getMotorbike().getUnitPrice() * celldata.getValue().getQuantity())));
-
 		ObservableList<OrderDetail> items = FXCollections.observableArrayList(list);
 		tableOrderDetail.setItems(items);
-		tableOrderDetail.getColumns().addAll(colNumbered, colName, colSup, colColor, colQuantity, colUP);
+		tableOrderDetail.getColumns().addAll(colNumbered, colName, colSup, colColor, colQuantity, colUP, colST);
 	}
 
 	void reloadTable(List<OrderDetail> list) {
