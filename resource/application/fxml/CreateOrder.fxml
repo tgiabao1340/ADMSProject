@@ -340,7 +340,7 @@
 										<HBox prefHeight="24.0" prefWidth="418.0">
 											<children>
 												<Label prefHeight="21.0" prefWidth="142.0"
-													text="THÀNH TIỀN">
+													text="TỔNG TIỀN">
 													<font>
 														<Font name="System Bold" size="18.0" />
 													</font>
