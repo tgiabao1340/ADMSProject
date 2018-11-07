@@ -1,7 +1,6 @@
 package application;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 
 import application.daos.AccountDAO;
 import application.daos.CustomerDAO;
@@ -17,7 +16,6 @@ import application.entities.Employee;
 import application.entities.Model;
 import application.entities.Motorbike;
 import application.entities.Order;
-import application.entities.OrderDetail;
 import application.entities.Supplier;
 
 public class Test {
@@ -103,21 +101,21 @@ public class Test {
 		Order order5 = new Order("OR006", LocalDate.now(), e2, customer, "");
 		Order order6 = new Order("OR007", LocalDate.now(), e1, customer, "");
 
-		OrderDetail detail = new OrderDetail(order1, motorbike, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Trắng");
-		OrderDetail detail1 = new OrderDetail(order1, motorbike, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Xanh");
-		OrderDetail detail2 = new OrderDetail(order2, motorbike2, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Đỏ");
-		OrderDetail detail3 = new OrderDetail(order3, motorbike3, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Đen");
-		OrderDetail detail4 = new OrderDetail(order4, motorbike4, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Vàng");
-		OrderDetail detail5 = new OrderDetail(order5, motorbike5, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Trắng");
-		OrderDetail detail6 = new OrderDetail(order6, motorbike6, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Đen");
+//		OrderDetail detail = new OrderDetail(order1, motorbike, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Trắng");
+//		OrderDetail detail1 = new OrderDetail(order1, motorbike, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Xanh");
+//		OrderDetail detail2 = new OrderDetail(order2, motorbike2, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Đỏ");
+//		OrderDetail detail3 = new OrderDetail(order3, motorbike3, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Đen");
+//		OrderDetail detail4 = new OrderDetail(order4, motorbike4, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Vàng");
+//		OrderDetail detail5 = new OrderDetail(order5, motorbike5, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Trắng");
+//		OrderDetail detail6 = new OrderDetail(order6, motorbike6, 0.15, motorbike.getUnitPrice(), 1, 0.1, "Đen");
 
-		order.setListItems(Arrays.asList(detail));
-		order1.setListItems(Arrays.asList(detail, detail1));
-		order2.setListItems(Arrays.asList(detail2));
-		order3.setListItems(Arrays.asList(detail3));
-		order4.setListItems(Arrays.asList(detail4));
-		order5.setListItems(Arrays.asList(detail5));
-		order6.setListItems(Arrays.asList(detail6));
+//		order.setListItems(Arrays.asList(detail));
+//		order1.setListItems(Arrays.asList(detail, detail1));
+//		order2.setListItems(Arrays.asList(detail2));
+//		order3.setListItems(Arrays.asList(detail3));
+//		order4.setListItems(Arrays.asList(detail4));
+//		order5.setListItems(Arrays.asList(detail5));
+//		order6.setListItems(Arrays.asList(detail6));
 
 		AccountDAO accountDAO = new AccountDAO();
 		accountDAO.save(account);
@@ -179,13 +177,13 @@ public class Test {
 
 		OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 		order1.getListItems().forEach(x -> orderDetailDAO.save(x));
-		orderDetailDAO.save(detail);
-		orderDetailDAO.save(detail1);
-		orderDetailDAO.save(detail2);
-		orderDetailDAO.save(detail3);
-		orderDetailDAO.save(detail4);
-		orderDetailDAO.save(detail4);
-		orderDetailDAO.save(detail6);
+//		orderDetailDAO.save(detail);
+//		orderDetailDAO.save(detail1);
+//		orderDetailDAO.save(detail2);
+//		orderDetailDAO.save(detail3);
+//		orderDetailDAO.save(detail4);
+//		orderDetailDAO.save(detail4);
+//		orderDetailDAO.save(detail6);
 
 //		List<Order> list = dao.getAll(Order.class);
 //		for (int i = 0; i < list.size(); i++) {

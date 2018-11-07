@@ -366,7 +366,7 @@ public class CreateOrderController {
 						od_detail.setVAT(0);
 					od_detail.setUnitPrice(motorbike.get().getUnitPrice());
 					od_detail.setQuantity(quantity.get());
-					//Chèn thêm khung cho Số khung, số máy
+					// Chèn thêm khung cho Số khung, số máy
 					od_detail.setColor(color_name.get());
 					list_detail.add(od_detail);
 					for (int i = 0; i < list_detail.size(); i++) {
@@ -415,7 +415,7 @@ public class CreateOrderController {
 		double total = 0;
 		double tax = 0;
 		total += od.getSubTotal();
-		tax +=od.getTotalVAT();
+		tax += od.getTotalVAT();
 		textTax.setText(String.format("%,12.0f VND", tax));
 		textTotal.setText(String.format("%,12.0f VND", total));
 	}
@@ -444,11 +444,11 @@ public class CreateOrderController {
 
 					@Override
 					public TableCell<OrderDetail, OrderDetail> call(TableColumn<OrderDetail, OrderDetail> param) {
-	
+
 						return new TableCell<OrderDetail, OrderDetail>() {
 							@Override
 							protected void updateItem(OrderDetail arg0, boolean arg1) {
-							
+
 								super.updateItem(arg0, arg1);
 								if (this.getTableRow() != null && arg0 != null) {
 									setText(this.getTableRow().getIndex() + 1 + "");
@@ -467,8 +467,8 @@ public class CreateOrderController {
 		colColor.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getColor()));
 		colQuantity.setCellValueFactory(
 				celldata -> new SimpleStringProperty(String.valueOf(celldata.getValue().getQuantity())));
-		colUP.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
-				celldata.getValue().getMotorbike().getUnitPrice())));
+		colUP.setCellValueFactory(celldata -> new SimpleStringProperty(
+				String.format("%,12.2f", celldata.getValue().getMotorbike().getUnitPrice())));
 		colST.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
 				celldata.getValue().getMotorbike().getUnitPrice() * celldata.getValue().getQuantity())));
 		ObservableList<OrderDetail> items = FXCollections.observableArrayList(list);
