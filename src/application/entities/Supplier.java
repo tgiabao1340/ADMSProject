@@ -2,7 +2,10 @@ package application.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
 
 
 
@@ -10,6 +13,8 @@ import javax.persistence.Id;
 public class Supplier {
 	
 	@Id
+	@GenericGenerator(name = "sequence_sup_id", strategy = "application.entities.SupplierGen")
+	@GeneratedValue(generator = "sequence_sup_id")
 	@Column(name="SupplierID")
 	private String supplierID;
 	@Column(name="Country",columnDefinition="nvarchar(30)")
@@ -28,16 +33,14 @@ public class Supplier {
 		super();
 	}
 	
-	public Supplier(String supplierID, String country, String supperName, String address, String phoneNumber,String taxCode) {
+	public Supplier(String country, String supperName, String address, String phoneNumber,String taxCode) {
 		super();
-		this.supplierID = supplierID;
 		this.country = country;
 		this.supplierName = supperName;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 		this.taxCode = taxCode;
 	}
-
 	
 
 	public String getSupplierID() {

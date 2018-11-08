@@ -48,7 +48,7 @@ public class LoginController {
 
 		String username = usernameText.getText().trim();
 		String password = passwordText.getText().trim();
-		if (usernameText.getText().equals("") || passwordText.getText().equals("")) {
+		if (usernameText.getText().trim().equals("") || passwordText.getText().trim().equals("")) {
 			ErrorAlert alert = new ErrorAlert("Lỗi đăng nhập", "Tên tài khoản và mật khẩu không được để trống!");
 			handler.setError(alert);
 			Main.newWindow("AlertMessage", "Thông báo");

@@ -159,8 +159,9 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [orderID=" + orderID + ", date=" + date + ", employee=" + employee + ", customer=" + customer
+		return "Order [orderID=" + orderID + ", date=" + date + ", employee=" + employee.getBussinessID() + ", customer=" + customer.getBussinessID()
 				+ ", orderComment=" + orderComment + ", listItems=" + listItems + "]";
 	}
 
+	
 }

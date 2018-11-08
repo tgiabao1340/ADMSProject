@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/8">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CustomerInputController">
 	<children>
-		<VBox layoutX="10.0" layoutY="10.0" prefHeight="424.0"
-			prefWidth="278.0" AnchorPane.bottomAnchor="20.0"
-			AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
-			AnchorPane.topAnchor="20.0">
+		<VBox layoutX="10.0" layoutY="10.0" prefHeight="424.0" prefWidth="278.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
 			<children>
 				<Label prefWidth="130.0" text="Mã Khách hàng">
 					<VBox.margin>
 						<Insets top="12.0" />
 					</VBox.margin>
 				</Label>
-				<TextField />
+				<TextField fx:id="txtCustomerID" disable="true" editable="false" />
 				<Label prefWidth="130.0" text="Họ &amp; Tên">
 					<HBox.margin>
 						<Insets />
@@ -29,30 +30,68 @@
 						<Insets top="4.0" />
 					</VBox.margin>
 				</Label>
-				<TextField />
-				<CheckBox mnemonicParsing="false" text="Nữ">
-					<VBox.margin>
-						<Insets top="4.0" />
-					</VBox.margin>
-				</CheckBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+      				<TextField fx:id="txtLName" prefHeight="25.0" prefWidth="165.0" promptText="Họ, Tên đệm" />
+                  <TextField fx:id="txtFName" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="78.0" promptText="Tên">
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+      				<CheckBox fx:id="checkGender" mnemonicParsing="false" prefHeight="17.0" prefWidth="67.0" text="Nữ">
+                     <HBox.margin>
+                        <Insets left="20.0" top="5.0" />
+                     </HBox.margin>
+      				</CheckBox>
+      						<DatePicker fx:id="datePickBirth" editable="false" prefHeight="25.0" prefWidth="137.0" promptText="Ngày sinh">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+            				<TextField fx:id="txtIDcard" promptText="Số CMND">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <DatePicker fx:id="datePickIdCard" editable="false" promptText="Ngày cấp" />
+                     </children>
+                  </HBox>
+                  <ComboBox fx:id="comboPlace" prefHeight="25.0" prefWidth="304.0" promptText="Nơi cấp" />
+               </children>
+               <padding>
+                  <Insets left="5.0" top="5.0" />
+               </padding>
+            </VBox>
 				<Label prefWidth="100.0" text="Số điện thoại">
 					<HBox.margin>
 						<Insets left="12.0" />
 					</HBox.margin>
 					<VBox.margin>
-						<Insets top="12.0" />
+						<Insets top="20.0" />
 					</VBox.margin>
 				</Label>
-				<TextField>
+				<TextField fx:id="txtPhone">
 					<VBox.margin>
 						<Insets top="4.0" />
 					</VBox.margin>
 				</TextField>
 				<HBox>
-					<children>
-						<Label prefWidth="130.0" text="Ngày sinh" />
-						<DatePicker />
-					</children>
 					<VBox.margin>
 						<Insets top="12.0" />
 					</VBox.margin>
@@ -62,37 +101,16 @@
 						<Insets top="12.0" />
 					</VBox.margin>
 				</Label>
-				<TextField prefWidth="320.0" />
-				<Label prefWidth="130.0" text="Số CMND">
-					<VBox.margin>
-						<Insets top="12.0" />
-					</VBox.margin>
-				</Label>
-				<TextField />
-				<Label prefWidth="120.0" text="Ngày cấp">
-					<VBox.margin>
-						<Insets top="12.0" />
-					</VBox.margin>
-				</Label>
-				<TextField />
-				<Label text="Nơi cấp">
-					<HBox.margin>
-						<Insets left="12.0" />
-					</HBox.margin>
-					<VBox.margin>
-						<Insets top="12.0" />
-					</VBox.margin>
-				</Label>
-				<TextField>
-					<HBox.margin>
-						<Insets left="12.0" />
-					</HBox.margin>
-				</TextField>
-				<HBox fillHeight="false" prefHeight="100.0" prefWidth="200.0"
-					spacing="4.0">
+            <TextArea fx:id="txtAddress" prefHeight="120.0" prefWidth="242.0" promptText="Địa chỉ" />
+            <HBox layoutX="22.0" layoutY="201.0">
+               <VBox.margin>
+                  <Insets top="12.0" />
+               </VBox.margin>
+            </HBox>
+				<HBox fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="4.0">
 					<children>
-						<Button mnemonicParsing="false" text="Tạo" />
-						<Button mnemonicParsing="false" text="Hủy" />
+						<Button fx:id="btnSave" mnemonicParsing="false" text="Tạo" />
+						<Button fx:id="btnCancel" mnemonicParsing="false" text="Hủy" />
 					</children>
 					<VBox.margin>
 						<Insets top="12.0" />

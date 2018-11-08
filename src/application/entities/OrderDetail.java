@@ -50,6 +50,7 @@ public class OrderDetail {
 		this.color = color;
 	}
 
+
 	public String getOrderDetailID() {
 		return orderDetailID;
 	}
@@ -108,6 +109,9 @@ public class OrderDetail {
 
 	
 
+
+
+
 	public String getChassisNo() {
 		return chassisNo;
 	}
@@ -155,14 +159,17 @@ public class OrderDetail {
 
 	public long getSubTotal() {
 
-		return getTotalRaw()  + getTotalVAT();
+		return this.getTotalRaw()  + this.getTotalVAT();
 	}
+
 
 	@Override
 	public String toString() {
-		return "OrderDetail [order=" + order + ", motorbike=" + motorbike + ", orderDetailID=" + orderDetailID
-				+ ", chassisNo=" + chassisNo + ", unitPrice=" + unitPrice + ", quantity=" + quantity
-				+ ", vAT=" + vAT + ", color=" + color + "]";
+		return "OrderDetail [order=" + order.getOrderID() + ", motorbike=" + motorbike.getProductID() + ", orderDetailID=" + orderDetailID
+				+ ", chassisNo=" + chassisNo + ", unitPrice=" + unitPrice + ", quantity=" + quantity + ", vAT=" + vAT
+				+ ", color=" + color + "]";
 	}
+
+	
 
 }
