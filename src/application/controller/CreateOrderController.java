@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -40,7 +41,9 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
@@ -105,9 +108,6 @@ public class CreateOrderController {
 	private Button btnMinus;
 
 	@FXML
-	private TextField textQuantity;
-
-	@FXML
 	private Button btnPlus;
 
 	@FXML
@@ -124,6 +124,15 @@ public class CreateOrderController {
 
 	@FXML
 	private Text textTotal;
+
+	@FXML
+	private TextField textChassisp1;
+
+	@FXML
+	private TextField textChassisp2;
+
+	@FXML
+	private TextArea textComment;
 
 	@FXML
 	private Button btnCheckout;
@@ -198,11 +207,41 @@ public class CreateOrderController {
 						textCustomerAdress.setText(customer.getAddress());
 						textCustomerIDCard.setText(customer.getIdCard());
 						textCustomerPhone.setText(customer.getPhoneNumber());
+						textCustomer.getStyleClass().remove("error");
 					} else {
 						textCustomerName.setText("-unknown");
 						textCustomerAdress.setText("-unknown");
 						textCustomerIDCard.setText("-unknown");
 						textCustomerPhone.setText("-unknown");
+						textCustomer.getStyleClass().add("error");
+					}
+				}
+			}
+		});
+		textChassisp1.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (!newValue) {
+					if (textChassisp1.getText().equals("")) {
+						textChassisp1.getStyleClass().add("error");
+
+					} else {
+						textChassisp1.getStyleClass().remove("error");
+					}
+				}
+			}
+		});
+		textChassisp2.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (!newValue) {
+					if (textChassisp2.getText().equals("")) {
+						textChassisp2.getStyleClass().add("error");
+					} else {
+						textChassisp2.getStyleClass().remove("error");
+
 					}
 				}
 			}
@@ -217,29 +256,35 @@ public class CreateOrderController {
 				// TODO Auto-generated method stub
 				if (checkOrder()) {
 					OrderDAO odDao = new OrderDAO();
+					od.setOrderComment(textComment.getText());
 					odDao.save(od);
-					reload_Stock(od.getListItems());
+					// reload_Stock(od.getListItems());
 					Main.changeLayout("EmployeeUI");
 				}
 			}
+
+			private boolean checkOrder() {
+				if (od.getCustomer() == null) {
+					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin khách hàng");
+					handler.setError(error);
+					Main.newWindow("AlertMessage", "Thông báo");
+					return false;
+
+				}
+				if (od.getListItems() == null || od.getListItems().size() == 0) {
+					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa có xe trong danh sách mua");
+					handler.setError(error);
+					Main.newWindow("AlertMessage", "Thông báo");
+					return false;
+				}
+				return true;
+			}
 		});
-	}
-
-	boolean checkOrder() {
-		if (od.getCustomer() == null) {
-			ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin khách hàng");
-			handler.setError(error);
-			Main.newWindow("AlertMessage", "Thông báo");
-			return false;
-
-		}
-		if (od.getListItems() == null || od.getListItems().size() == 0) {
-			ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa có xe trong danh sách mua");
-			handler.setError(error);
-			Main.newWindow("AlertMessage", "Thông báo");
-			return false;
-		}
-		return true;
+//		tableOrderDetail.setOnMouseClicked(event -> {
+//			if (event.getClickCount() == 2) {
+//				System.out.println(tableOrderDetail.getSelectionModel().getSelectedItem());
+//			}
+//		});
 	}
 
 	void LoadType() {
@@ -329,56 +374,71 @@ public class CreateOrderController {
 
 		});
 		AtomicInteger quantity = new AtomicInteger(1);
-		btnMinus.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-
-				if (quantity.get() > 1) {
-					quantity.set(quantity.get() - 1);
-				}
-				textQuantity.setText(String.valueOf(quantity.get()));
-			}
-		});
-		btnPlus.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				quantity.set(quantity.get() + 1);
-				textQuantity.setText(String.valueOf(quantity.get()));
-			}
-		});
-
+		/**
+		 * Add motorbike to list
+		 */
 		btnAddMotorbike.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				if (motorbike.get() != null) {
+				if (motorbike.get() != null && validate()) {
 					OrderDetail od_detail = new OrderDetail();
 					od_detail.setOrder(od);
 					od_detail.setMotorbike(motorbike.get());
-					if (checkVAT.isSelected()) {
-						od_detail.setvAT(0.1);
-					} else
-						od_detail.setVAT(0);
+					od_detail.setVAT(0.1);
 					od_detail.setUnitPrice(motorbike.get().getUnitPrice());
 					od_detail.setQuantity(quantity.get());
-					//Chèn thêm khung cho Số khung, số máy
+					od_detail.setChassisNo(textChassisp1.getText() + "/" + textChassisp2.getText());
 					od_detail.setColor(color_name.get());
 					list_detail.add(od_detail);
+					od.setListItems(list_detail);
+					loadTotal(list_detail);
 					for (int i = 0; i < list_detail.size(); i++) {
 						OrderDetail d = list_detail.get(i);
 						d.setOrderDetailID(String.valueOf(i));
 					}
-					od.setListItems(list_detail);
-					loadTotal(list_detail);
+					clearSection();
 					reloadTable(list_detail);
+
 				} else {
 					// Messomething
 				}
+			}
+
+			private boolean validate() {
+				if (choiceSupplier.getSelectionModel().isEmpty() || choiceType.getSelectionModel().isEmpty()
+						|| choiceMotorbikeName.getSelectionModel().isEmpty()
+						|| choiceColor.getSelectionModel().isEmpty()) {
+					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa chọn thông tin xe");
+					handler.setError(error);
+					Main.newWindow("AlertMessage", "Thông báo");
+					return false;
+				}
+				if (textChassisp1.getText().isEmpty() || textChassisp1.getText().equals("")) {
+					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin số khung");
+					handler.setError(error);
+					Main.newWindow("AlertMessage", "Thông báo");
+					return false;
+				}
+				if (textChassisp2.getText().isEmpty() || textChassisp2.getText().equals("")) {
+					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin số sường");
+					handler.setError(error);
+					Main.newWindow("AlertMessage", "Thông báo");
+					return false;
+				}
+				return true;
+			}
+
+			private void clearSection() {
+				choiceColor.getSelectionModel().clearSelection();
+				choiceSupplier.getSelectionModel().clearSelection();
+				choiceMotorbikeName.getSelectionModel().clearSelection();
+				choiceType.getSelectionModel().clearSelection();
+				textChassisp1.clear();
+				textChassisp2.clear();
+
 			}
 
 		});
@@ -415,13 +475,58 @@ public class CreateOrderController {
 		double total = 0;
 		double tax = 0;
 		total += od.getSubTotal();
-		tax +=od.getTotalVAT();
+		tax += od.getTotalVAT();
 		textTax.setText(String.format("%,12.0f VND", tax));
 		textTotal.setText(String.format("%,12.0f VND", total));
 	}
 
-	@SuppressWarnings("unchecked")
 	void LoadTable(List<OrderDetail> list) {
+		tableOrderDetail.setEditable(true);
+		Callback<TableColumn<OrderDetail, String>, TableCell<OrderDetail, String>> cellFactory = col -> new TableCell<OrderDetail, String>() {
+			{
+				setEditable(true);
+			}
+
+			@Override
+			public void startEdit() {
+				super.startEdit();
+				TextInputDialog dialog = new TextInputDialog(getItem());
+				dialog.setGraphic(null);
+				dialog.setHeaderText("Chỉnh sửa " + col.getText() + ".");
+				dialog.setTitle("Chỉnh sửa " + col.getText());
+				Optional<String> opt = dialog.showAndWait();
+				if (opt.isPresent()) {
+					commitEdit(opt.get());
+				} else {
+					cancelEdit();
+				}
+			}
+
+			@Override
+			public void commitEdit(String newValue) {
+				System.out.println(newValue);
+				super.commitEdit(newValue);
+				for (int i = 0; i < list.size(); i++) {
+					if (newValue.chars().allMatch(Character::isDigit)) {
+						if (list.get(i).getOrderDetailID() == tableOrderDetail.getSelectionModel().getSelectedItem()
+								.getOrderDetailID()) {
+							list.get(i).setUnitPrice(Double.valueOf(newValue));
+							reloadTable(list);
+							super.commitEdit(newValue);
+						}
+					}
+				}
+
+			}
+
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? null : item);
+			}
+
+		};
+		///
 		TableColumn<OrderDetail, OrderDetail> colNumbered = new TableColumn<>("STT");
 		TableColumn<OrderDetail, String> colName = new TableColumn<>("Tên Xe");
 		TableColumn<OrderDetail, String> colSup = new TableColumn<>("Hãng");
@@ -444,11 +549,11 @@ public class CreateOrderController {
 
 					@Override
 					public TableCell<OrderDetail, OrderDetail> call(TableColumn<OrderDetail, OrderDetail> param) {
-	
+
 						return new TableCell<OrderDetail, OrderDetail>() {
 							@Override
 							protected void updateItem(OrderDetail arg0, boolean arg1) {
-							
+
 								super.updateItem(arg0, arg1);
 								if (this.getTableRow() != null && arg0 != null) {
 									setText(this.getTableRow().getIndex() + 1 + "");
@@ -467,13 +572,15 @@ public class CreateOrderController {
 		colColor.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getColor()));
 		colQuantity.setCellValueFactory(
 				celldata -> new SimpleStringProperty(String.valueOf(celldata.getValue().getQuantity())));
-		colUP.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
-				celldata.getValue().getMotorbike().getUnitPrice())));
-		colST.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
-				celldata.getValue().getMotorbike().getUnitPrice() * celldata.getValue().getQuantity())));
+		colUP.setCellValueFactory(
+				celldata -> new SimpleStringProperty(String.format("%,12.0f", celldata.getValue().getUnitPrice())));
+		colUP.setCellFactory(cellFactory);
+		colST.setCellValueFactory(celldata -> new SimpleStringProperty(
+				String.format("%,12.0f", celldata.getValue().getUnitPrice() * celldata.getValue().getQuantity())));
 		ObservableList<OrderDetail> items = FXCollections.observableArrayList(list);
 		tableOrderDetail.setItems(items);
 		tableOrderDetail.getColumns().addAll(colNumbered, colName, colSup, colColor, colQuantity, colUP, colST);
+
 	}
 
 	void reloadTable(List<OrderDetail> list) {

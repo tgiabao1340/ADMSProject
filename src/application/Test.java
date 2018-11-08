@@ -1,25 +1,10 @@
 package application;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
-import application.daos.AccountDAO;
 import application.daos.CustomerDAO;
-import application.daos.EmployeeDAO;
-import application.daos.ModelDAO;
-import application.daos.MotorbikeDAO;
 import application.daos.OrderDAO;
-import application.daos.OrderDetailDAO;
-import application.daos.SupplierDAO;
-import application.entities.Account;
-import application.entities.Customer;
-import application.entities.Employee;
-import application.entities.Model;
-import application.entities.Motorbike;
 import application.entities.Order;
-import application.entities.OrderDetail;
-import application.entities.Supplier;
 
 public class Test {
 	public static void main(String[] args) {
@@ -227,17 +212,17 @@ public class Test {
 //		orderDAO.save(order);
 
 		// orderDetailDAO.save(orderDetail);load_quantity(List<OrderDetail> list) {
-		
+
 //		CustomerDAO customerDAO = new CustomerDAO();
 //		customerDAO.get50record().forEach(z->System.out.println(z));
-		
+
 		OrderDAO orderDAO = new OrderDAO();
 		List<Order> list = orderDAO.getByYear(2018);
-		list.forEach(x->System.out.println(x.toString()));
+		list.forEach(x -> System.out.println(x.toString()));
 
 		System.out.println("KH");
 		CustomerDAO customerDAO = new CustomerDAO();
-		List<Customer> customers = customerDAO.get100recordsDesc();
-		customers.forEach(x->System.out.println(x));
+		// List<Customer> customers = customerDAO.get100recordsDesc();
+		// customers.forEach(x -> System.out.println(x));
 	}
 }

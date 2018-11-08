@@ -8,19 +8,24 @@ import application.daos.EmployeeDAO;
 import application.daos.OrderDAO;
 import application.entities.Employee;
 import application.entities.Order;
+import application.entities.OrderDetail;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
@@ -111,6 +116,34 @@ public class EmployeeController {
 		ObservableList<Order> items = FXCollections.observableArrayList(listorder);
 		tableOrder.setItems(items);
 		tableOrder.getColumns().addAll(colNumbered, colOrderID, colDate, colEmployeeID, colCustomerID);
+		tableOrder.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					Order orderselected = tableOrder.getSelectionModel().getSelectedItem();
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle(orderselected.getOrderID());
+					alert.setHeaderText("Tổng tiền : " + orderselected.getSubTotal() + " VND");
+					String lines = "";
+					List<OrderDetail> listdt = orderselected.getListItems();
+					for (int i = 0; i < listdt.size(); i++) {
+						OrderDetail odt = listdt.get(i);
+						lines += "[" + odt.getOrderDetailID() + "]" + "\n" + odt.getMotorbike().getProductID()
+								+ odt.getMotorbike().getProductName() + " * " + odt.getQuantity() + " = "
+								+ String.format("%,d", odt.getTotalRaw()) + odt.getUnitPrice() + " VND" + "\n";
+
+					}
+					lines += "Người lập: " + orderselected.getEmployee().getLastName() + " "
+							+ orderselected.getEmployee().getFirstName() + "\n" + "Người mua: "
+							+ orderselected.getCustomer().getLastName() + " "
+							+ orderselected.getCustomer().getFirstName() + "\n";
+					alert.setContentText(lines);
+					alert.showAndWait();
+
+				}
+			}
+		});
 	}
 
 	public void LoadListMaintenanceReport() {

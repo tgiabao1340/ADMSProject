@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -214,36 +213,21 @@
 								<Insets left="8.0" />
 							</VBox.margin>
 						</VBox>
-						<VBox>
-							<VBox.margin>
-								<Insets left="12.0" right="12.0" top="5.0" />
-							</VBox.margin>
-							<children>
-								<Label text="Số Lượng" />
-								<HBox alignment="CENTER" prefHeight="25.0" prefWidth="149.0">
-									<children>
-										<Button fx:id="btnMinus" mnemonicParsing="false" prefWidth="12.0">
-											<HBox.margin>
-												<Insets right="4.0" top="4.0" />
-											</HBox.margin>
-											<graphic>
-												<FontAwesomeIconView glyphName="MINUS" size="8" />
-											</graphic>
-										</Button>
-										<TextField fx:id="textQuantity" alignment="CENTER" prefWidth="48.0" text="1">
-											<HBox.margin>
-												<Insets right="4.0" top="4.0" />
-											</HBox.margin>
-										</TextField>
-										<Button fx:id="btnPlus" mnemonicParsing="false" prefWidth="12.0">
-											<graphic>
-												<FontAwesomeIconView glyphName="PLUS" size="8" />
-											</graphic>
-										</Button>
-									</children>
-								</HBox>
-							</children>
-						</VBox>
+                  <VBox>
+                     <children>
+                        <Label text="Số khung" />
+                        <TextField fx:id="textChassisp1" />
+                        <VBox>
+                           <children>
+                              <Label text="Số sườn" />
+                              <TextField fx:id="textChassisp2" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="8.0" right="24.0" top="4.0" />
+                     </VBox.margin>
+                  </VBox>
 						<HBox prefHeight="25.0" prefWidth="149.0">
 							<children>
 								<Button fx:id="btnRemoveMotobike" mnemonicParsing="false" onAction="#createOrderAction" text="Xóa">
@@ -258,9 +242,14 @@
 								</Button>
 							</children>
 							<VBox.margin>
-								<Insets left="12.0" top="36.0" />
+								<Insets left="12.0" top="12.0" />
 							</VBox.margin>
 						</HBox>
+                  <TextArea fx:id="textComment" promptText="Ghi chú">
+                     <VBox.margin>
+                        <Insets bottom="12.0" left="12.0" right="24.0" top="12.0" />
+                     </VBox.margin>
+                  </TextArea>
 					</children>
 					<BorderPane.margin>
 						<Insets right="8.0" />
@@ -285,7 +274,7 @@
 									<children>
 										<HBox prefHeight="21.0" prefWidth="418.0">
 											<children>
-												<Label text="Thuế: ">
+												<Label prefWidth="120.0" text="Thuế: ">
 													<font>
 														<Font size="14.0" />
 													</font>
@@ -298,7 +287,6 @@
 														<Insets left="12.0" right="12.0" />
 													</HBox.margin>
 												</Text>
-												<CheckBox fx:id="checkVAT" mnemonicParsing="false" prefHeight="17.0" prefWidth="90.0" selected="true" text="VAT(10%)" />
 											</children>
 										</HBox>
 									</children>
@@ -310,7 +298,7 @@
 									<children>
 										<HBox prefHeight="24.0" prefWidth="418.0">
 											<children>
-												<Label prefHeight="21.0" prefWidth="142.0" text="TỔNG TIỀN">
+												<Label prefHeight="21.0" prefWidth="120.0" text="TỔNG TIỀN">
 													<font>
 														<Font name="System Bold" size="18.0" />
 													</font>
@@ -337,15 +325,15 @@
 								</HBox>
 								<HBox alignment="TOP_RIGHT">
 									<children>
-										<Button fx:id="btnCheckout" mnemonicParsing="false" prefHeight="48.0" prefWidth="120.0" text="Hoàn tất">
-											<font>
-												<Font name="System Bold" size="20.0" />
-											</font>
+										<Button fx:id="btnCancel" mnemonicParsing="false" onAction="#createOrderAction" prefHeight="48.0" text="HỦY">
 											<HBox.margin>
 												<Insets right="4.0" />
 											</HBox.margin>
 										</Button>
-										<Button fx:id="btnCancel" mnemonicParsing="false" onAction="#createOrderAction" prefHeight="48.0" text="HỦY">
+										<Button fx:id="btnCheckout" mnemonicParsing="false" prefHeight="48.0" prefWidth="120.0" text="Hoàn tất">
+											<font>
+												<Font name="System Bold" size="20.0" />
+											</font>
 											<HBox.margin>
 												<Insets right="4.0" />
 											</HBox.margin>
