@@ -193,6 +193,11 @@
     -fx-opacity: 1;
 }
 
+#text-t{
+    -fx-text-fill: #3d6cb9	;
+    -fx-opacity: 1;
+}
+
 #tab-rot{
     -fx-padding: 12 12 12 12;
     -fx-pref-width: 96;
@@ -209,11 +214,11 @@
     -fx-padding:0;
     -fx-background-radius:0;
     -fx-background-insets: 0;
-    -fx-background-color: #d1f4fa;
+    -fx-background-color: #a5aeff;
 }
 
 .progress-bar > .track {
-    -fx-background-color: #eff0f4;
+    -fx-background-color: #ffe867;
     -fx-background-radius:0;
     -fx-background-insets: 0, 1;
 
@@ -232,4 +237,7 @@
     -fx-background-insets: -0.2, 1, -1.4, 3;
     -fx-background-radius: 3, 2, 4, 0;
     -fx-prompt-text-fill: transparent;
+}
+.data-picker{
+	
 }

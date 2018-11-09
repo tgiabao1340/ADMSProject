@@ -17,14 +17,14 @@ public class DataCenter {
 	}
 
 	public void initList() {
-//		listOrder = new OrderDAO().getAll(Order.class);
-//		listOrderDetail = new OrderDetailDAO().getAll(OrderDetail.class);
+		// listOrder = new OrderDAO().getAll(Order.class);
+		// listOrderDetail = new OrderDetailDAO().getAll(OrderDetail.class);
 		listAccount = new AccountDAO().getAll(Account.class);
-//		listEmployee = new EmployeeDAO().getAll(Employee.class);
-//		listCustomer = new CustomerDAO().getAll(Customer.class);
-//		listMotobike = new MotorbikeDAO().getAll(Motorbike.class);
-//		listModel = new ModelDAO().getAll(Model.class);
-//		listSuppiler = new SupplierDAO().getAll(Supplier.class);
+		// listEmployee = new EmployeeDAO().getAll(Employee.class);
+		// listCustomer = new CustomerDAO().getAll(Customer.class);
+		// listMotobike = new MotorbikeDAO().getAll(Motorbike.class);
+		// listModel = new ModelDAO().getAll(Model.class);
+		// listSuppiler = new SupplierDAO().getAll(Supplier.class);
 	}
 
 	public List<Motorbike> findMotorbikeWType(String type) {

@@ -60,6 +60,7 @@ public class Main extends Application {
 		listUI.put("About", "/application/fxml/About.fxml");
 		listUI.put("LoadingScreen", "/application/fxml/LoadingScreen.fxml");
 		listUI.put("AlertMessage", "/application/fxml/AlertMessage.fxml");
+		listUI.put("OrderView", "/application/fxml/OrderView.fxml");
 		primaryStage.setWidth(WIDTH);
 		primaryStage.setHeight(HEIGTH);
 		newWindow("LoadingScreen", "Loading");
@@ -127,13 +128,6 @@ public class Main extends Application {
 			// TODO Auto-generated catch block
 			System.out.println("Cửa sổ lỗi!");
 		}
-
-	}
-
-	/**
-	 * Đây là hàm có tác dụng để đoán trong khi code
-	 */
-	public static void doanxem() {
 
 	}
 

@@ -47,7 +47,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
-public class CreateOrderController {
+public class MaintenaceReport {
 	Handler handler;
 	Order od;
 	@FXML
@@ -146,6 +146,9 @@ public class CreateOrderController {
 		if (btn == btnCancel) {
 			Main.changeLayout("EmployeeUI");
 		}
+		if (btn == btnAddCustomer) {
+			Main.newWindow("CustomerInfoInput", "Tạo khách hàng mới");
+		}
 		if (btn == btnAddMotorbike) {
 
 		}
@@ -189,15 +192,11 @@ public class CreateOrderController {
 		LoadType();
 		LoadTable(listod);
 		// Customer
-		btnAddCustomer.setOnAction(e -> {
-			handler.setNew_phone(textCustomer.getText());
-			Main.newWindow("CustomerInfoInput", "Tạo khách hàng mới");
-		});
-
 		textCustomer.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				// TODO Auto-generated method stub
 				if (!newValue) {
 					String cust_phone = textCustomer.getText();
 					CustomerDAO custDAO = new CustomerDAO();
@@ -254,6 +253,7 @@ public class CreateOrderController {
 
 			@Override
 			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
 				if (checkOrder()) {
 					OrderDAO odDao = new OrderDAO();
 					od.setOrderComment(textComment.getText());
@@ -304,6 +304,7 @@ public class CreateOrderController {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
 				if (newValue != null) {
 					sp.set(newValue);
 					choiceMotorbikeName.getItems().clear();
@@ -479,7 +480,6 @@ public class CreateOrderController {
 		textTotal.setText(String.format("%,12.0f VND", total));
 	}
 
-	@SuppressWarnings("unchecked")
 	void LoadTable(List<OrderDetail> list) {
 		tableOrderDetail.setEditable(true);
 		Callback<TableColumn<OrderDetail, String>, TableCell<OrderDetail, String>> cellFactory = col -> new TableCell<OrderDetail, String>() {
@@ -537,9 +537,10 @@ public class CreateOrderController {
 		colNumbered.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<OrderDetail, OrderDetail>, ObservableValue<OrderDetail>>() {
 
-					@SuppressWarnings({ "rawtypes" })
+					@SuppressWarnings("rawtypes")
 					@Override
 					public ObservableValue<OrderDetail> call(CellDataFeatures<OrderDetail, OrderDetail> param) {
+						// TODO Auto-generated method stub
 						return new ReadOnlyObjectWrapper(param.getValue());
 					}
 				});

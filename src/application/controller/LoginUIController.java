@@ -46,7 +46,7 @@ public class LoginUIController {
 
 	void doLogin() {
 
-		String username = usernameText.getText().trim();
+		String username = usernameText.getText().toUpperCase().trim();
 		String password = passwordText.getText().trim();
 		if (usernameText.getText().equals("") || passwordText.getText().equals("")) {
 			ErrorAlert alert = new ErrorAlert("Lỗi đăng nhập", "Tên tài khoản và mật khẩu không được để trống!");

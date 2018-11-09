@@ -5,16 +5,22 @@ import java.util.List;
 import application.daos.AccountDAO;
 import application.daos.MyEntityManagerFactory;
 import application.entities.Account;
+import application.entities.Order;
 import javafx.concurrent.Task;
 
+/**
+ * Điều tiết các luồng dữ liệu
+ * 
+ *
+ */
 public class Handler {
 	private ErrorAlert error;
 	private Account account_using;
+	private Order order_selected;
+	private String new_phone;
 
 	public Handler() {
-		// TODO Auto-generated constructor stub
 		error = new ErrorAlert();
-		// datacenter = new DataCenter();
 	}
 
 	public boolean validateLogin(String username, String password) {
@@ -42,6 +48,14 @@ public class Handler {
 		this.account_using = account_using;
 	}
 
+	public Order getOrder_selected() {
+		return order_selected;
+	}
+
+	public void setOrder_selected(Order order_selected) {
+		this.order_selected = order_selected;
+	}
+
 	public ErrorAlert getError() {
 		return error;
 	}
@@ -50,12 +64,17 @@ public class Handler {
 		this.error = error;
 	}
 
+	/**
+	 * Hàm khởi tạo dữ liệu khi khởi chạy ứng dụng
+	 * 
+	 * @return
+	 */
 	public Task<Void> loaddata() {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				// TODO Auto-generated method stub
 				updateProgress(0, 10);
+				@SuppressWarnings("unused")
 				MyEntityManagerFactory em = MyEntityManagerFactory.getInstance();
 				for (int i = 0; i < 10; i++) {
 					updateProgress(i, 10);
@@ -69,5 +88,13 @@ public class Handler {
 			}
 		};
 		return task;
+	}
+
+	public String getNew_phone() {
+		return new_phone;
+	}
+
+	public void setNew_phone(String new_phone) {
+		this.new_phone = new_phone;
 	}
 }

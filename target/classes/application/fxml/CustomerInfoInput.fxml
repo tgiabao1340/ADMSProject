@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CustomerInputController">
+<AnchorPane stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.CustomerInputController">
 	<children>
 		<VBox layoutX="10.0" layoutY="10.0" prefHeight="424.0" prefWidth="278.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
 			<children>
@@ -72,7 +72,10 @@
                         <DatePicker fx:id="datePickIdCard" editable="false" promptText="Ngày cấp" />
                      </children>
                   </HBox>
-                  <ComboBox fx:id="comboPlace" prefHeight="25.0" prefWidth="304.0" promptText="Nơi cấp" />
+                  <ComboBox fx:id="comboPlace" prefHeight="25.0" prefWidth="304.0" promptText="Nơi cấp">
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin></ComboBox>
                </children>
                <padding>
                   <Insets left="5.0" top="5.0" />
