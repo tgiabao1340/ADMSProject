@@ -10,7 +10,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -26,11 +25,11 @@
 			<top>
 				<VBox BorderPane.alignment="CENTER">
 					<children>
-                  <ToolBar prefHeight="40.0" prefWidth="200.0">
-                    <items>
-                      <Button mnemonicParsing="false" text="Trở lại" />
-                    </items>
-                  </ToolBar>
+                <Button fx:id="btnBack" mnemonicParsing="false" onAction="#createOrderAction" text="Trở lại">
+                     <VBox.margin>
+                        <Insets left="4.0" top="4.0" />
+                     </VBox.margin>
+                  </Button>
 						<HBox>
 							<children>
 								<Label text="MÃ HÓA ĐƠN">

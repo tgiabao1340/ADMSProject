@@ -139,6 +139,9 @@ public class CreateOrderController {
 
 	@FXML
 	private Button btnCancel;
+	
+	@FXML
+	private Button btnBack;
 
 	@FXML
 	void createOrderAction(final ActionEvent event) {
@@ -146,8 +149,8 @@ public class CreateOrderController {
 		if (btn == btnCancel) {
 			Main.changeLayout("EmployeeUI");
 		}
-		if (btn == btnAddMotorbike) {
-
+		if (btn == btnBack) {
+			Main.changeLayout("EmployeeUI");
 		}
 	}
 

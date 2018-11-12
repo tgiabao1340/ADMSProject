@@ -14,6 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -92,13 +93,17 @@ public class OrderViewController {
 		lbPhone.setText(order.getCustomer().getPhoneNumber());
 		lbEmpName.setText(order.getEmployee().getLastName() + " " + order.getEmployee().getFirstName());
 		lbComment.setText(order.getOrderComment());
-		btnExit.setOnAction(e -> {
-			Main.closeWindow(e);
-		});
-		btnPrint.setOnAction(e -> {
-
-		});
+//		btnExit.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//				
+//				Main.closeWindow(event);
+//			}
+//		});
+		btnExit.setOnAction(e->Main.closeWindow(btnExit));
+	
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	void LoadTable(List<OrderDetail> list) {
@@ -148,9 +153,9 @@ public class OrderViewController {
 		colQuantity.setCellValueFactory(
 				celldata -> new SimpleStringProperty(String.valueOf(celldata.getValue().getQuantity())));
 		colUP.setCellValueFactory(celldata -> new SimpleStringProperty(
-				String.format("%,12.2f", celldata.getValue().getMotorbike().getUnitPrice())));
+				String.format("%,12.2f", celldata.getValue().getUnitPrice())));
 		colST.setCellValueFactory(celldata -> new SimpleStringProperty(String.format("%,12.2f",
-				celldata.getValue().getMotorbike().getUnitPrice() * celldata.getValue().getQuantity())));
+				celldata.getValue().getUnitPrice() * celldata.getValue().getQuantity())));
 		ObservableList<OrderDetail> items = FXCollections.observableArrayList(list);
 		tableOrderDetail.setItems(items);
 		tableOrderDetail.getColumns().addAll(colNumbered, colName, colSup, colColor, colQuantity, colUP, colST);

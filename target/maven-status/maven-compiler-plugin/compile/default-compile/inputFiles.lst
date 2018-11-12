@@ -11,7 +11,7 @@ C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\InStockRe
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\Product.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\EmployeeController.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\MaintenanceReportDAO.java
-C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\gui\AboutController.java
+C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\SupplierInfoInputController.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\AccountDAO.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\OrderDetailDAO.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\CustomerDAO.java
@@ -25,6 +25,7 @@ C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\Managem
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\OrderDetailPK.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\InStockReportDetail.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\MaintenanceReport.java
+C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\OrderViewController.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\GeneralCRUD.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\Motorbike.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\OrderDetail.java
@@ -34,6 +35,9 @@ C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\Test.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\RoleUIController.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\ModelDAO.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\daos\OrderDAO.java
+C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\SupplierGen.java
+C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\CustomerInputController.java
+C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\MaintenaceReport.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\ProductGen.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\controller\ConfirmPasswordController.java
 C:\Users\baogi\eclipse-workspace\ADMSProject_\src\application\entities\InStockReportDetailPK.java
