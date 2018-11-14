@@ -18,6 +18,8 @@ public class Account {
 	private String password;
 	@Column(name = "CreatedDate")
 	private LocalDate createdDate;
+	@Column(name = "LastDate")
+	private LocalDate lastDate;
 
 	public Account(String accountID, String password, LocalDate createdDate) {
 		super();
@@ -39,6 +41,14 @@ public class Account {
 
 	public Account() {
 		super();
+	}
+
+	public LocalDate getLastDate() {
+		return lastDate;
+	}
+
+	public void setLastDate(LocalDate lastDate) {
+		this.lastDate = lastDate;
 	}
 
 	public String getAccountID() {
