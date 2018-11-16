@@ -111,7 +111,7 @@ public class CustomerInputController {
 			String cusID = prefix + String.format("%04d", numberOd + 1);
 			txtCustomerID.setText(cusID);
 		} else {
-			txtCustomerID.setText("KH0000");
+			txtCustomerID.setText("KH0001");
 		}
 	}
 }

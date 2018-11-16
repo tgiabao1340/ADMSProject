@@ -21,6 +21,10 @@ public class Replacement extends Product {
 		this.description = description;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String getDescription() {
 		return description;
 	}

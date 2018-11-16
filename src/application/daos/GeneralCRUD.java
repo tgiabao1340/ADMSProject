@@ -27,15 +27,17 @@ public abstract class GeneralCRUD<T> {
 		return false;
 	}
 
-	public void delete(T t) {
+	public boolean delete(T t) {
 		EntityTransaction tr = em.getTransaction();
 		try {
 			tr.begin();
 			em.remove(t);
 			tr.commit();
+			return true;
 		} catch (Exception e) {
 			tr.rollback();
 		}
+		return false;
 	}
 
 	public void deleteByID(Class<T> t, Object o) {
