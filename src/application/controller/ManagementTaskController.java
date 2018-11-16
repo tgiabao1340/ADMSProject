@@ -12,12 +12,16 @@ import com.jfoenix.controls.JFXAutoCompletePopup;
 import application.ErrorAlert;
 import application.Handler;
 import application.Main;
+import application.daos.AccountDAO;
 import application.daos.CustomerDAO;
+import application.daos.EmployeeDAO;
 import application.daos.ModelDAO;
 import application.daos.MotorbikeDAO;
 import application.daos.ReplacementDAO;
 import application.daos.SupplierDAO;
+import application.entities.Account;
 import application.entities.Customer;
+import application.entities.Employee;
 import application.entities.Model;
 import application.entities.Motorbike;
 import application.entities.Replacement;
@@ -35,12 +39,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 
@@ -150,13 +156,16 @@ public class ManagementTaskController {
 	private DatePicker dpcustomerDoB;
 
 	@FXML
-	private TextField textCustomer_AD;
+	private TextArea textCustomer_AD;
 
 	@FXML
 	private TextField textCustomer_IDCARD;
 
 	@FXML
 	private DatePicker dpCustomer_IDDATE;
+
+	@FXML
+	private ComboBox<String> cbCustomer_city;
 
 	@FXML
 	private Button btnSave_C;
@@ -167,7 +176,45 @@ public class ManagementTaskController {
 	@FXML
 	private Button btnDelete_C;
 
-	//
+	//Employee
+	private List<Employee> listE;
+	
+	@FXML
+	private TableView<Employee> tableEmployee;
+	
+	@FXML
+	private TextField textEmployee_ID;
+
+	@FXML
+	private TextField textEmployee_LNAME;
+
+	@FXML
+	private TextField textEmployee_FNAME;
+
+	@FXML
+	private CheckBox checkEmployee_GENDER;
+
+	@FXML
+	private TextField textEmployee_PHONE;
+
+	@FXML
+	private DatePicker dpEmployee_DATE;
+
+	@FXML
+	private TextArea textEmployee_AD;
+
+	@FXML
+	private TextField textEmployee_ACCOUNTID;
+
+	@FXML
+	private Button btnSave_E;
+
+	@FXML
+	private Button btnNew_E;
+
+	@FXML
+	private Button btnDelete_E;
+
 	@FXML
 	void MAction(ActionEvent event) {
 		Object btn = event.getSource();
@@ -717,6 +764,7 @@ public class ManagementTaskController {
 		loadReplacement(listR);
 		Action_R();
 	}
+
 	void loadCustomer(List<Customer> list) {
 
 		///
@@ -764,8 +812,8 @@ public class ManagementTaskController {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Customer, String> param) {
 						if (param.getValue().getGender())
-							return new ReadOnlyObjectWrapper("Nam");
-						return new ReadOnlyObjectWrapper("Nữ");
+							return new ReadOnlyObjectWrapper("Nữ");
+						return new ReadOnlyObjectWrapper("Nam");
 					}
 				});
 		colDoB.setCellValueFactory(celldata -> new SimpleStringProperty(
@@ -775,8 +823,7 @@ public class ManagementTaskController {
 
 		ObservableList<Customer> items = FXCollections.observableArrayList(list);
 		tableCustomer.setItems(items);
-		tableCustomer.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress,
-				colPhone);
+		tableCustomer.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress,colPhone);
 		tableCustomer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Customer>() {
 			@Override
 			public void changed(ObservableValue<? extends Customer> observable, Customer oldValue, Customer newValue) {
@@ -796,6 +843,8 @@ public class ManagementTaskController {
 				textCustomer_IDCARD.setText(customer.getIdCard());
 				dpcustomerDoB.setValue(customer.getDateOfBirth());
 				dpCustomer_IDDATE.setValue(customer.getIdCardDate());
+				checkboxGender.setSelected(customer.getGender());
+				cbCustomer_city.getSelectionModel().select(customer.getPermanentAddress());
 			}
 
 			void clearField() {
@@ -807,6 +856,8 @@ public class ManagementTaskController {
 				textCustomer_IDCARD.clear();
 				dpcustomerDoB.setValue(null);
 				dpCustomer_IDDATE.setValue(null);
+				checkboxGender.setSelected(false);
+				cbCustomer_city.getSelectionModel().clearSelection();
 			}
 		});
 	}
@@ -831,6 +882,7 @@ public class ManagementTaskController {
 				dpcustomerDoB.setValue(null);
 				dpCustomer_IDDATE.setValue(null);
 				textCustomer_LNAME.requestFocus();
+				cbCustomer_city.getSelectionModel().clearSelection();
 				if (!listR.isEmpty()) {
 					String id_last = listC.get(listC.size() - 1).getBussinessID();
 					String prefix = id_last.substring(0, 2);
@@ -862,7 +914,6 @@ public class ManagementTaskController {
 			}
 
 			Customer setC(Customer customer) {
-				String id = textCustomer_ID.getText();
 				String lname = textCustomer_LNAME.getText();
 				String fname = textCustomer_FNAME.getText();
 				String address = textCustomer_AD.getText();
@@ -870,6 +921,8 @@ public class ManagementTaskController {
 				String idcard = textCustomer_IDCARD.getText();
 				LocalDate dob = dpcustomerDoB.getValue();
 				LocalDate iddate = dpCustomer_IDDATE.getValue();
+				Boolean gender = checkboxGender.isSelected();
+				String city = cbCustomer_city.getSelectionModel().getSelectedItem();
 				customer.setLastName(lname);
 				customer.setFirstName(fname);
 				customer.setAddress(address);
@@ -878,6 +931,8 @@ public class ManagementTaskController {
 				customer.setDateOfBirth(dob);
 				customer.setCreatedDate(iddate);
 				customer.setIdCardDate(iddate);
+				customer.setPermanentAddress(city);
+				customer.setGender(gender);
 				return customer;
 			}
 
@@ -912,6 +967,9 @@ public class ManagementTaskController {
 					textCustomer_PHONE.requestFocus();
 					return false;
 				}
+				if(cbCustomer_city.getSelectionModel().isEmpty()) {
+					return false;
+				}
 				textCustomer_ID.getStyleClass().remove("error");
 				textCustomer_FNAME.getStyleClass().remove("error");
 				textCustomer_LNAME.getStyleClass().remove("error");
@@ -938,18 +996,308 @@ public class ManagementTaskController {
 
 		});
 	}
-
+	void load64city() {
+		ObservableList<String> list  = FXCollections.observableArrayList();
+		list.add("An Giang");
+		list.add("Bà Rịa - Vũng Tàu");
+		list.add("Bắc Giang");
+		list.add("Bắc Kạn");
+		list.add("Bạc Liêu");
+		list.add("Bắc Ninh");
+		list.add("Bến Tre");
+		list.add("Bình Định");
+		list.add("Bình Dương");
+		list.add("Bình Phước");
+		list.add("Bình Thuận");
+		list.add("Cà Mau");
+		list.add("Cao Bằng");
+		list.add("Đắk Lắk");
+		list.add("Đắk Nông");
+		list.add("Điện Biên");
+		list.add("Đồng Nai");
+		list.add("Đồng Tháp");
+		list.add("Gia Lai");
+		list.add("Hà Giang ");
+		list.add("Hà Nam");
+		list.add("Hà Tĩnh");
+		list.add("Hải Dương");
+		list.add("Hậu Giang");
+		list.add("Hòa Bình");
+		list.add("Hưng Yên");
+		list.add("Khánh Hòa");
+		list.add("Kiên Giang");
+		list.add("Kon Tum");
+		list.add("Lai Châu");
+		list.add("Lâm Đồng");
+		list.add("Lạng Sơn");
+		list.add("Lào Cai");
+		list.add("Long An");
+		list.add("Nam Định");
+		list.add("Nghệ An");
+		list.add("Ninh Bình");
+		list.add("Ninh Thuận");
+		list.add("Phú Thọ");
+		list.add("Quảng Bình");
+		list.add("Quảng Nam");
+		list.add("Quảng Ngãi");
+		list.add("Quảng Ninh");
+		list.add("Quảng Trị");
+		list.add("Sóc Trăng");
+		list.add("Sơn La");
+		list.add("Tây Ninh");
+		list.add("Thái Bình");
+		list.add("Thái Nguyên");
+		list.add("Thanh Hóa");
+		list.add("Thừa Thiên Huế");
+		list.add("Tiền Giang");
+		list.add("Trà Vinh");
+		list.add("Tuyên Quang");
+		list.add("Vĩnh Long");
+		list.add("Vĩnh Phúc");
+		list.add("Yên Bái");
+		list.add("Phú Yên");	
+		list.add("Cần Thơ");
+		list.add("Đà Nẵng");
+		list.add("Hải Phòng");
+		list.add("Hà Nội");
+		list.add("TP HCM");
+		cbCustomer_city.getItems().addAll(list);
+	}
 	void initCustomerTable() {
 		listC = new CustomerDAO().getAll(Customer.class);
 		loadCustomer(listC);
 		Action_C();
+		load64city();
+	}
+	void loadEmployee(List<Employee> list) {
+
+		///
+		TableColumn<Employee, Employee> colNumbered = new TableColumn<>("STT");
+		TableColumn<Employee, String> colID = new TableColumn<>("Mã NV");
+		TableColumn<Employee, String> colLName = new TableColumn<>("Họ & Đệm");
+		TableColumn<Employee, String> colFName = new TableColumn<>("Tên");
+		TableColumn<Employee, String> colGender = new TableColumn<>("Giới tính");
+		TableColumn<Employee, String> colDoB = new TableColumn<>("Ngày sinh");
+		TableColumn<Employee, String> colAddress = new TableColumn<>("Địa chỉ");
+		TableColumn<Employee, String> colPhone = new TableColumn<>("SDT");
+		TableColumn<Employee, String> colAccountID = new TableColumn<>("Mã TK");
+		colNumbered.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Employee, Employee>, ObservableValue<Employee>>() {
+
+					@Override
+					public ObservableValue<Employee> call(CellDataFeatures<Employee, Employee> param) {
+						return new ReadOnlyObjectWrapper(param.getValue());
+					}
+				});
+		colNumbered.setCellFactory(new Callback<TableColumn<Employee, Employee>, TableCell<Employee, Employee>>() {
+
+			@Override
+			public TableCell<Employee, Employee> call(TableColumn<Employee, Employee> param) {
+				return new TableCell<Employee, Employee>() {
+					@Override
+					protected void updateItem(Employee arg0, boolean arg1) {
+
+						super.updateItem(arg0, arg1);
+						if (this.getTableRow() != null && arg0 != null) {
+							setText(this.getTableRow().getIndex() + 1 + "");
+						} else {
+							setText("");
+						}
+					}
+				};
+			}
+		});
+		colNumbered.setSortable(false);
+		colID.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getBussinessID()));
+		colLName.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getLastName()));
+		colFName.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getFirstName()));
+		colGender.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Employee, String>, ObservableValue<String>>() {
+
+					@Override
+					public ObservableValue<String> call(CellDataFeatures<Employee, String> param) {
+						if (param.getValue().getGender())
+							return new ReadOnlyObjectWrapper("Nữ");
+						return new ReadOnlyObjectWrapper("Nam");
+					}
+				});
+		colDoB.setCellValueFactory(celldata -> new SimpleStringProperty(
+				(celldata.getValue().getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))));
+		colAddress.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getAddress()));
+		colPhone.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getPhoneNumber()));
+		colAccountID.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getAccount().getAccountID()));
+		ObservableList<Employee> items = FXCollections.observableArrayList(list);
+		tableEmployee.setItems(items);
+		tableEmployee.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress, colPhone, colAccountID);
+		tableEmployee.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Employee>() {
+			@Override
+			public void changed(ObservableValue<? extends Employee> observable, Employee oldValue, Employee newValue) {
+				if (newValue != null) {
+					clearField();
+					loadtoField(newValue);
+				}
+
+			}
+
+			void loadtoField(Employee employee) {
+				textEmployee_ID.setText(employee.getBussinessID());
+				textEmployee_LNAME.setText(employee.getLastName());
+				textEmployee_FNAME.setText(employee.getFirstName());
+				textEmployee_AD.setText(employee.getAddress());
+				textEmployee_PHONE.setText(employee.getPhoneNumber());
+				dpEmployee_DATE.setValue(employee.getDateOfBirth());
+				checkEmployee_GENDER.setSelected(employee.getGender());
+				textEmployee_ACCOUNTID.setText(employee.getAccount().getAccountID());
+			}
+			void clearField() {
+				textEmployee_ID.clear();
+				textEmployee_LNAME.clear();
+				textEmployee_FNAME.clear();
+				textEmployee_AD.clear();
+				textEmployee_PHONE.clear();
+				dpEmployee_DATE.setValue(null);
+				checkEmployee_GENDER.setSelected(false);
+				textEmployee_ACCOUNTID.clear();
+			}
+		});
 	}
 
+	void reloadTable_E() {
+		tableEmployee.getColumns().clear();
+		listE = new EmployeeDAO().getAll(Employee.class);
+		loadEmployee(listE);
+	}
+
+	void Action_E() {
+		btnNew_E.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				textEmployee_ID.clear();
+				textEmployee_LNAME.clear();
+				textEmployee_FNAME.clear();
+				textEmployee_AD.clear();
+				textEmployee_PHONE.clear();
+				dpEmployee_DATE.setValue(null);
+				checkEmployee_GENDER.setSelected(false);
+				textEmployee_ACCOUNTID.clear();
+				textEmployee_LNAME.requestFocus();
+				if (!listE.isEmpty()) {
+					String id_last = listE.get(listE.size() - 1).getBussinessID();
+					String prefix = id_last.substring(0, 2);
+					int id = Integer.valueOf((id_last.substring(2, id_last.length())));
+					String new_id = prefix + String.format("%04d", id + 1);
+					textEmployee_ID.setText(new_id);
+				} else {
+					textEmployee_ID.setText("NV0001");
+				}
+
+			}
+		});
+		btnSave_E.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (check()) {
+					Employee employee;
+					String id = textEmployee_ID.getText();
+					if ((new EmployeeDAO().getById(Employee.class, id)) != null) {
+						employee = new EmployeeDAO().getById(Employee.class, id);
+						new EmployeeDAO().update(setE(employee));
+					} else {
+						employee = new Employee();
+						new EmployeeDAO().save(setE(employee));
+					}
+					reloadTable_E();
+				}
+			}
+
+			Employee setE(Employee employee) {
+				String lname = textEmployee_LNAME.getText();
+				String fname = textEmployee_FNAME.getText();
+				String address = textEmployee_AD.getText();
+				String phone = textEmployee_AD.getText();
+				LocalDate dob = dpEmployee_DATE.getValue();
+				Boolean gender = checkEmployee_GENDER.isSelected();
+				Account account = new AccountDAO().findById(textEmployee_ACCOUNTID.getText());
+				employee.setLastName(lname);
+				employee.setFirstName(fname);
+				employee.setAddress(address);
+				employee.setPhoneNumber(phone);
+				employee.setDateOfBirth(dob);
+				employee.setGender(gender);
+				employee.setAccount(account);
+				return employee;
+			}
+
+			boolean check() {
+				if (textEmployee_ID.getText().isEmpty()) {
+					textEmployee_ID.getStyleClass().add("error");
+					textEmployee_ID.requestFocus();
+					return false;
+				}
+				if (textEmployee_FNAME.getText().isEmpty()) {
+					textEmployee_FNAME.getStyleClass().add("error");
+					textEmployee_FNAME.requestFocus();
+					return false;
+				}
+				if (textEmployee_LNAME.getText().isEmpty()) {
+					textEmployee_LNAME.getStyleClass().add("error");
+					textEmployee_LNAME.requestFocus();
+					return false;
+				}
+				if (textEmployee_AD.getText().isEmpty()) {
+					textEmployee_AD.getStyleClass().add("error");
+					textEmployee_AD.requestFocus();
+					return false;
+				}
+				if (textEmployee_PHONE.getText().isEmpty()) {
+					textEmployee_PHONE.getStyleClass().add("error");
+					textEmployee_PHONE.requestFocus();
+					return false;
+				}
+				if (textEmployee_ACCOUNTID.getText().isEmpty()) {
+					textEmployee_ACCOUNTID.getStyleClass().add("error");
+					textEmployee_ACCOUNTID.requestFocus();
+					return false;
+				}
+				textEmployee_ID.getStyleClass().remove("error");
+				textEmployee_FNAME.getStyleClass().remove("error");
+				textEmployee_LNAME.getStyleClass().remove("error");
+				textEmployee_AD.getStyleClass().remove("error");
+				textEmployee_PHONE.getStyleClass().remove("error");
+				textEmployee_ACCOUNTID.getStyleClass().remove("error");
+				return true;
+			}
+		});
+		btnDelete_E.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Employee employee_selected = tableEmployee.getSelectionModel().getSelectedItem();
+				boolean check = new EmployeeDAO().delete(employee_selected);
+				if (check) {
+					ErrorAlert error = new ErrorAlert("Xóa thành công",
+							"Nhân viên mã :" + employee_selected.getBussinessID() + " đã được xóa.");
+					handler.setError(error);
+					reloadTable_E();
+					Main.newWindow("AlertMessage", "Thông báo");
+				}
+			}
+
+		});
+	}
+	void initEmployeeTable() {
+		listE = new EmployeeDAO().getAll(Employee.class);
+		loadEmployee(listE);
+		Action_E();
+	}
 	@FXML
 	void initialize() {
 		initTableMotorbike();
 		initTableReplacement();
 		initCustomerTable();
+		initEmployeeTable();
 	}
 
 }

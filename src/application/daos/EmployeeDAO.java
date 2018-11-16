@@ -15,4 +15,12 @@ public class EmployeeDAO extends GeneralCRUD<Employee> {
 		}
 		return null;
 	}
+	public Employee findById(String id) {
+		List<Employee> list = this.getAll(Employee.class);
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getAccount().getAccountID().equalsIgnoreCase(id))
+				return list.get(i);
+		}
+		return null;
+	}
 }

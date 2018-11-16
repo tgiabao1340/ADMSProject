@@ -82,7 +82,7 @@ public class CustomerInputController {
 
 				Customer customer = new Customer(txtFName.getText().trim(), txtLName.getText().trim(),
 						txtAddress.getText().trim(), gender, datePickBirth.getValue(), txtPhone.getText().trim(),
-						LocalDate.now(), txtIDcard.getText().trim(), datePickIdCard.getValue());
+						LocalDate.now(), txtIDcard.getText().trim(), datePickIdCard.getValue(),"");
 				System.out.println(customer);
 				CustomerDAO customerDAO = new CustomerDAO();
 				Boolean check = customerDAO.save(customer);

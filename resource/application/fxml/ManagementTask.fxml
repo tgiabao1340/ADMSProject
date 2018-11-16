@@ -14,6 +14,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -32,6 +33,9 @@
 							<font>
 								<Font name="System Bold" size="24.0" />
 							</font>
+                     <VBox.margin>
+                        <Insets left="4.0" />
+                     </VBox.margin>
 						</Label>
 						<Button fx:id="btnBack" mnemonicParsing="false" onAction="#MAction" text="Trở lại">
 							<VBox.margin>
@@ -661,7 +665,7 @@
 											<children>
 												<HBox prefHeight="679.0" prefWidth="1385.0">
 													<children>
-														<AnchorPane prefHeight="679.0" prefWidth="197.0">
+														<AnchorPane prefHeight="611.0" prefWidth="270.0">
 															<children>
 																<VBox prefHeight="521.0" prefWidth="197.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 																	<children>
@@ -681,10 +685,16 @@
 																		</Label>
                                                       <HBox>
                                                          <children>
-      																		<TextField fx:id="textCustomer_FNAME" />
+      																		<TextField fx:id="textCustomer_LNAME">
+                                                               <HBox.margin>
+                                                                  <Insets right="4.0" />
+                                                               </HBox.margin></TextField>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField fx:id="textCustomer_LNAME" />
+                                                                  <TextField fx:id="textCustomer_FNAME">
+                                                                     <HBox.margin>
+                                                                        <Insets right="4.0" />
+                                                                     </HBox.margin></TextField>
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -725,7 +735,7 @@
 																				<Insets top="4.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField fx:id="textCustomer_AD" prefWidth="320.0" />
+                                                      <TextArea fx:id="textCustomer_AD" prefHeight="78.0" prefWidth="172.0" wrapText="true" />
 																		<Label prefWidth="130.0" text="Số CMND">
 																			<VBox.margin>
 																				<Insets top="4.0" />
@@ -738,6 +748,15 @@
 																			</VBox.margin>
 																		</Label>
                                                       <DatePicker fx:id="dpCustomer_IDDATE" />
+                                                      <VBox>
+                                                         <children>
+                                                            <Label prefWidth="120.0" text="Nơi cấp" />
+                                                            <ComboBox fx:id="cbCustomer_city" prefHeight="25.0" prefWidth="170.0" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets top="12.0" />
+                                                         </VBox.margin>
+                                                      </VBox>
 																	</children>
 																	<padding>
 																		<Insets left="4.0" />
@@ -792,7 +811,7 @@
 																				<Insets top="12.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField />
+																		<TextField fx:id="textEmployee_ID" editable="false" />
 																		<Label prefWidth="130.0" text="Họ &amp; Tên">
 																			<HBox.margin>
 																				<Insets />
@@ -801,8 +820,13 @@
 																				<Insets top="4.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField />
-																		<CheckBox mnemonicParsing="false" text="Nữ">
+                                                      <HBox>
+                                                         <children>
+      																		<TextField fx:id="textEmployee_LNAME" />
+                                                            <TextField fx:id="textEmployee_FNAME" />
+                                                         </children>
+                                                      </HBox>
+																		<CheckBox fx:id="checkEmployee_GENDER" mnemonicParsing="false" text="Nữ">
 																			<VBox.margin>
 																				<Insets top="4.0" />
 																			</VBox.margin>
@@ -815,13 +839,13 @@
 																				<Insets top="12.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField />
+																		<TextField fx:id="textEmployee_PHONE" />
 																		<HBox>
 																			<children>
 																				<VBox>
 																					<children>
 																						<Label prefWidth="130.0" text="Ngày sinh" />
-																						<DatePicker />
+																						<DatePicker fx:id="dpEmployee_DATE" />
 																					</children>
 																				</VBox>
 																			</children>
@@ -834,13 +858,13 @@
 																				<Insets top="12.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField prefWidth="320.0" />
+                                                      <TextArea fx:id="textEmployee_AD" prefHeight="60.0" prefWidth="216.0" wrapText="true" />
 																		<Label prefWidth="120.0" text="AccountID">
 																			<VBox.margin>
 																				<Insets top="12.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField />
+																		<TextField fx:id="textEmployee_ACCOUNTID" />
 																	</children>
 																	<padding>
 																		<Insets right="24.0" />
@@ -864,10 +888,9 @@
 												</HBox>
 												<HBox fillHeight="false" spacing="4.0">
 													<children>
-														<Button mnemonicParsing="false" text="Lưu" />
-														<Button mnemonicParsing="false" text="Tạo mới" />
-														<Button mnemonicParsing="false" text="Sửa" />
-														<Button mnemonicParsing="false" text="Xóa" />
+														<Button fx:id="btnSave_E" mnemonicParsing="false" text="Lưu" />
+														<Button fx:id="btnNew_E" mnemonicParsing="false" text="Tạo mới" />
+														<Button fx:id="btnDelete_E" mnemonicParsing="false" text="Xóa" />
 													</children>
 												</HBox>
 											</children>

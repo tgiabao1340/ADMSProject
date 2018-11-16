@@ -16,17 +16,29 @@ public class Customer extends Person {
 	private String idCard;
 	@Column(name = "IDCardDate")
 	private LocalDate idCardDate;
+	
+	@Column(name ="PermanentAddress", columnDefinition = "nvarchar(20)")
+	private String permanentAddress;
 
 	public Customer() {
 		super();
 	}
 
 	public Customer(String firstName, String lastName, String address, boolean gender, LocalDate dateOfBirth,
-			String phoneNumber, LocalDate createdDate, String idCard, LocalDate idCardDate) {
+			String phoneNumber, LocalDate createdDate, String idCard, LocalDate idCardDate,String permanentAddress) {
 		super(firstName, lastName, address, gender, dateOfBirth, phoneNumber);
 		this.createdDate = createdDate;
 		this.idCard = idCard;
 		this.idCardDate = idCardDate;
+		this.permanentAddress = permanentAddress;
+	}
+
+	public String getPermanentAddress() {
+		return permanentAddress;
+	}
+
+	public void setPermanentAddress(String permanentAddress) {
+		this.permanentAddress = permanentAddress;
 	}
 
 	public LocalDate getCreatedDate() {
@@ -58,7 +70,7 @@ public class Customer extends Person {
 		return "Customer [createdDate=" + createdDate + ", idCard=" + idCard + ", idCardDate=" + idCardDate
 				+ ", bussinessID=" + bussinessID + ", firstName=" + firstName + ", lastName=" + lastName + ", address="
 				+ address + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", phoneNumber=" + phoneNumber
-				+ "]";
+				+"ID adress = "+permanentAddress+ "]";
 	}
 
 }
