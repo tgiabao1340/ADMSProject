@@ -185,7 +185,7 @@ public class MaintenaceReportController {
 		textStoreName.setText(storename);
 		// Employee
 		EmployeeDAO emdao = new EmployeeDAO();
-		Employee emp = emdao.getByAc(handler.getAccount_using());
+		Employee emp = emdao.findByAc(handler.getAccount_using());
 		od.setEmployee(emp);
 		//
 		textEmployeeID.setText(emp.getLastName() + " " + emp.getFirstName());

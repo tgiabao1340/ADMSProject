@@ -864,7 +864,7 @@
 																				<Insets top="12.0" />
 																			</VBox.margin>
 																		</Label>
-																		<TextField fx:id="textEmployee_ACCOUNTID" />
+																		<TextField fx:id="textEmployee_ACCOUNTID" editable="false" />
 																	</children>
 																	<padding>
 																		<Insets right="24.0" />

@@ -1,21 +1,21 @@
 package application;
 
-import java.util.List;
+import java.time.LocalDate;
 
-import application.daos.CustomerDAO;
-import application.daos.OrderDAO;
-import application.entities.Order;
+import application.daos.AccountDAO;
+import application.daos.EmployeeDAO;
+import application.entities.Account;
+import application.entities.Employee;
 
 public class Test {
 	public static void main(String[] args) {
 //
-//		Account account = new Account("NV001", "123", LocalDate.now());
+		Account account = new Account("Admin", "123", LocalDate.now());
 //		Account account1 = new Account("NV002", "123", LocalDate.now());
 //		Account account2 = new Account("KT001", "123", LocalDate.now());
 //		Account account3 = new Account("QL001", "123", LocalDate.now());
 //
-//		Employee e = new Employee("Qui", "Phan Hoàng", "14 Phạm Văn Đồng, phường 7, Quận Gò Vấp, TP.HCM", true,
-//				LocalDate.of(1998, 10, 10), "0968567837", "NV Bán hàng", account);
+		Employee e = new Employee("Admin", "Admin", "_", true, LocalDate.of(1991, 1, 1), "0123", "Admin", account);
 //		Employee e1 = new Employee("Hải", "Nguyễn Thanh", "99 Hoàng Hoa Thám, phường 11, Quận Bình Thạnh, TP.HCM", true,
 //				LocalDate.of(1995, 12, 10), "0968567837", "NV Bán hàng", account1);
 //		Employee e2 = new Employee("Binh", "Trần Thanh", "234 Lê Đức Thọ, phường 15, Quận Gò Vấp, TP.HCM", true,
@@ -105,8 +105,8 @@ public class Test {
 ////		order5.setListItems(Arrays.asList(detail5));
 ////		order6.setListItems(Arrays.asList(detail6));
 //
-//		AccountDAO accountDAO = new AccountDAO();
-//		accountDAO.save(account);
+		AccountDAO accountDAO = new AccountDAO();
+		accountDAO.save(account);
 //		accountDAO.save(account1);
 //		accountDAO.save(account2);
 //		accountDAO.save(account3);
@@ -149,8 +149,8 @@ public class Test {
 //		motorbikeDAO.save(motorbike7);
 //		motorbikeDAO.save(motorbike8);
 //
-//		EmployeeDAO dao2 = new EmployeeDAO();
-//		dao2.save(e);
+		EmployeeDAO dao2 = new EmployeeDAO();
+		dao2.save(e);
 //		dao2.save(e1);
 //		dao2.save(e2);
 //		dao2.save(e3);
@@ -216,13 +216,13 @@ public class Test {
 //		CustomerDAO customerDAO = new CustomerDAO();
 //		customerDAO.get50record().forEach(z->System.out.println(z));
 
-		OrderDAO orderDAO = new OrderDAO();
-		List<Order> list = orderDAO.getByYear(2018);
-		list.forEach(x -> System.out.println(x.toString()));
-
-		System.out.println("KH");
-		CustomerDAO customerDAO = new CustomerDAO();
-		// List<Customer> customers = customerDAO.get100recordsDesc();
-		// customers.forEach(x -> System.out.println(x));
+//		OrderDAO orderDAO = new OrderDAO();
+//		List<Order> list = orderDAO.getByYear(2018);
+//		list.forEach(x -> System.out.println(x.toString()));
+//
+//		System.out.println("KH");
+//		CustomerDAO customerDAO = new CustomerDAO();
+//		// List<Customer> customers = customerDAO.get100recordsDesc();
+//		// customers.forEach(x -> System.out.println(x));
 	}
 }

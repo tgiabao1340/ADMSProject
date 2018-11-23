@@ -176,12 +176,12 @@ public class ManagementTaskController {
 	@FXML
 	private Button btnDelete_C;
 
-	//Employee
+	// Employee
 	private List<Employee> listE;
-	
+
 	@FXML
 	private TableView<Employee> tableEmployee;
-	
+
 	@FXML
 	private TextField textEmployee_ID;
 
@@ -242,24 +242,24 @@ public class ManagementTaskController {
 					}
 				});
 		colNumbered_M
-		.setCellFactory(new Callback<TableColumn<Motorbike, Motorbike>, TableCell<Motorbike, Motorbike>>() {
+				.setCellFactory(new Callback<TableColumn<Motorbike, Motorbike>, TableCell<Motorbike, Motorbike>>() {
 
-			@Override
-			public TableCell<Motorbike, Motorbike> call(TableColumn<Motorbike, Motorbike> param) {
-				return new TableCell<Motorbike, Motorbike>() {
 					@Override
-					protected void updateItem(Motorbike arg0, boolean arg1) {
+					public TableCell<Motorbike, Motorbike> call(TableColumn<Motorbike, Motorbike> param) {
+						return new TableCell<Motorbike, Motorbike>() {
+							@Override
+							protected void updateItem(Motorbike arg0, boolean arg1) {
 
-						super.updateItem(arg0, arg1);
-						if (this.getTableRow() != null && arg0 != null) {
-							setText(this.getTableRow().getIndex() + 1 + "");
-						} else {
-							setText("");
-						}
+								super.updateItem(arg0, arg1);
+								if (this.getTableRow() != null && arg0 != null) {
+									setText(this.getTableRow().getIndex() + 1 + "");
+								} else {
+									setText("");
+								}
+							}
+						};
 					}
-				};
-			}
-		});
+				});
 		colNumbered_M.setSortable(false);
 		colID_M.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getProductID()));
 		colName_M.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getProductName()));
@@ -292,7 +292,7 @@ public class ManagementTaskController {
 				textMotorbike_ID.setText(motorbike.getProductID());
 				textMotorbike_NAME.setText(motorbike.getProductName());
 				choiceMotorbike_YEAR.getSelectionModel()
-				.select(years.indexOf(String.valueOf(motorbike.getManufactureYear())));
+						.select(years.indexOf(String.valueOf(motorbike.getManufactureYear())));
 				choiceMotorbike_TYPE.getSelectionModel().select(types.indexOf(motorbike.getType()));
 				choiceMotorbike_SUP.getSelectionModel().select(suppliers_name.indexOf(
 						motorbike.getSupplier().getSupplierName() + "-" + motorbike.getSupplier().getSupplierID()));
@@ -561,6 +561,7 @@ public class ManagementTaskController {
 		loadMotorbike(listM);
 		Action_M();
 	}
+
 	void loadReplacement(List<Replacement> listreplacement) {
 
 		///
@@ -823,7 +824,8 @@ public class ManagementTaskController {
 
 		ObservableList<Customer> items = FXCollections.observableArrayList(list);
 		tableCustomer.setItems(items);
-		tableCustomer.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress,colPhone);
+		tableCustomer.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress,
+				colPhone);
 		tableCustomer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Customer>() {
 			@Override
 			public void changed(ObservableValue<? extends Customer> observable, Customer oldValue, Customer newValue) {
@@ -967,7 +969,7 @@ public class ManagementTaskController {
 					textCustomer_PHONE.requestFocus();
 					return false;
 				}
-				if(cbCustomer_city.getSelectionModel().isEmpty()) {
+				if (cbCustomer_city.getSelectionModel().isEmpty()) {
 					return false;
 				}
 				textCustomer_ID.getStyleClass().remove("error");
@@ -996,8 +998,9 @@ public class ManagementTaskController {
 
 		});
 	}
+
 	void load64city() {
-		ObservableList<String> list  = FXCollections.observableArrayList();
+		ObservableList<String> list = FXCollections.observableArrayList();
 		list.add("An Giang");
 		list.add("Bà Rịa - Vũng Tàu");
 		list.add("Bắc Giang");
@@ -1055,7 +1058,7 @@ public class ManagementTaskController {
 		list.add("Vĩnh Long");
 		list.add("Vĩnh Phúc");
 		list.add("Yên Bái");
-		list.add("Phú Yên");	
+		list.add("Phú Yên");
 		list.add("Cần Thơ");
 		list.add("Đà Nẵng");
 		list.add("Hải Phòng");
@@ -1063,12 +1066,14 @@ public class ManagementTaskController {
 		list.add("TP HCM");
 		cbCustomer_city.getItems().addAll(list);
 	}
+
 	void initCustomerTable() {
 		listC = new CustomerDAO().getAll(Customer.class);
 		loadCustomer(listC);
 		Action_C();
 		load64city();
 	}
+
 	void loadEmployee(List<Employee> list) {
 
 		///
@@ -1080,7 +1085,6 @@ public class ManagementTaskController {
 		TableColumn<Employee, String> colDoB = new TableColumn<>("Ngày sinh");
 		TableColumn<Employee, String> colAddress = new TableColumn<>("Địa chỉ");
 		TableColumn<Employee, String> colPhone = new TableColumn<>("SDT");
-		TableColumn<Employee, String> colAccountID = new TableColumn<>("Mã TK");
 		colNumbered.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Employee, Employee>, ObservableValue<Employee>>() {
 
@@ -1125,10 +1129,10 @@ public class ManagementTaskController {
 				(celldata.getValue().getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))));
 		colAddress.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getAddress()));
 		colPhone.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getPhoneNumber()));
-		colAccountID.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getAccount().getAccountID()));
 		ObservableList<Employee> items = FXCollections.observableArrayList(list);
 		tableEmployee.setItems(items);
-		tableEmployee.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress, colPhone, colAccountID);
+		tableEmployee.getColumns().addAll(colNumbered, colID, colLName, colFName, colGender, colDoB, colAddress,
+				colPhone);
 		tableEmployee.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Employee>() {
 			@Override
 			public void changed(ObservableValue<? extends Employee> observable, Employee oldValue, Employee newValue) {
@@ -1147,8 +1151,12 @@ public class ManagementTaskController {
 				textEmployee_PHONE.setText(employee.getPhoneNumber());
 				dpEmployee_DATE.setValue(employee.getDateOfBirth());
 				checkEmployee_GENDER.setSelected(employee.getGender());
-				textEmployee_ACCOUNTID.setText(employee.getAccount().getAccountID());
+				if (employee.getAccount().getAccountID() == null) {
+					textEmployee_ACCOUNTID.setText("NULL");
+				} else
+					textEmployee_ACCOUNTID.setText(employee.getAccount().getAccountID());
 			}
+
 			void clearField() {
 				textEmployee_ID.clear();
 				textEmployee_LNAME.clear();
@@ -1216,7 +1224,7 @@ public class ManagementTaskController {
 				String lname = textEmployee_LNAME.getText();
 				String fname = textEmployee_FNAME.getText();
 				String address = textEmployee_AD.getText();
-				String phone = textEmployee_AD.getText();
+				String phone = textEmployee_PHONE.getText();
 				LocalDate dob = dpEmployee_DATE.getValue();
 				Boolean gender = checkEmployee_GENDER.isSelected();
 				Account account = new AccountDAO().findById(textEmployee_ACCOUNTID.getText());
@@ -1256,17 +1264,11 @@ public class ManagementTaskController {
 					textEmployee_PHONE.requestFocus();
 					return false;
 				}
-				if (textEmployee_ACCOUNTID.getText().isEmpty()) {
-					textEmployee_ACCOUNTID.getStyleClass().add("error");
-					textEmployee_ACCOUNTID.requestFocus();
-					return false;
-				}
 				textEmployee_ID.getStyleClass().remove("error");
 				textEmployee_FNAME.getStyleClass().remove("error");
 				textEmployee_LNAME.getStyleClass().remove("error");
 				textEmployee_AD.getStyleClass().remove("error");
 				textEmployee_PHONE.getStyleClass().remove("error");
-				textEmployee_ACCOUNTID.getStyleClass().remove("error");
 				return true;
 			}
 		});
@@ -1287,11 +1289,15 @@ public class ManagementTaskController {
 
 		});
 	}
+
 	void initEmployeeTable() {
 		listE = new EmployeeDAO().getAll(Employee.class);
 		loadEmployee(listE);
 		Action_E();
+		btnNew_E.setDisable(true);
+		btnDelete_E.setDisable(true);
 	}
+
 	@FXML
 	void initialize() {
 		initTableMotorbike();

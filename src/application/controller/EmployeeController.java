@@ -198,7 +198,7 @@ public class EmployeeController {
 
 		});
 		EmployeeDAO empDAO = new EmployeeDAO();
-		Employee emp = empDAO.getByAc(handler.getAccount_using());
+		Employee emp = empDAO.findByAc(handler.getAccount_using());
 		String name = emp.getLastName() + " " + emp.getFirstName();
 		textName.setText(name);
 		textID.setText(emp.getBussinessID());

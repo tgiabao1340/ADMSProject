@@ -5,6 +5,7 @@ import java.util.List;
 import application.daos.AccountDAO;
 import application.daos.MyEntityManagerFactory;
 import application.entities.Account;
+import application.entities.Employee;
 import application.entities.Order;
 import javafx.concurrent.Task;
 
@@ -18,6 +19,7 @@ public class Handler {
 	private Account account_using;
 	private Order order_selected;
 	private String new_phone;
+	private Employee new_Employee;
 
 	public Handler() {
 		error = new ErrorAlert();
@@ -54,6 +56,14 @@ public class Handler {
 
 	public void setOrder_selected(Order order_selected) {
 		this.order_selected = order_selected;
+	}
+
+	public Employee getNew_Employee() {
+		return new_Employee;
+	}
+
+	public void setNew_Employee(Employee new_Employee) {
+		this.new_Employee = new_Employee;
 	}
 
 	public ErrorAlert getError() {

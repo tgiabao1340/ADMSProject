@@ -7,7 +7,7 @@ import application.entities.Employee;
 
 public class EmployeeDAO extends GeneralCRUD<Employee> {
 
-	public Employee getByAc(Account ac) {
+	public Employee findByAc(Account ac) {
 		List<Employee> list = this.getAll(Employee.class);
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getAccount().equals(ac))
@@ -15,6 +15,7 @@ public class EmployeeDAO extends GeneralCRUD<Employee> {
 		}
 		return null;
 	}
+
 	public Employee findById(String id) {
 		List<Employee> list = this.getAll(Employee.class);
 		for (int i = 0; i < list.size(); i++) {
