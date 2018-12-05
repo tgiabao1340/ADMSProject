@@ -32,6 +32,13 @@ public class Customer extends Person {
 		this.idCardDate = idCardDate;
 		this.permanentAddress = permanentAddress;
 	}
+	public Customer(String firstName, String lastName, String address, boolean gender, LocalDate dateOfBirth,
+			String phoneNumber, LocalDate createdDate, String idCard, LocalDate idCardDate) {
+		super(firstName, lastName, address, gender, dateOfBirth, phoneNumber);
+		this.createdDate = createdDate;
+		this.idCard = idCard;
+		this.idCardDate = idCardDate;
+	}
 
 	public String getPermanentAddress() {
 		return permanentAddress;
