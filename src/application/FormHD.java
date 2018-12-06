@@ -55,7 +55,7 @@ public class FormHD {
 	public void formOrder(String url) throws InvalidFormatException {
 
         try {
-
+        	
             //Bước 1: Khởi tạo đối tượng để sinh ra file word
 
             XWPFDocument document = new XWPFDocument();
