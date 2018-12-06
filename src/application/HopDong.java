@@ -29,10 +29,11 @@ public class HopDong {
 		super();
 		this.order = order;
 	    }
-	    public void inHopDong() {
+	    
+	    public void inHopDong(String url) {
 	    	for (int i = 0; i < order.getListItems().size(); i++) {
 	    		try {
-					formHopDong(order.getListItems().get(i), order.getListItems().get(i).getOrderDetailID());
+					formHopDong(order.getListItems().get(i), order.getListItems().get(i).getOrderDetailID(),url);
 				} catch (InvalidFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -40,7 +41,7 @@ public class HopDong {
 				
 			}
 	    }
-	    public void formHopDong(OrderDetail dt, String n) throws InvalidFormatException {
+	    public void formHopDong(OrderDetail dt, String n, String url) throws InvalidFormatException {
 
 	        try {
 
@@ -238,8 +239,8 @@ public class HopDong {
 	            
 	            //Bước 4: Ghi dữ liệu ra file word         
 	            String s= order.getOrderID().toString() +"_"+ order.getDate().toString() + "_HopDong_" + n ;
-	            String url ="D:/" + s +".docx";
-		            FileOutputStream out = new FileOutputStream(url);
+	            String urlfile =url + s +".docx";
+		            FileOutputStream out = new FileOutputStream(urlfile);
 
 	            document.write(out);
 

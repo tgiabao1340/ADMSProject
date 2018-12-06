@@ -1,5 +1,6 @@
 package application.controller;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -28,6 +30,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class OrderViewController {
@@ -85,7 +89,8 @@ public class OrderViewController {
 	@FXML
 	void initialize() {
 		Handler handler = Main.getHandler();
-
+		final DirectoryChooser directoryChooser = new DirectoryChooser();
+	    configuringDirectoryChooser(directoryChooser);
 		order = handler.getOrder_selected();
 		List<OrderDetail> orderDetails = order.getListItems();
 
@@ -108,26 +113,39 @@ public class OrderViewController {
 		btnPrint.setOnAction(e->{
 			FormHD formHD = new FormHD(order);
 			HopDong dong = new HopDong(order);
-			try {
-				formHD.formOrder();
-				dong.inHopDong();
-				ErrorAlert error = new ErrorAlert("Thông báo!", "In hoàn tất!");
-				handler.setError(error);
-				Main.newWindow("AlertMessage", "Thông báo");
-			} catch (InvalidFormatException e1) {
-				// TODO Auto-generated catch block
-				ErrorAlert error = new ErrorAlert("Thông báo!", "In thất bại!");
-				handler.setError(error);
-				Main.newWindow("AlertMessage", "Thông báo");
-				e1.printStackTrace();
-			}
+			String url;
+			File dir = directoryChooser.showDialog((Stage) ((Node) btnPrint).getScene().getWindow());
+            if (dir != null) {
+                url=(dir.getAbsolutePath());
+            	try {
+    				formHD.formOrder(url+"\\");
+    				dong.inHopDong(url+"\\");
+    				
+    				ErrorAlert error = new ErrorAlert("Thông báo", "In hoàn tất");
+    				handler.setError(error);
+    				Main.newWindow("AlertMessage", "Thông báo");
+    			} catch (InvalidFormatException e1) {
+    				ErrorAlert error = new ErrorAlert("Thông báo", "In thất bại");
+    				handler.setError(error);
+    				Main.newWindow("AlertMessage", "Thông báo");
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			}
+            }
 			
 		});
 		btnExit.setOnAction(e->Main.closeWindow(btnExit));
 	
 	}
-	
-
+	private void configuringDirectoryChooser(DirectoryChooser directoryChooser) {
+		  
+	       // Set tiêu đề cho DirectoryChooser
+	       directoryChooser.setTitle("Select Some Directories");
+	 
+	  
+	       // Sét thư mục bắt đầu nhìn thấy khi mở DirectoryChooser
+	       directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+	   }
 	@SuppressWarnings("unchecked")
 	void LoadTable(List<OrderDetail> list) {
 		TableColumn<OrderDetail, OrderDetail> colNumbered = new TableColumn<>("STT");

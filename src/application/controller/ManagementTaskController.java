@@ -813,8 +813,8 @@ public class ManagementTaskController {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Customer, String> param) {
 						if (param.getValue().getGender())
-							return new ReadOnlyObjectWrapper("Nữ");
-						return new ReadOnlyObjectWrapper("Nam");
+							return new ReadOnlyObjectWrapper("Nam");
+						return new ReadOnlyObjectWrapper("Nữ");
 					}
 				});
 		colDoB.setCellValueFactory(celldata -> new SimpleStringProperty(
@@ -1121,8 +1121,8 @@ public class ManagementTaskController {
 					@Override
 					public ObservableValue<String> call(CellDataFeatures<Employee, String> param) {
 						if (param.getValue().getGender())
-							return new ReadOnlyObjectWrapper("Nữ");
-						return new ReadOnlyObjectWrapper("Nam");
+							return new ReadOnlyObjectWrapper("Nam");
+						return new ReadOnlyObjectWrapper("Nữ");
 					}
 				});
 		colDoB.setCellValueFactory(celldata -> new SimpleStringProperty(

@@ -10,6 +10,8 @@ import application.Handler;
 import application.Main;
 import application.daos.CustomerDAO;
 import application.entities.Customer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -48,7 +50,7 @@ public class CustomerInputController {
 	private DatePicker datePickIdCard;
 
 	@FXML
-	private ComboBox<?> comboPlace;
+	private ComboBox<String> comboPlace;
 
 	@FXML
 	private TextField txtPhone;
@@ -61,11 +63,78 @@ public class CustomerInputController {
 
 	@FXML
 	private Button btnCancel;
-
+	void load64city() {
+		ObservableList<String> list = FXCollections.observableArrayList();
+		list.add("An Giang");
+		list.add("Bà Rịa - Vũng Tàu");
+		list.add("Bắc Giang");
+		list.add("Bắc Kạn");
+		list.add("Bạc Liêu");
+		list.add("Bắc Ninh");
+		list.add("Bến Tre");
+		list.add("Bình Định");
+		list.add("Bình Dương");
+		list.add("Bình Phước");
+		list.add("Bình Thuận");
+		list.add("Cà Mau");
+		list.add("Cao Bằng");
+		list.add("Đắk Lắk");
+		list.add("Đắk Nông");
+		list.add("Điện Biên");
+		list.add("Đồng Nai");
+		list.add("Đồng Tháp");
+		list.add("Gia Lai");
+		list.add("Hà Giang ");
+		list.add("Hà Nam");
+		list.add("Hà Tĩnh");
+		list.add("Hải Dương");
+		list.add("Hậu Giang");
+		list.add("Hòa Bình");
+		list.add("Hưng Yên");
+		list.add("Khánh Hòa");
+		list.add("Kiên Giang");
+		list.add("Kon Tum");
+		list.add("Lai Châu");
+		list.add("Lâm Đồng");
+		list.add("Lạng Sơn");
+		list.add("Lào Cai");
+		list.add("Long An");
+		list.add("Nam Định");
+		list.add("Nghệ An");
+		list.add("Ninh Bình");
+		list.add("Ninh Thuận");
+		list.add("Phú Thọ");
+		list.add("Quảng Bình");
+		list.add("Quảng Nam");
+		list.add("Quảng Ngãi");
+		list.add("Quảng Ninh");
+		list.add("Quảng Trị");
+		list.add("Sóc Trăng");
+		list.add("Sơn La");
+		list.add("Tây Ninh");
+		list.add("Thái Bình");
+		list.add("Thái Nguyên");
+		list.add("Thanh Hóa");
+		list.add("Thừa Thiên Huế");
+		list.add("Tiền Giang");
+		list.add("Trà Vinh");
+		list.add("Tuyên Quang");
+		list.add("Vĩnh Long");
+		list.add("Vĩnh Phúc");
+		list.add("Yên Bái");
+		list.add("Phú Yên");
+		list.add("Cần Thơ");
+		list.add("Đà Nẵng");
+		list.add("Hải Phòng");
+		list.add("Hà Nội");
+		list.add("TP HCM");
+		comboPlace.getItems().addAll(list);
+	}
 	@FXML
 	void initialize() {
 		handler = Main.getHandler();
 		String phone = handler.getNew_phone();
+		load64city();
 		btnSave.setOnAction(e -> {
 			boolean gender;
 			if (checkGender.isSelected()) {
@@ -83,6 +152,7 @@ public class CustomerInputController {
 				Customer customer = new Customer(txtFName.getText().trim(), txtLName.getText().trim(),
 						txtAddress.getText().trim(), gender, datePickBirth.getValue(), txtPhone.getText().trim(),
 						LocalDate.now(), txtIDcard.getText().trim(), datePickIdCard.getValue(),"");
+				customer.setPermanentAddress(comboPlace.getSelectionModel().getSelectedItem().trim());
 				System.out.println(customer);
 				CustomerDAO customerDAO = new CustomerDAO();
 				Boolean check = customerDAO.save(customer);
@@ -113,5 +183,7 @@ public class CustomerInputController {
 		} else {
 			txtCustomerID.setText("KH0001");
 		}
+		
 	}
+
 }

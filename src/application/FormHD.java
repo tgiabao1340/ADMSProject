@@ -52,7 +52,7 @@ public class FormHD {
 }
 
 
-	public void formOrder() throws InvalidFormatException {
+	public void formOrder(String url) throws InvalidFormatException {
 
         try {
 
@@ -259,8 +259,8 @@ public class FormHD {
             
             //Bước 4: Ghi dữ liệu ra file word         
             String s= order.getOrderID().toString() +"_"+ order.getDate().toString()+"_HoaDon" ;
-            String url ="D:/" + s +".docx";
-            FileOutputStream out = new FileOutputStream(url);
+            String urlfile =url + s +".docx";
+            FileOutputStream out = new FileOutputStream(urlfile);
 
             document.write(out);
 
