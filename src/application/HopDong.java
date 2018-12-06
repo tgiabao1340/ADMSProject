@@ -154,7 +154,7 @@ public class HopDong {
 	            List<OrderDetail> details = order.getListItems();
 	            XWPFParagraph para11 = document.createParagraph();   
 	            Motorbike m =dt.getMotorbike();
-	            String dataPara11 = "Bên bán là chủ sở hữu của chiếc xe máy/xe môtô nhãn hiệu:"+m.getProductName()+". Loại xe:" + "\n\n"+m.getType()+", màu sắc"+"\n\n"+dt.getColor() ;
+	            String dataPara11 = "Bên bán là chủ sở hữu của chiếc xe máy/xe môtô nhãn hiệu:"+m.getProductName()+". Loại xe:" + "\n\n"+m.getType()+". \n Màu sắc"+"\n\n"+dt.getColor() ;
 	            XWPFRun para11Run = para11.createRun();
 	            para11Run.setText(dataPara11);
 	            
