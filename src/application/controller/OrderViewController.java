@@ -4,7 +4,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import application.ErrorAlert;
+import application.FormHD;
 import application.Handler;
+import application.HopDong;
 import application.Main;
 import application.entities.Order;
 import application.entities.OrderDetail;
@@ -100,6 +105,24 @@ public class OrderViewController {
 //				Main.closeWindow(event);
 //			}
 //		});
+		btnPrint.setOnAction(e->{
+			FormHD formHD = new FormHD(order);
+			HopDong dong = new HopDong(order);
+			try {
+				formHD.formOrder();
+				dong.inHopDong();
+				ErrorAlert error = new ErrorAlert("Thông báo!", "In hoàn tất!");
+				handler.setError(error);
+				Main.newWindow("AlertMessage", "Thông báo");
+			} catch (InvalidFormatException e1) {
+				// TODO Auto-generated catch block
+				ErrorAlert error = new ErrorAlert("Thông báo!", "In thất bại!");
+				handler.setError(error);
+				Main.newWindow("AlertMessage", "Thông báo");
+				e1.printStackTrace();
+			}
+			
+		});
 		btnExit.setOnAction(e->Main.closeWindow(btnExit));
 	
 	}
