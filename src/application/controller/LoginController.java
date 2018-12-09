@@ -58,20 +58,25 @@ public class LoginController {
 			ErrorAlert alert = new ErrorAlert("Lỗi đăng nhập", "Tên tài khoản và mật khẩu không được để trống!");
 			handler.setError(alert);
 			Main.newWindow("AlertMessage", "Thông báo");
-		} else {
-			if (!handler.validateLogin(username, password)) {
-				ErrorAlert error = new ErrorAlert("LỖI ĐĂNG NHẬP", "Tài khoản hoặc mật khẩu không đúng");
-				handler.setError(error);
-				Main.newWindow("AlertMessage", "Thông báo");
-			} else {
-				Main.changeLayout("RoleUI");
-				Main.closeWindow(btnLogin);
-				Main.enableMainwindow();
-			}
+			return;
 		}
+		if (!handler.validateLogin(username, password)) {
+			ErrorAlert error = new ErrorAlert("LỖI ĐĂNG NHẬP", "Tài khoản hoặc mật khẩu không đúng");
+			handler.setError(error);
+			Main.newWindow("AlertMessage", "Thông báo");
+			return;
+		}
+		if(handler.getAccount_using().getLastDate()!=null) {
+			ErrorAlert error = new ErrorAlert("LỖI ĐĂNG NHẬP", "Truy cập bị từ chối.");
+			handler.setError(error);
+			Main.newWindow("AlertMessage", "Thông báo");
+			return;
+		}
+		Main.changeLayout("RoleUI");
+		Main.closeWindow(btnLogin);
+		Main.enableMainwindow();
 
 	}
-
 	@FXML
 	void initialize() {
 		handler = Main.getHandler();

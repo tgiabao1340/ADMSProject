@@ -14,14 +14,19 @@ import application.Handler;
 import application.Main;
 import application.daos.CustomerDAO;
 import application.daos.EmployeeDAO;
+import application.daos.MaintenanceReportDAO;
 import application.daos.MotorbikeDAO;
 import application.daos.OrderDAO;
+import application.daos.ReplacementDAO;
 import application.daos.SupplierDAO;
 import application.entities.Customer;
 import application.entities.Employee;
+import application.entities.MaintenanceReport;
+import application.entities.MaintenanceReportDetail;
 import application.entities.Motorbike;
 import application.entities.Order;
 import application.entities.OrderDetail;
+import application.entities.Replacement;
 import application.entities.Supplier;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -49,96 +54,67 @@ import javafx.util.Callback;
 
 public class MaintenaceReportController {
 	Handler handler;
-	Order od;
-	@FXML
-	private ResourceBundle resources;
+	MaintenanceReport rp;
+	
+	 @FXML
+	    private TextField textMaintenaceReportID;
 
-	@FXML
-	private CheckBox checkReg;
+	    @FXML
+	    private DatePicker textDate;
 
-	@FXML
-	private CheckBox checkVAT;
+	    @FXML
+	    private TextField textStoreName;
 
-	@FXML
-	private URL location;
+	    @FXML
+	    private TextField textEmployeeID;
 
-	@FXML
-	private TextField textOrderID;
+	    @FXML
+	    private TextField textCustomer;
 
-	@FXML
-	private DatePicker textDate;
+	    @FXML
+	    private Button btnAddCustomer;
 
-	@FXML
-	private TextField textStoreName;
+	    @FXML
+	    private Label textCustomerName;
 
-	@FXML
-	private TextField textEmployeeID;
+	    @FXML
+	    private Label textCustomerPhone;
 
-	@FXML
-	private TextField textCustomer;
+	    @FXML
+	    private Label textCustomerIDCard;
 
-	@FXML
-	private Button btnAddCustomer;
+	    @FXML
+	    private Label textCustomerAdress;
 
-	@FXML
-	private Label textCustomerName;
+	    @FXML
+	    private ChoiceBox<?> choiceSupplier;
 
-	@FXML
-	private Label textCustomerPhone;
+	    @FXML
+	    private ChoiceBox<?> choiceModel;
 
-	@FXML
-	private Label textCustomerIDCard;
+	    @FXML
+	    private ChoiceBox<?> choiceReplacementName;
 
-	@FXML
-	private Label textCustomerAdress;
+	    @FXML
+	    private Button btnRemoveReplacement;
 
-	@FXML
-	private ChoiceBox<String> choiceSupplier;
+	    @FXML
+	    private Button btnAddReplacement;
 
-	@FXML
-	private ChoiceBox<String> choiceType;
+	    @FXML
+	    private TableView<?> tableMaintenaceReportDetail;
 
-	@FXML
-	private ChoiceBox<String> choiceMotorbikeName;
+	    @FXML
+	    private Text textTax;
 
-	@FXML
-	private ChoiceBox<String> choiceColor;
+	    @FXML
+	    private Text textTotal;
 
-	@FXML
-	private Button btnMinus;
+	    @FXML
+	    private Button btnCancel;
 
-	@FXML
-	private Button btnPlus;
-
-	@FXML
-	private Button btnAddMotorbike;
-
-	@FXML
-	private Button btnRemoveMotobike;
-
-	@FXML
-	private TableView<OrderDetail> tableOrderDetail;
-
-	@FXML
-	private Text textTax;
-
-	@FXML
-	private Text textTotal;
-
-	@FXML
-	private TextField textChassisp1;
-
-	@FXML
-	private TextField textChassisp2;
-
-	@FXML
-	private TextArea textComment;
-
-	@FXML
-	private Button btnCheckout;
-
-	@FXML
-	private Button btnCancel;
+	    @FXML
+	    private Button btnCheckout;
 
 	@FXML
 	void createOrderAction(final ActionEvent event) {
@@ -149,7 +125,7 @@ public class MaintenaceReportController {
 		if (btn == btnAddCustomer) {
 			Main.newWindow("CustomerInfoInput", "Tạo khách hàng mới");
 		}
-		if (btn == btnAddMotorbike) {
+		if (btn == btnAddReplacement) {
 
 		}
 	}
@@ -157,28 +133,28 @@ public class MaintenaceReportController {
 	@FXML
 	void initialize() {
 
-		od = new Order();
+		rp = new MaintenanceReport();
 		// System.out.println(od.toString());
 		handler = Main.getHandler();
-		OrderDAO odDAO = new OrderDAO();
-		List<Order> listorder = odDAO.getAll(Order.class);
+		MaintenanceReportDAO rpDAO = new MaintenanceReportDAO();
+		List<MaintenanceReport> listrp = rpDAO.getAll(MaintenanceReport.class);
 		///
-		if (!listorder.isEmpty()) {
-			String odlast = listorder.get(listorder.size() - 1).getOrderID();
+		if (!listrp.isEmpty()) {
+			String odlast = listrp.get(listrp.size() - 1).getMaintenanceReportID();
 			String prefix = odlast.substring(0, 2);
 			int numberOd = Integer.valueOf((odlast.substring(2, odlast.length())));
 			String odID = prefix + String.format("%04d", numberOd + 1);
-			textOrderID.setText(odID);
+			textMaintenaceReportID.setText(odID);
 		} else {
-			textOrderID.setText("OR0000");
+			textMaintenaceReportID.setText("OR0000");
 		}
 
 		///
-		List<OrderDetail> listod = new ArrayList<>();
+		List<MaintenanceReport> listod = new ArrayList<>();
 		///
 		LocalDate date = LocalDate.now();
 		textDate.setValue(date);
-		od.setDate(date);
+		rp.setDate(date);
 		textDate.setDisable(true);
 		//
 		String storename = "YAMAHA HOANGCAU";
@@ -186,7 +162,7 @@ public class MaintenaceReportController {
 		// Employee
 		EmployeeDAO emdao = new EmployeeDAO();
 		Employee emp = emdao.findByAc(handler.getAccount_using());
-		od.setEmployee(emp);
+		rp.setEmployee(emp);
 		//
 		textEmployeeID.setText(emp.getLastName() + " " + emp.getFirstName());
 		LoadType();
@@ -218,60 +194,21 @@ public class MaintenaceReportController {
 				}
 			}
 		});
-		textChassisp1.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if (!newValue) {
-					if (textChassisp1.getText().equals("")) {
-						textChassisp1.getStyleClass().add("error");
-
-					} else {
-						textChassisp1.getStyleClass().remove("error");
-					}
-				}
-			}
-		});
-		textChassisp2.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if (!newValue) {
-					if (textChassisp2.getText().equals("")) {
-						textChassisp2.getStyleClass().add("error");
-					} else {
-						textChassisp2.getStyleClass().remove("error");
-
-					}
-				}
-			}
-		});
-		//
-		//
-		//
 		btnCheckout.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				if (checkOrder()) {
-					OrderDAO odDao = new OrderDAO();
-					od.setOrderComment(textComment.getText());
-					odDao.save(od);
+					ReplacementDAO odDao = new ReplacementDAO();
+					rpDAO.save(rp);
 					// reload_Stock(od.getListItems());
 					Main.changeLayout("EmployeeUI");
 				}
 			}
 
 			private boolean checkOrder() {
-				if (od.getCustomer() == null) {
-					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin khách hàng");
-					handler.setError(error);
-					Main.newWindow("AlertMessage", "Thông báo");
-					return false;
-
-				}
-				if (od.getListItems() == null || od.getListItems().size() == 0) {
+				if (rp.getDetails() == null || rp.getDetails().size() == 0) {
 					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa có xe trong danh sách mua");
 					handler.setError(error);
 					Main.newWindow("AlertMessage", "Thông báo");
@@ -287,9 +224,9 @@ public class MaintenaceReportController {
 //		});
 	}
 
-	void LoadType() {
-		MotorbikeDAO mDAO = new MotorbikeDAO();
-		List<OrderDetail> list_detail = new ArrayList<>();
+	void LoadReplacement() {
+		ReplacementDAO rDAO = new ReplacementDAO();
+		List<MaintenanceReportDetail> list_detail = new ArrayList<>();
 		List<Supplier> listSupplier = new SupplierDAO().getAll(Supplier.class);
 		List<String> listSuplierName = new ArrayList<>();
 		List<String> listType = new ArrayList<String>();
@@ -307,21 +244,18 @@ public class MaintenaceReportController {
 				// TODO Auto-generated method stub
 				if (newValue != null) {
 					sp.set(newValue);
-					choiceMotorbikeName.getItems().clear();
+					choiceReplacementName.getItems().clear();
 				}
 			}
 
 		});
-
-		listType.add("Tay ga");
-		listType.add("Xe số");
-		choiceType.getItems().addAll(listType);
-		choiceType.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+		choiceModel.getItems().addAll(listType);
+		choiceModel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
 				if (newValue != null) {
-					choiceMotorbikeName.getItems().clear();
+					choiceReplacementName.getItems().clear();
 					try {
 						List<Motorbike> listMotorbike = mDAO.findbyTypeWSup(newValue, sp.get());
 						List<String> listMotorbikeName = new ArrayList<>();
@@ -332,7 +266,7 @@ public class MaintenaceReportController {
 								listMotorbikeName.add(mb_name);
 							}
 						}
-						choiceMotorbikeName.getItems().addAll(listMotorbikeName);
+						choiceReplacementName.getItems().addAll(listMotorbikeName);
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
@@ -340,35 +274,15 @@ public class MaintenaceReportController {
 				}
 			}
 		});
-		AtomicReference<Motorbike> motorbike = new AtomicReference<Motorbike>();
-		choiceMotorbikeName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+		AtomicReference<Replacement> replacement = new AtomicReference<Replacement>();
+		choiceReplacementName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
 				if (newValue != null) {
-					choiceColor.getItems().clear();
-					List<String> colors = new ArrayList<>();
-					Motorbike mb = mDAO.findbyName(newValue).get(0);
-					motorbike.set(mb);
-					String stringcolors = mb.getColor();
-					String[] splitcolor = stringcolors.split(",");
-					for (int i = 0; i < splitcolor.length; i++) {
-						colors.add(splitcolor[i].trim());
-					}
-					choiceColor.getItems().addAll(colors);
-				}
-			}
-
-		});
-		AtomicReference<String> color_name = new AtomicReference<String>();
-		choiceColor.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				if (newValue != null) {
-					color_name.set(newValue);
+					Replacement rp = mDAO.findbyName(newValue).get(0);
+					replacement.set(rp);
 				}
 			}
 
@@ -378,20 +292,18 @@ public class MaintenaceReportController {
 		/**
 		 * Add motorbike to list
 		 */
-		btnAddMotorbike.setOnAction(new EventHandler<ActionEvent>() {
+		btnAddReplacement.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				if (motorbike.get() != null && validate()) {
-					OrderDetail od_detail = new OrderDetail();
-					od_detail.setOrder(od);
-					od_detail.setMotorbike(motorbike.get());
-					od_detail.setVAT(0.1);
-					od_detail.setUnitPrice(motorbike.get().getUnitPrice());
-					od_detail.setQuantity(quantity.get());
-					od_detail.setChassisNo(textChassisp1.getText() + "/" + textChassisp2.getText());
-					od_detail.setColor(color_name.get());
+				if (replacement.get() != null && validate()) {
+					MaintenanceReportDetail mt_detail = new MaintenanceReportDetail();
+					mt_detail.setMaintenanceReport(rp);
+					mt_detail.setUnitPrice(replacement.get().getUnitPrice());
+					mt_detail.setQuantity(quantity.get());
+					mt_detail.setChassisNo(textChassisp1.getText() + "/" + textChassisp2.getText());
+					mt_detail.setColor(color_name.get());
 					list_detail.add(od_detail);
 					od.setListItems(list_detail);
 					loadTotal(list_detail);

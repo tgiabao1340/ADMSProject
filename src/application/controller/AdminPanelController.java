@@ -1,6 +1,13 @@
 package application.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
+
+import javax.swing.JOptionPane;
+
+import org.hibernate.type.YesNoType;
 
 import application.ErrorAlert;
 import application.Handler;
@@ -18,7 +25,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -63,6 +72,29 @@ public class AdminPanelController {
 	@FXML
 	private Button btnDelete_A;
 
+	@FXML
+	private Button btnOut;
+
+	@FXML
+	private Label empID;
+
+	@FXML
+	private Label fullName;
+
+	@FXML
+	private Label pos;
+
+	@FXML
+	private Label birthdate;
+
+	@FXML
+	private Label gender;
+
+	@FXML
+	private Label number;
+
+	@FXML
+	private Label address;
 	@FXML
 	private Button btnBack;
 
@@ -125,14 +157,22 @@ public class AdminPanelController {
 				textAccountID.setText(account.getAccountID());
 				Employee emp = new EmployeeDAO().findByAc(account);
 				if (emp == null) {
-					textEmployeeID.setText(" ");
-				} else
-					textEmployeeID.setText(emp.getBussinessID());
+					//textEmployeeID.setText(" ");
+				} else {
+					empID.setText(emp.getBussinessID());
+					fullName.setText(emp.getLastName() + " " + emp.getLastName());
+					pos.setText(emp.getPosition());
+					number.setText(emp.getPhoneNumber());
+					gender.setText(emp.getGender()?"Nam":"Nữ");
+					address.setText(emp.getAddress());
+					birthdate.setText((emp.getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()));
+				}
+				
+					
 			}
 
 			void clearField() {
 				textAccountID.clear();
-				textEmployeeID.clear();
 			}
 		});
 	}
@@ -144,11 +184,21 @@ public class AdminPanelController {
 	}
 
 	void Action_A() {
-		btnAddEmployee.setOnAction(new EventHandler<ActionEvent>() {
-
+		
+		btnOut.setOnAction(new EventHandler<ActionEvent>() {
+			
+			
 			@Override
 			public void handle(ActionEvent event) {
-				Main.newWindow("EmployeeInfoInput", "Tạo nhân viên mới");
+				Alert dg = new Alert(Alert.AlertType.CONFIRMATION);
+				dg.setTitle("Xác nhận");
+				dg.setContentText("Bạn chắc thôi việc nhân viên này ?\n Chú ý: Không thể hoàn tác tác vụ này.");
+				Optional<ButtonType> opt = dg.showAndWait();
+				if(opt.get()==ButtonType.OK) {
+					Account account = tableAccount.getSelectionModel().getSelectedItem();
+					account.setLastDate(LocalDate.now());
+					new AccountDAO().update(account);
+				}
 			}
 		});
 		btnNew_A.setOnAction(new EventHandler<ActionEvent>() {

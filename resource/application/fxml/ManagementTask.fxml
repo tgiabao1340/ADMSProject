@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -22,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ManagementTaskController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ManagementTaskController">
    <content>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
       	<children>
@@ -119,7 +118,7 @@
       																												<Insets />
       																											</VBox.margin>
       																										</Label>
-      																										<ChoiceBox fx:id="choiceMotorbike_YEAR" prefWidth="150.0" />
+      																										<ChoiceBox fx:id="choiceMotorbike_YEAR" prefHeight="39.0" prefWidth="224.0" />
       																									</children>
       																									<VBox.margin>
       																										<Insets top="4.0" />
@@ -137,15 +136,7 @@
       																										</Label>
                                                                         <HBox>
                                                                            <children>
-      																										<ChoiceBox fx:id="choiceMotorbike_SUP" prefWidth="150.0" />
-                                                                              <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="54.0">
-                                                                                 <graphic>
-                                                                                    <FontAwesomeIconView glyphName="PLUS" />
-                                                                                 </graphic>
-                                                                                 <HBox.margin>
-                                                                                    <Insets left="12.0" />
-                                                                                 </HBox.margin>
-                                                                              </Button>
+      																										<ChoiceBox fx:id="choiceMotorbike_SUP" prefHeight="39.0" prefWidth="224.0" />
                                                                            </children>
                                                                         </HBox>
       																									</children>
@@ -167,14 +158,14 @@
       																										<VBox>
       																											<children>
       																												<Label prefWidth="96.0" text="Loại" />
-      																												<ChoiceBox fx:id="choiceMotorbike_TYPE" prefWidth="150.0" />
+      																												<ChoiceBox fx:id="choiceMotorbike_TYPE" prefHeight="39.0" prefWidth="220.0" />
       																											</children>
       																											<VBox.margin>
       																												<Insets top="4.0" />
       																											</VBox.margin>
       																										</VBox>
       																										<Label prefHeight="17.0" prefWidth="50.0" text="Màu" />
-                                                                        <CheckComboBox fx:id="comboxMotorbike_COLOR" accessibleRole="COMBO_BOX" prefHeight="25.0" prefWidth="180.0" />
+                                                                        <CheckComboBox fx:id="comboxMotorbike_COLOR" accessibleRole="COMBO_BOX" prefHeight="25.0" prefWidth="224.0" />
       																									</children>
       																									<VBox.margin>
       																										<Insets top="4.0" />
@@ -204,15 +195,10 @@
       																								</VBox>
       																								<VBox>
       																									<children>
-      																										<Label prefWidth="72.0" text="Model ID" />
+      																										<Label prefWidth="72.0" text="Model" />
                                                                         <HBox>
                                                                            <children>
-      																										<TextField fx:id="textModelID" />
-                                                                              <Button mnemonicParsing="false">
-                                                                                 <graphic>
-                                                                                    <FontAwesomeIconView glyphName="PLUS" />
-                                                                                 </graphic>
-                                                                              </Button>
+      																										<TextField fx:id="textModelID" prefHeight="30.0" prefWidth="221.0" />
                                                                            </children>
                                                                         </HBox>
       																									</children>
@@ -220,7 +206,6 @@
       																										<Insets top="4.0" />
       																									</VBox.margin>
       																								</VBox>
-                                                                  <Label fx:id="textModelname" text="-model name" />
       																							</children>
       																						</VBox>
       																					</children>
@@ -228,7 +213,7 @@
                                                             <Insets left="4.0" />
                                                          </padding>
       																				</AnchorPane>
-                                                      <ScrollPane fitToWidth="true" layoutX="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <ScrollPane fitToWidth="true" layoutX="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="249.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <content>
             																						<TableView fx:id="tableMotorbike" prefWidth="960.0">
             																							<columnResizePolicy>
@@ -241,7 +226,7 @@
       																			<children>
       																				<Button fx:id="btnSave_M" mnemonicParsing="false" text="Lưu" />
       																				<Button fx:id="btnNew_M" mnemonicParsing="false" text="Tạo mới" />
-      																				<Button fx:id="btnDelete_M" mnemonicParsing="false" prefWidth="75.0" text="Xóa" />
+      																				<Button fx:id="btnDelete_M" mnemonicParsing="false" text="Xóa" />
       																			</children>
       																		</HBox>
       															</children>
@@ -375,7 +360,7 @@
       																			<children>
       																				<Button fx:id="btnSave_R" mnemonicParsing="false" text="Lưu" />
       																				<Button fx:id="btnNew_R" mnemonicParsing="false" text="Tạo mới" />
-      																				<Button fx:id="btnDelete_R" mnemonicParsing="false" prefWidth="75.0" text="Xóa" />
+      																				<Button fx:id="btnDelete_R" mnemonicParsing="false" prefWidth="69.0" text="Xóa" />
       																			</children>
       																		</HBox>
       																	</children>
@@ -387,6 +372,199 @@
       														<Label id="text-h" text="Linh kiện" />
       													</graphic>
       												</Tab>
+                                          <Tab>
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <AnchorPane prefWidth="480.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <children>
+                                                                  <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="240.0">
+                                                                     <children>
+                                                                        <VBox layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <children>
+                                                                              <VBox>
+                                                                                 <children>
+                                                                                    <Label layoutX="30.0" layoutY="128.0" prefWidth="96.0" text="Mã NSX">
+                                                                                       <HBox.margin>
+                                                                                          <Insets />
+                                                                                       </HBox.margin>
+                                                                                       <VBox.margin>
+                                                                                          <Insets />
+                                                                                       </VBox.margin>
+                                                                                    </Label>
+                                                                                    <TextField fx:id="textSupplierID">
+                                                                                       <VBox.margin>
+                                                                                          <Insets />
+                                                                                       </VBox.margin>
+                                                                                    </TextField>
+                                                                                 </children>
+                                                                                 <VBox.margin>
+                                                                                    <Insets />
+                                                                                 </VBox.margin>
+                                                                              </VBox>
+                                                                              <VBox>
+                                                                                 <children>
+                                                                                    <Label layoutX="28.0" layoutY="171.0" prefWidth="96.0" text="Tên NSX">
+                                                                                       <HBox.margin>
+                                                                                          <Insets />
+                                                                                       </HBox.margin>
+                                                                                       <VBox.margin>
+                                                                                          <Insets />
+                                                                                       </VBox.margin>
+                                                                                    </Label>
+                                                                                    <TextField fx:id="textSupplierName">
+                                                                                       <VBox.margin>
+                                                                                          <Insets />
+                                                                                       </VBox.margin>
+                                                                                    </TextField>
+                                                                                    <Label prefWidth="96.0" text="Quốc gia" />
+                                                                                    <TextField fx:id="textSupplierCountry" />
+                                                                                 </children>
+                                                                                 <VBox.margin>
+                                                                                    <Insets top="4.0" />
+                                                                                 </VBox.margin>
+                                                                              </VBox>
+                                                                              <VBox>
+                                                                                 <VBox.margin>
+                                                                                    <Insets top="4.0" />
+                                                                                 </VBox.margin>
+                                                                              </VBox>
+                                                                              <VBox>
+                                                                                 <children>
+                                                                                    <Label prefWidth="96.0" text="Địa chỉ" />
+                                                                                    <TextField fx:id="textSupplierAddress" />
+                                                                                 </children>
+                                                                              </VBox>
+                                                                              <VBox>
+                                                                                 <children>
+                                                                                    <Label prefWidth="96.0" text="SDT" />
+                                                                                    <TextField fx:id="textSupplierPhone" />
+                                                                                 </children>
+                                                                              </VBox>
+                                                                              <VBox>
+                                                                                 <children>
+                                                                                    <Label prefWidth="96.0" text="Mã Thuế" />
+                                                                                    <TextField fx:id="textSupplierTaxCode" />
+                                                                                 </children>
+                                                                              </VBox>
+                                                                           </children>
+                                                                           <padding>
+                                                                              <Insets left="4.0" right="12.0" />
+                                                                           </padding>
+                                                                        </VBox>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                                  <ScrollPane fitToHeight="true">
+                                                                     <content>
+                                                                        <TableView fx:id="tableSupplier" minHeight="-Infinity" minWidth="-Infinity" prefWidth="720.0">
+                                                                           <columnResizePolicy>
+                                                                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                                           </columnResizePolicy>
+                                                                        </TableView>
+                                                                     </content>
+                                                                  </ScrollPane>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <HBox fillHeight="false" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                         <children>
+                                                            <Button fx:id="btnSaveSUP" mnemonicParsing="false" text="Lưu" />
+                                                            <Button fx:id="btnNewSup" mnemonicParsing="false" text="Tạo mới" />
+                                                            <Button fx:id="btnDeleteSup" mnemonicParsing="false" text="Xóa" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <graphic>
+                                                <Label id="text-h" text="Nhà Sản Xuất" />
+                                             </graphic>
+                                          </Tab>
+                                          <Tab>
+                                             <content>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <HBox>
+                                                         <children>
+                                                            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="240.0">
+                                                               <children>
+                                                                  <VBox layoutX="-38.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                     <children>
+                                                                        <VBox>
+                                                                           <children>
+                                                                              <Label layoutX="30.0" layoutY="128.0" prefWidth="96.0" text="Mã Model">
+                                                                                 <HBox.margin>
+                                                                                    <Insets />
+                                                                                 </HBox.margin>
+                                                                                 <VBox.margin>
+                                                                                    <Insets />
+                                                                                 </VBox.margin>
+                                                                              </Label>
+                                                                              <TextField fx:id="textModelIDD">
+                                                                                 <VBox.margin>
+                                                                                    <Insets />
+                                                                                 </VBox.margin>
+                                                                              </TextField>
+                                                                           </children>
+                                                                           <VBox.margin>
+                                                                              <Insets top="4.0" />
+                                                                           </VBox.margin>
+                                                                        </VBox>
+                                                                        <VBox>
+                                                                           <children>
+                                                                              <Label layoutX="28.0" layoutY="171.0" prefWidth="96.0" text="Tên Model">
+                                                                                 <HBox.margin>
+                                                                                    <Insets />
+                                                                                 </HBox.margin>
+                                                                                 <VBox.margin>
+                                                                                    <Insets />
+                                                                                 </VBox.margin>
+                                                                              </Label>
+                                                                              <TextField fx:id="textModelNameD">
+                                                                                 <VBox.margin>
+                                                                                    <Insets />
+                                                                                 </VBox.margin>
+                                                                              </TextField>
+                                                                           </children>
+                                                                           <VBox.margin>
+                                                                              <Insets top="4.0" />
+                                                                           </VBox.margin>
+                                                                        </VBox>
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets left="4.0" right="12.0" />
+                                                                     </padding>
+                                                                  </VBox>
+                                                               </children>
+                                                            </AnchorPane>
+                                                            <ScrollPane fitToHeight="true">
+                                                               <content>
+                                                                  <TableView fx:id="tableModel" prefWidth="420.0">
+                                                                     <columnResizePolicy>
+                                                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                                     </columnResizePolicy>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox fillHeight="false" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                         <children>
+                                                            <Button fx:id="btnSaveModel" mnemonicParsing="false" text="Lưu" />
+                                                            <Button fx:id="btnNewModel" mnemonicParsing="false" text="Tạo Mới" />
+                                                            <Button fx:id="btnDeleteModel" mnemonicParsing="false" text="Xóa" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <graphic>
+                                                <Label id="text-h" text="Model" textAlignment="CENTER" />
+                                             </graphic>
+                                          </Tab>
       											</tabs>
       										</TabPane>
       									</children>
@@ -400,13 +578,13 @@
       							<content>
       								<AnchorPane minHeight="0.0" minWidth="0.0">
       									<children>
-      										<TabPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      										<TabPane minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       											<tabs>
       												<Tab>
       													<content>
       														<AnchorPane prefWidth="800.0">
       															<children>
-																				<AnchorPane prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+																				<AnchorPane prefWidth="240.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
 																					<children>
 																						<VBox layoutY="7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 																							<children>
@@ -467,14 +645,6 @@
 																										<TextField fx:id="textMotorbikePRICE_QNP" />
 																									</children>
 																								</VBox>
-                  																		<HBox fillHeight="false" prefHeight="29.0" prefWidth="323.0" spacing="4.0">
-                  																			<children>
-                  																				<Button fx:id="btnSaveM_QNP" mnemonicParsing="false" text="Lưu" />
-                  																			</children>
-                                                                     <VBox.margin>
-                                                                        <Insets top="4.0" />
-                                                                     </VBox.margin>
-                  																		</HBox>
 																							</children>
                                                                <padding>
                                                                   <Insets left="4.0" right="8.0" />
@@ -482,7 +652,7 @@
 																						</VBox>
 																					</children>
 																				</AnchorPane>
-                                                      <ScrollPane fitToHeight="true" layoutX="191.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <ScrollPane fitToHeight="true" layoutX="191.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <content>
 																						<TableView fx:id="tableMotorbike_QNP" prefWidth="640.0">
 																							<columnResizePolicy>
@@ -491,6 +661,11 @@
 																						</TableView>
                                                          </content>
                                                       </ScrollPane>
+      																		<HBox fillHeight="false" prefHeight="29.0" prefWidth="323.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      																			<children>
+      																				<Button fx:id="btnSaveM_QNP" mnemonicParsing="false" text="Lưu" />
+      																			</children>
+      																		</HBox>
       															</children>
       														</AnchorPane>
       													</content>
@@ -502,7 +677,7 @@
                                              <content>
                                                 <AnchorPane>
                                                    <children>
-                                                      <HBox prefHeight="465.0" prefWidth="1171.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
                                                             <AnchorPane prefHeight="446.0" prefWidth="240.0">
                                                                <children>
@@ -565,14 +740,6 @@
                                                                               <TextField />
                                                                            </children>
                                                                         </VBox>
-                                                                        <HBox fillHeight="false" prefHeight="29.0" prefWidth="323.0" spacing="4.0">
-                                                                           <children>
-                                                                              <Button mnemonicParsing="false" text="Lưu" />
-                                                                           </children>
-                                                                           <VBox.margin>
-                                                                              <Insets top="4.0" />
-                                                                           </VBox.margin>
-                                                                        </HBox>
                                                                      </children>
                                                                      <padding>
                                                                         <Insets left="4.0" right="12.0" />
@@ -591,6 +758,11 @@
                                                             </ScrollPane>
                                                          </children>
                                                       </HBox>
+                                                      <HBox fillHeight="false" prefHeight="29.0" prefWidth="323.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                         <children>
+                                                            <Button mnemonicParsing="false" text="Lưu" />
+                                                         </children>
+                                                      </HBox>
                                                    </children>
                                                 </AnchorPane>
                                              </content>
@@ -600,218 +772,6 @@
                                           </Tab>
       											</tabs>
       										</TabPane>
-                                    <VBox layoutX="630.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <TabPane tabClosingPolicy="UNAVAILABLE">
-                                             <tabs>
-                                                <Tab>
-                                                   <content>
-                                                      <AnchorPane prefWidth="480.0">
-                                                         <children>
-                                                            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                               <children>
-                                                                  <HBox>
-                                                                     <children>
-                                                                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="240.0">
-                                                                           <children>
-                                                                              <VBox layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                                                 <children>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label layoutX="30.0" layoutY="128.0" prefWidth="96.0" text="Mã NSX">
-                                                                                             <HBox.margin>
-                                                                                                <Insets />
-                                                                                             </HBox.margin>
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </Label>
-                                                                                          <TextField fx:id="textSupplierID">
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </TextField>
-                                                                                       </children>
-                                                                                       <VBox.margin>
-                                                                                          <Insets />
-                                                                                       </VBox.margin>
-                                                                                    </VBox>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label layoutX="28.0" layoutY="171.0" prefWidth="96.0" text="Tên NSX">
-                                                                                             <HBox.margin>
-                                                                                                <Insets />
-                                                                                             </HBox.margin>
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </Label>
-                                                                                          <TextField fx:id="textSupplierName">
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </TextField>
-                                                                                          <Label prefWidth="96.0" text="Quốc gia" />
-                                                                                          <TextField fx:id="textSupplierCountry" />
-                                                                                       </children>
-                                                                                       <VBox.margin>
-                                                                                          <Insets top="4.0" />
-                                                                                       </VBox.margin>
-                                                                                    </VBox>
-                                                                                    <VBox>
-                                                                                       <VBox.margin>
-                                                                                          <Insets top="4.0" />
-                                                                                       </VBox.margin>
-                                                                                    </VBox>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label prefWidth="96.0" text="Địa chỉ" />
-                                                                                          <TextField fx:id="textSupplierAddress" />
-                                                                                       </children>
-                                                                                    </VBox>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label prefWidth="96.0" text="SDT" />
-                                                                                          <TextField fx:id="textSupplierPhone" />
-                                                                                       </children>
-                                                                                    </VBox>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label prefWidth="96.0" text="Mã Thuế" />
-                                                                                          <TextField fx:id="textSupplierTaxCode" />
-                                                                                       </children>
-                                                                                    </VBox>
-                                                                                 </children>
-                                                                                 <padding>
-                                                                                    <Insets left="4.0" right="12.0" />
-                                                                                 </padding>
-                                                                              </VBox>
-                                                                           </children>
-                                                                        </AnchorPane>
-                                                                        <ScrollPane fitToHeight="true">
-                                                                           <content>
-                                                                              <TableView fx:id="tableSupplier" prefWidth="640.0">
-                                                                                 <columnResizePolicy>
-                                                                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                                                 </columnResizePolicy>
-                                                                              </TableView>
-                                                                           </content>
-                                                                        </ScrollPane>
-                                                                     </children>
-                                                                  </HBox>
-                                                                  <HBox fillHeight="false" spacing="4.0">
-                                                                     <children>
-                                                                        <Button fx:id="btnSaveSUP" mnemonicParsing="false" text="Lưu" />
-                                                                        <Button fx:id="btnNewSup" mnemonicParsing="false" text="Tạo Mới" />
-                                                                        <Button fx:id="btnDeleteSup" mnemonicParsing="false" text="Xóa" />
-                                                                     </children>
-                                                                     <VBox.margin>
-                                                                        <Insets top="4.0" />
-                                                                     </VBox.margin>
-                                                                  </HBox>
-                                                               </children>
-                                                            </VBox>
-                                                         </children>
-                                                      </AnchorPane>
-                                                   </content>
-                                                   <graphic>
-                                                      <Label id="text-h" text="Nhà Sản Xuất" />
-                                                   </graphic>
-                                                </Tab>
-                                             </tabs>
-                                          </TabPane>
-                                          <TabPane prefHeight="320.0" tabClosingPolicy="UNAVAILABLE">
-                                             <tabs>
-                                                <Tab>
-                                                   <content>
-                                                      <AnchorPane>
-                                                         <children>
-                                                            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                               <children>
-                                                                  <HBox>
-                                                                     <children>
-                                                                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="240.0">
-                                                                           <children>
-                                                                              <VBox layoutX="-38.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                                                 <children>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label layoutX="30.0" layoutY="128.0" prefWidth="96.0" text="Mã Model">
-                                                                                             <HBox.margin>
-                                                                                                <Insets />
-                                                                                             </HBox.margin>
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </Label>
-                                                                                          <TextField fx:id="textModelIDD">
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </TextField>
-                                                                                       </children>
-                                                                                       <VBox.margin>
-                                                                                          <Insets top="4.0" />
-                                                                                       </VBox.margin>
-                                                                                    </VBox>
-                                                                                    <VBox>
-                                                                                       <children>
-                                                                                          <Label layoutX="28.0" layoutY="171.0" prefWidth="96.0" text="Tên Model">
-                                                                                             <HBox.margin>
-                                                                                                <Insets />
-                                                                                             </HBox.margin>
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </Label>
-                                                                                          <TextField fx:id="textModelNameD">
-                                                                                             <VBox.margin>
-                                                                                                <Insets />
-                                                                                             </VBox.margin>
-                                                                                          </TextField>
-                                                                                       </children>
-                                                                                       <VBox.margin>
-                                                                                          <Insets top="4.0" />
-                                                                                       </VBox.margin>
-                                                                                    </VBox>
-                                                                                 </children>
-                                                                                 <padding>
-                                                                                    <Insets left="4.0" right="12.0" />
-                                                                                 </padding>
-                                                                              </VBox>
-                                                                           </children>
-                                                                        </AnchorPane>
-                                                                        <ScrollPane fitToHeight="true">
-                                                                           <content>
-                                                                              <TableView fx:id="tableModel" prefWidth="420.0">
-                                                                                 <columnResizePolicy>
-                                                                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                                                 </columnResizePolicy>
-                                                                              </TableView>
-                                                                           </content>
-                                                                        </ScrollPane>
-                                                                     </children>
-                                                                  </HBox>
-                                                                  <HBox fillHeight="false" spacing="4.0">
-                                                                     <children>
-                                                                        <Button fx:id="btnSaveModel" mnemonicParsing="false" text="Lưu" />
-                                                                        <Button fx:id="btnNewModel" mnemonicParsing="false" text="Tạo Mới" />
-                                                                        <Button fx:id="btnDeleteModel" mnemonicParsing="false" text="Xóa" />
-                                                                     </children>
-                                                                  </HBox>
-                                                               </children>
-                                                            </VBox>
-                                                         </children>
-                                                      </AnchorPane>
-                                                   </content>
-                                                   <graphic>
-                                                      <Label id="text-h" text="Model" />
-                                                   </graphic>
-                                                </Tab>
-                                             </tabs>
-                                          </TabPane>
-                                       </children>
-                                    </VBox>
       									</children>
                                  <padding>
                                     <Insets bottom="12.0" />
@@ -857,7 +817,7 @@
                                                                   </TextField>
                                                                   <HBox>
                                                                      <children>
-                                                                        <TextField fx:id="textCustomer_FNAME">
+                                                                        <TextField fx:id="textCustomer_FNAME" prefHeight="30.0" prefWidth="80.0">
                                                                            <HBox.margin>
                                                                               <Insets />
                                                                            </HBox.margin>
@@ -889,7 +849,7 @@
                   																				<VBox>
                   																					<children>
                   																						<Label text="Ngày sinh" />
-                  																						<DatePicker fx:id="dpcustomerDoB" />
+                  																						<DatePicker fx:id="dpcustomerDoB" prefHeight="30.0" prefWidth="231.0" />
                   																					</children>
                   																				</VBox>
                   																			</children>
@@ -902,7 +862,7 @@
                   																				<Insets top="4.0" />
                   																			</VBox.margin>
                   																		</Label>
-                                                            <TextArea fx:id="textCustomer_AD" prefHeight="78.0" prefWidth="172.0" wrapText="true" />
+                                                            <TextArea fx:id="textCustomer_AD" prefHeight="78.0" prefWidth="216.0" wrapText="true" />
                   																		<Label prefWidth="130.0" text="Số CMND">
                   																			<VBox.margin>
                   																				<Insets top="4.0" />
@@ -914,7 +874,7 @@
                   																				<Insets top="4.0" />
                   																			</VBox.margin>
                   																		</Label>
-                                                            <DatePicker fx:id="dpCustomer_IDDATE" />
+                                                            <DatePicker fx:id="dpCustomer_IDDATE" prefHeight="30.0" prefWidth="244.0" />
                                                             <VBox>
                                                                <children>
                                                                   <Label prefWidth="120.0" text="Nơi cấp" />
@@ -931,7 +891,7 @@
                   																</VBox>
                   															</children>
                   														</AnchorPane>
-                                                <ScrollPane fitToWidth="true" layoutX="293.0" layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <ScrollPane fitToWidth="true" layoutX="293.0" layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="249.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <content>
                         																<TableView fx:id="tableCustomer" prefWidth="960.0">
                         																	<columnResizePolicy>
@@ -990,7 +950,10 @@
                                                             <HBox>
                                                                <children>
                   																		<TextField fx:id="textEmployee_LNAME" />
-                                                                  <TextField fx:id="textEmployee_FNAME" />
+                                                                  <TextField fx:id="textEmployee_FNAME" prefHeight="30.0" prefWidth="80.0">
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin></TextField>
                                                                </children>
                                                             </HBox>
                   																		<CheckBox fx:id="checkEmployee_GENDER" mnemonicParsing="false" text="Nữ">
@@ -1003,16 +966,19 @@
                   																				<Insets left="12.0" />
                   																			</HBox.margin>
                   																			<VBox.margin>
-                  																				<Insets top="12.0" />
+                  																				<Insets top="4.0" />
                   																			</VBox.margin>
                   																		</Label>
-                  																		<TextField fx:id="textEmployee_PHONE" />
+                  																		<TextField fx:id="textEmployee_PHONE">
+                                                               <VBox.margin>
+                                                                  <Insets top="4.0" />
+                                                               </VBox.margin></TextField>
                   																		<HBox>
                   																			<children>
                   																				<VBox>
                   																					<children>
                   																						<Label prefWidth="130.0" text="Ngày sinh" />
-                  																						<DatePicker fx:id="dpEmployee_DATE" />
+                  																						<DatePicker fx:id="dpEmployee_DATE" prefHeight="30.0" prefWidth="227.0" />
                   																					</children>
                   																				</VBox>
                   																			</children>
@@ -1026,12 +992,12 @@
                   																			</VBox.margin>
                   																		</Label>
                                                             <TextArea fx:id="textEmployee_AD" prefHeight="60.0" prefWidth="216.0" wrapText="true" />
-                  																		<Label prefWidth="120.0" text="AccountID">
+                  																		<Label prefWidth="120.0" text="Tên tài khoản">
                   																			<VBox.margin>
                   																				<Insets top="12.0" />
                   																			</VBox.margin>
                   																		</Label>
-                  																		<TextField fx:id="textEmployee_ACCOUNTID" editable="false" />
+                  																		<TextField fx:id="textEmployee_ACCOUNTID" />
                   																	</children>
                                                          <padding>
                                                             <Insets left="4.0" />
@@ -1039,7 +1005,7 @@
                   																</VBox>
                   															</children>
                   														</AnchorPane>
-                                                <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <ScrollPane fitToWidth="true" layoutX="249.0" layoutY="14.0" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="249.0" AnchorPane.rightAnchor="-9.0" AnchorPane.topAnchor="14.0">
                                                    <content>
                         																<TableView fx:id="tableEmployee" prefWidth="960.0">
                         																	<columnResizePolicy>
@@ -1069,15 +1035,46 @@
       								<Label text="Nhân viên" />
       							</graphic>
       						</Tab>
+                        <Tab id="tab-rot">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <TabPane>
+                                       <tabs>
+                                          <Tab closable="false">
+                                             <content>
+                                                <AnchorPane prefHeight="250.0" />
+                                             </content>
+                                             <graphic>
+                                                <Label id="text-h" text="Doanh thu" />
+                                             </graphic>
+                                          </Tab>
+                                       </tabs>
+                                    </TabPane>
+                                    <TabPane layoutX="10.0" layoutY="10.0">
+                                       <tabs>
+                                          <Tab closable="false">
+                                             <graphic>
+                                                <Label id="text-h" text="Khách hàng" />
+                                             </graphic>
+                                             <content>
+                                                <AnchorPane />
+                                             </content>
+                                          </Tab>
+                                       </tabs>
+                                    </TabPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                           <graphic>
+                              <Label text="Thống kê" />
+                           </graphic>
+                        </Tab>
       					</tabs>
       				</TabPane>
       			</center>
       		</BorderPane>
       	</children>
-         <stylesheets>
-            <URL value="@../style/style.css" />
-            <URL value="@style.css" />
-         </stylesheets>
       </AnchorPane>
    </content>
 </ScrollPane>

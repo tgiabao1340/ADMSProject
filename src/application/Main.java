@@ -9,7 +9,6 @@ package application;
  */
 import java.io.IOException;
 import java.util.HashMap;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

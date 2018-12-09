@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional.TxType;
+
 import org.controlsfx.control.CheckComboBox;
 
 import com.jfoenix.controls.JFXAutoCompletePopup;
@@ -1288,10 +1290,17 @@ public class ManagementTaskController {
 					Employee employee;
 					String id = textEmployee_ID.getText();
 					if ((new EmployeeDAO().getById(Employee.class, id)) != null) {
+						
 						employee = new EmployeeDAO().getById(Employee.class, id);
 						new EmployeeDAO().update(setE(employee));
 					} else {
 						employee = new Employee();
+						Account account = new Account();
+						account.setCreatedDate(LocalDate.now());
+						account.setPassword("123");
+						account.setAccountID(textEmployee_ACCOUNTID.getText().trim());
+						employee.setAccount(account);
+						new AccountDAO().save(account);
 						new EmployeeDAO().save(setE(employee));
 					}
 					reloadTable_E();
@@ -1313,6 +1322,7 @@ public class ManagementTaskController {
 				employee.setDateOfBirth(dob);
 				employee.setGender(gender);
 				employee.setAccount(account);
+				employee.setPosition("NV Bán hàng");
 				return employee;
 			}
 
@@ -1342,11 +1352,24 @@ public class ManagementTaskController {
 					textEmployee_PHONE.requestFocus();
 					return false;
 				}
+				if (textEmployee_ACCOUNTID.getText().isEmpty()) {
+					textEmployee_ACCOUNTID.getStyleClass().add("error");
+					textEmployee_ACCOUNTID.requestFocus();
+					
+					return false;
+				}
+				String id = textEmployee_ACCOUNTID.getText();
+				if ((new AccountDAO().getById(Account.class, id)) != null) {
+					textEmployee_ACCOUNTID.getStyleClass().add("error");
+					textEmployee_ACCOUNTID.requestFocus();
+					return false;
+				} 
 				textEmployee_ID.getStyleClass().remove("error");
 				textEmployee_FNAME.getStyleClass().remove("error");
 				textEmployee_LNAME.getStyleClass().remove("error");
 				textEmployee_AD.getStyleClass().remove("error");
 				textEmployee_PHONE.getStyleClass().remove("error");
+				textEmployee_ACCOUNTID.getStyleClass().remove("error");
 				return true;
 			}
 		});
@@ -1372,8 +1395,6 @@ public class ManagementTaskController {
 		listE = new EmployeeDAO().getAll(Employee.class);
 		loadEmployee(listE);
 		Action_E();
-		btnNew_E.setDisable(true);
-		btnDelete_E.setDisable(true);
 	}
 
 	void loadMotorbike_QNP(List<Motorbike> listmotorbike) {
