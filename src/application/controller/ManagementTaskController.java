@@ -19,6 +19,7 @@ import application.daos.CustomerDAO;
 import application.daos.EmployeeDAO;
 import application.daos.ModelDAO;
 import application.daos.MotorbikeDAO;
+import application.daos.OrderDAO;
 import application.daos.ReplacementDAO;
 import application.daos.SupplierDAO;
 import application.entities.Account;
@@ -26,6 +27,7 @@ import application.entities.Customer;
 import application.entities.Employee;
 import application.entities.Model;
 import application.entities.Motorbike;
+import application.entities.Order;
 import application.entities.Replacement;
 import application.entities.Supplier;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -44,12 +46,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.util.Callback;
 
 public class ManagementTaskController {
@@ -65,6 +69,35 @@ public class ManagementTaskController {
 	List<String> listModelID = new ArrayList<>();
 	@FXML
 	private Button btnBack;
+    @FXML
+    private RadioButton radToday;
+
+    @FXML
+    private RadioButton radioThisMonth;
+
+    @FXML
+    private RadioButton radThisYear;
+
+    @FXML
+    private RadioButton radCustom;
+
+    @FXML
+    private DatePicker datePickFrom;
+
+    @FXML
+    private DatePicker datePickTo;
+
+    @FXML
+    private Label lbSaleNoTax;
+
+    @FXML
+    private Label lbSaleTax;
+
+    @FXML
+    private Label lbSaleWithTax;
+
+    @FXML
+    private Label lbSumOfOrder;
 
 	@FXML
 	private TextField textMotorbike_ID;
@@ -1917,6 +1950,124 @@ public class ManagementTaskController {
 		reloadTable_R();
 		reloadTable_M();
 	}
+	void SaleOrder() {
+		ToggleGroup gr = new ToggleGroup();
+		radToday.setToggleGroup(gr);
+		radioThisMonth.setToggleGroup(gr);
+		radThisYear.setToggleGroup(gr);
+		radCustom.setToggleGroup(gr);
+		datePickFrom.setDisable(true);
+		datePickTo.setDisable(true);
+		radToday.setOnAction(e->{
+			List<Order> orders = new OrderDAO().getByDate(LocalDate.now());
+			long saleNoTax = 0l;
+			long saleTax = 0l;
+			long saleWithTax = 0l;
+			int sumOfOrder = 0;
+			for (int i = 0; i < orders.size(); i++) {
+				saleNoTax += orders.get(i).getTotalRaw();
+				saleTax += orders.get(i).getTotalVAT();
+				saleWithTax += orders.get(i).getSubTotal();
+			}
+			sumOfOrder+=new OrderDAO().sumOfOrderByDate(LocalDate.now());
+			lbSaleNoTax.setText(String.format("%,d",saleNoTax));
+			lbSaleTax.setText(String.format("%,d",saleTax));
+			lbSaleWithTax.setText(String.format("%,d",saleWithTax));
+			lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+			datePickFrom.setDisable(true);
+			datePickTo.setDisable(true);
+		});
+
+		radioThisMonth.setOnAction(e->{
+			List<Order> orders = new OrderDAO().getByMonth(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+			long saleNoTax = 0l;
+			long saleTax = 0l;
+			long saleWithTax = 0l;
+			int sumOfOrder = 0;
+			for (int i = 0; i < orders.size(); i++) {
+				saleNoTax += orders.get(i).getTotalRaw();
+				saleTax += orders.get(i).getTotalVAT();
+				saleWithTax += orders.get(i).getSubTotal();
+			}
+			sumOfOrder+=new OrderDAO().sumOfOrderByMonth(LocalDate.now());
+			lbSaleNoTax.setText(String.format("%,d",saleNoTax));
+			lbSaleTax.setText(String.format("%,d",saleTax));
+			lbSaleWithTax.setText(String.format("%,d",saleWithTax));
+			lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+			datePickFrom.setDisable(true);
+			datePickTo.setDisable(true);
+		});
+		radThisYear.setOnAction(e->{
+			List<Order> orders = new OrderDAO().getByYear(LocalDate.now().getYear());
+			long saleNoTax = 0l;
+			long saleTax = 0l;
+			long saleWithTax = 0l;
+			int sumOfOrder = 0;
+			for (int i = 0; i < orders.size(); i++) {
+				saleNoTax += orders.get(i).getTotalRaw();
+				saleTax += orders.get(i).getTotalVAT();
+				saleWithTax += orders.get(i).getSubTotal();
+			}
+			sumOfOrder+=new OrderDAO().sumOfOrderByMonth(LocalDate.now());
+			lbSaleNoTax.setText(String.format("%,d",saleNoTax));
+			lbSaleTax.setText(String.format("%,d",saleTax));
+			lbSaleWithTax.setText(String.format("%,d",saleWithTax));
+			lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+			datePickFrom.setDisable(true);
+			datePickTo.setDisable(true);
+
+		});
+		radCustom.setOnAction(e->{
+			datePickFrom.setDisable(false);
+			datePickTo.setDisable(false);
+
+		});
+		datePickTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(check()) {
+					List<Order> orders = new OrderDAO().getFromDatetoDate(datePickFrom.getValue(),datePickTo.getValue());
+					long saleNoTax = 0l;
+					long saleTax = 0l;
+					long saleWithTax = 0l;
+					int sumOfOrder = 0;
+					for (int i = 0; i < orders.size(); i++) {
+						saleNoTax += orders.get(i).getTotalRaw();
+						saleTax += orders.get(i).getTotalVAT();
+						saleWithTax += orders.get(i).getSubTotal();
+					}
+					sumOfOrder+=new OrderDAO().sumOfOrderFromDateToDate(datePickFrom.getValue(), datePickTo.getValue());
+					lbSaleNoTax.setText(String.format("%,d",saleNoTax));
+					lbSaleTax.setText(String.format("%,d",saleTax));
+					lbSaleWithTax.setText(String.format("%,d",saleWithTax));
+					lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+					
+				}
+				
+			}
+		});
+	
+	}
+	boolean check() {
+		if (datePickFrom.getValue()==null) {
+			datePickFrom.getStyleClass().add("error");
+			datePickFrom.requestFocus();
+			return false;
+		}
+		else {
+			if (datePickFrom.getValue().isAfter(datePickTo.getValue())) {
+				datePickFrom.getStyleClass().add("error");
+				datePickTo.getStyleClass().add("error");
+				datePickFrom.requestFocus();
+				return false;
+			}
+		}
+		
+		datePickFrom.getStyleClass().remove("error");
+		datePickTo.getStyleClass().remove("error");
+		return true;
+	}
 
 	@FXML
 	void initialize() {
@@ -1928,6 +2079,8 @@ public class ManagementTaskController {
 		initTableMotorbike_QNP();
 		initTableSupplier();
 		initTableModel();
+		SaleOrder();
+		
 	}
 
 }
