@@ -59,7 +59,7 @@ public class ManagementTaskController {
 	List<String> suppliers_name = new ArrayList<>();
 	List<String> types = new ArrayList<>();
 	List<Motorbike> listM;
-	List<Model> listModel = new ModelDAO().getAll(Model.class);
+	List<Model> listModel = new ArrayList<>();
 	List<String> listModelID = new ArrayList<>();
 	@FXML
 	private Button btnBack;
@@ -214,7 +214,79 @@ public class ManagementTaskController {
 
 	@FXML
 	private Button btnDelete_E;
+	//
+	@FXML
+	private TextField textMotorbikeID_QNP;
 
+	@FXML
+	private TextField textMotorbikeNAME_QNP;
+
+	@FXML
+	private TextField textMotorbikeQUANTITY_QNP;
+
+	@FXML
+	private TextField textMotorbikePRICE_QNP;
+
+	@FXML
+	private Button btnSaveM_QNP;
+
+	@FXML
+	private TableView<Motorbike> tableMotorbike_QNP;
+	//
+	@FXML
+	private TextField textSupplierID;
+
+	@FXML
+	private TextField textSupplierName;
+
+	@FXML
+	private TextField textSupplierCountry;
+
+	@FXML
+	private TextField textSupplierAddress;
+
+	@FXML
+	private TextField textSupplierPhone;
+
+	@FXML
+	private TextField textSupplierTaxCode;
+
+	@FXML
+	private Button btnSaveSUP;
+
+	@FXML
+	private Button btnNewSup;
+
+	@FXML
+	private Button btnDeleteSup;
+
+	@FXML
+	private TableView<Supplier> tableSupplier;
+	private List<Supplier> listSupplier;
+
+	//
+
+	@FXML
+	private TextField textModelIDD;
+
+	@FXML
+	private TextField textModelNameD;
+
+	@FXML
+	private Button btnSaveModel;
+
+	@FXML
+	private Button btnNewModel;
+
+	@FXML
+	private Button btnDeleteModel;
+
+	@FXML
+	private TableView<Model> tableModel;
+
+	private List<Model> listModelT;
+
+	//
 	@FXML
 	void MAction(ActionEvent event) {
 		Object btn = event.getSource();
@@ -325,6 +397,11 @@ public class ManagementTaskController {
 	void reloadTable_M() {
 		tableMotorbike.getColumns().clear();
 		listM = new MotorbikeDAO().getAll(Motorbike.class);
+		listModel = new ModelDAO().getAll(Model.class);
+		listModelID = new ArrayList<>();
+		for (int i = 0; i < listModel.size(); i++) {
+			listModelID.add(listModel.get(i).getModelID());
+		}
 		loadMotorbike(listM);
 	}
 
@@ -541,6 +618,7 @@ public class ManagementTaskController {
 		for (int i = 0; i < listModel.size(); i++) {
 			listModelID.add(listModel.get(i).getModelID());
 		}
+		listModel = new ModelDAO().getAll(Model.class);
 		choiceMotorbike_YEAR.getItems().addAll(years);
 		choiceMotorbike_TYPE.getItems().addAll(types);
 		choiceMotorbike_SUP.getItems().addAll(suppliers_name);
@@ -1298,12 +1376,537 @@ public class ManagementTaskController {
 		btnDelete_E.setDisable(true);
 	}
 
+	void loadMotorbike_QNP(List<Motorbike> listmotorbike) {
+		///
+		TableColumn<Motorbike, Motorbike> colNumbered_M = new TableColumn<>("STT");
+		TableColumn<Motorbike, String> colID_M = new TableColumn<>("Mã xe");
+		TableColumn<Motorbike, String> colName_M = new TableColumn<>("Tên xe");
+		TableColumn<Motorbike, String> colQuantity = new TableColumn<>("Số Lượng");
+		TableColumn<Motorbike, String> colUnitPrice = new TableColumn<>("Đơn giá");
+		colNumbered_M.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Motorbike, Motorbike>, ObservableValue<Motorbike>>() {
+
+					@Override
+					public ObservableValue<Motorbike> call(CellDataFeatures<Motorbike, Motorbike> param) {
+						return new ReadOnlyObjectWrapper(param.getValue());
+					}
+				});
+		colNumbered_M
+				.setCellFactory(new Callback<TableColumn<Motorbike, Motorbike>, TableCell<Motorbike, Motorbike>>() {
+
+					@Override
+					public TableCell<Motorbike, Motorbike> call(TableColumn<Motorbike, Motorbike> param) {
+						return new TableCell<Motorbike, Motorbike>() {
+							@Override
+							protected void updateItem(Motorbike arg0, boolean arg1) {
+
+								super.updateItem(arg0, arg1);
+								if (this.getTableRow() != null && arg0 != null) {
+									setText(this.getTableRow().getIndex() + 1 + "");
+								} else {
+									setText("");
+								}
+							}
+						};
+					}
+				});
+		colNumbered_M.setSortable(false);
+		colID_M.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getProductID()));
+		colName_M.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getProductName()));
+		colQuantity.setCellValueFactory(
+				celldata -> new SimpleStringProperty(String.valueOf(celldata.getValue().getQuantity())));
+		colUnitPrice.setCellValueFactory(
+				celldata -> new SimpleStringProperty(String.format("%12.0f", celldata.getValue().getUnitPrice())));
+		ObservableList<Motorbike> items_M = FXCollections.observableArrayList(listmotorbike);
+		tableMotorbike_QNP.setItems(items_M);
+		tableMotorbike_QNP.getColumns().addAll(colNumbered_M, colID_M, colName_M, colQuantity, colUnitPrice);
+		tableMotorbike_QNP.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Motorbike>() {
+			@Override
+			public void changed(ObservableValue<? extends Motorbike> observable, Motorbike oldValue,
+					Motorbike newValue) {
+				if (newValue != null) {
+					clearField();
+					loadtoField_M_QNP(newValue);
+				}
+
+			}
+
+			void loadtoField_M_QNP(Motorbike motorbike) {
+				textMotorbikeID_QNP.setText(motorbike.getProductID());
+				textMotorbikeNAME_QNP.setText(motorbike.getProductName());
+				textMotorbikeQUANTITY_QNP.setText(String.valueOf(motorbike.getQuantity()));
+				textMotorbikePRICE_QNP.setText(String.format("%.0f", motorbike.getUnitPrice()));
+			}
+
+			void clearField() {
+				textMotorbikeID_QNP.clear();
+				textMotorbikeNAME_QNP.clear();
+				textMotorbikeQUANTITY_QNP.clear();
+				textMotorbikePRICE_QNP.clear();
+			}
+		});
+	}
+
+	void reloadTable_M_QNP() {
+		tableMotorbike_QNP.getColumns().clear();
+		listM = new MotorbikeDAO().getAll(Motorbike.class);
+		loadMotorbike_QNP(listM);
+	}
+
+	void Action_M_QNP() {
+		textMotorbikeQUANTITY_QNP.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue.isEmpty()) {
+					textMotorbikeQUANTITY_QNP.clear();
+				} else {
+					if (newValue.matches("\\d+(\\.\\d*)?|\\.\\d+")) {
+						int value = Integer.parseInt(newValue);
+					} else {
+						textMotorbikeQUANTITY_QNP.setText(oldValue);
+					}
+				}
+			}
+		});
+		textMotorbikePRICE_QNP.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue.isEmpty()) {
+					textMotorbikePRICE_QNP.clear();
+				} else {
+					if (newValue.matches("\\d+(\\.\\d*)?|\\.\\d+")) {
+						int value = Integer.parseInt(newValue);
+					} else {
+						textMotorbikePRICE_QNP.setText(oldValue);
+					}
+				}
+			}
+		});
+
+		btnSaveM_QNP.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (check()) {
+					Motorbike motorbike = tableMotorbike_QNP.getSelectionModel().getSelectedItem();
+					String id = textMotorbikeID_QNP.getText();
+					if ((new MotorbikeDAO().getById(Motorbike.class, id)) != null) {
+						new MotorbikeDAO().update(setM(motorbike));
+					}
+					reloadTable_M_QNP();
+				}
+			}
+
+			Motorbike setM(Motorbike motorbike) {
+				String quantity = textMotorbikeQUANTITY_QNP.getText();
+				String unitprice = textMotorbikePRICE_QNP.getText();
+				motorbike.setQuantity(Integer.valueOf(quantity));
+				motorbike.setUnitPrice(Double.valueOf(unitprice));
+				System.out.println(motorbike);
+				return motorbike;
+			}
+
+			boolean check() {
+				if (textMotorbikeID_QNP.getText().isEmpty()) {
+					textMotorbikeID_QNP.getStyleClass().add("error");
+					textMotorbikeID_QNP.requestFocus();
+					return false;
+				}
+				if (textMotorbikeNAME_QNP.getText().isEmpty()) {
+					textMotorbikeNAME_QNP.getStyleClass().add("error");
+					textMotorbikeNAME_QNP.requestFocus();
+					return false;
+				}
+				if (textMotorbikeQUANTITY_QNP.getText().isEmpty()) {
+					textMotorbikeQUANTITY_QNP.getStyleClass().add("error");
+					textMotorbikeQUANTITY_QNP.requestFocus();
+					return false;
+				}
+				if (textMotorbikePRICE_QNP.getText().isEmpty()) {
+					textMotorbikePRICE_QNP.getStyleClass().add("error");
+					textMotorbikePRICE_QNP.requestFocus();
+					return false;
+				}
+				return true;
+			}
+		});
+
+	}
+
+	void initTableMotorbike_QNP() {
+		listM = new MotorbikeDAO().getAll(Motorbike.class);
+		loadMotorbike_QNP(listM);
+		Action_M_QNP();
+	}
+
+	void loadSupplier(List<Supplier> listSupplier) {
+
+		///
+		TableColumn<Supplier, Supplier> colNumbered = new TableColumn<>("STT");
+		TableColumn<Supplier, String> colID = new TableColumn<>("Mã NCC");
+		TableColumn<Supplier, String> colName = new TableColumn<>("Tên NCC");
+		TableColumn<Supplier, String> colCountry = new TableColumn<>("Quốc gia");
+		TableColumn<Supplier, String> colAddress = new TableColumn<>("Địa chỉ");
+		TableColumn<Supplier, String> colPhone = new TableColumn<>("SDT");
+		TableColumn<Supplier, String> colTaxCode = new TableColumn<>("Mã Thuế");
+		colNumbered.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Supplier, Supplier>, ObservableValue<Supplier>>() {
+
+					@Override
+					public ObservableValue<Supplier> call(CellDataFeatures<Supplier, Supplier> param) {
+						return new ReadOnlyObjectWrapper(param.getValue());
+					}
+				});
+		colNumbered.setCellFactory(new Callback<TableColumn<Supplier, Supplier>, TableCell<Supplier, Supplier>>() {
+
+			@Override
+			public TableCell<Supplier, Supplier> call(TableColumn<Supplier, Supplier> param) {
+				return new TableCell<Supplier, Supplier>() {
+					@Override
+					protected void updateItem(Supplier arg0, boolean arg1) {
+
+						super.updateItem(arg0, arg1);
+						if (this.getTableRow() != null && arg0 != null) {
+							setText(this.getTableRow().getIndex() + 1 + "");
+						} else {
+							setText("");
+						}
+					}
+				};
+			}
+		});
+		colNumbered.setSortable(false);
+		colID.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getSupplierID()));
+		colName.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getSupplierName()));
+		colCountry.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getCountry()));
+		colAddress.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getAddress()));
+		colPhone.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getPhoneNumber()));
+		colPhone.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getTaxCode()));
+		ObservableList<Supplier> items = FXCollections.observableArrayList(listSupplier);
+		tableSupplier.setItems(items);
+		tableSupplier.getColumns().addAll(colNumbered, colID, colName, colCountry, colAddress, colTaxCode);
+		tableSupplier.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Supplier>() {
+			@Override
+			public void changed(ObservableValue<? extends Supplier> observable, Supplier oldValue, Supplier newValue) {
+				if (newValue != null) {
+					clearField();
+					loadtoField_M(newValue);
+				}
+
+			}
+
+			void loadtoField_M(Supplier suppliers) {
+				textSupplierID.setText(suppliers.getSupplierID());
+				textSupplierName.setText(suppliers.getSupplierName());
+				textSupplierPhone.setText(suppliers.getPhoneNumber());
+				textSupplierCountry.setText(suppliers.getCountry());
+				textSupplierAddress.setText(suppliers.getAddress());
+				textSupplierTaxCode.setText(suppliers.getTaxCode());
+			}
+
+			void clearField() {
+				textSupplierID.clear();
+				textSupplierName.clear();
+				textSupplierCountry.clear();
+				textSupplierPhone.clear();
+				textSupplierAddress.clear();
+				textSupplierTaxCode.clear();
+			}
+		});
+	}
+
+	void reloadTable_S() {
+		tableSupplier.getColumns().clear();
+		listSupplier = new SupplierDAO().getAll(Supplier.class);
+		loadSupplier(listSupplier);
+	}
+
+	void Action_S() {
+		textSupplierPhone.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue.isEmpty()) {
+					textSupplierPhone.clear();
+				} else {
+					if (newValue.matches("\\d+(\\.\\d*)?|\\.\\d+")) {
+						int value = Integer.parseInt(newValue);
+					} else {
+						textSupplierPhone.setText(oldValue);
+					}
+				}
+			}
+		});
+		btnNewSup.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				textSupplierID.clear();
+				textSupplierName.clear();
+				textSupplierCountry.clear();
+				textSupplierPhone.clear();
+				textSupplierAddress.clear();
+				textSupplierTaxCode.clear();
+				textSupplierID.requestFocus();
+			}
+		});
+		btnSaveSUP.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (check()) {
+					Supplier supplier;
+					String id = textSupplierID.getText();
+					if ((new SupplierDAO().getById(Supplier.class, id)) != null) {
+						supplier = new SupplierDAO().getById(Supplier.class, id);
+						new SupplierDAO().update(setS(supplier));
+					} else {
+						supplier = new Supplier();
+						new SupplierDAO().save(setS(supplier));
+					}
+					reloadTable_S();
+				}
+			}
+
+			Supplier setS(Supplier supplier) {
+				String id = textSupplierID.getText();
+				String name = textSupplierName.getText();
+				String country = textSupplierCountry.getText();
+				String address = textSupplierAddress.getText();
+				String phone = textSupplierPhone.getText();
+				String taxcode = textSupplierTaxCode.getText();
+				supplier.setSupplierID(id);
+				supplier.setSupplierName(name);
+				supplier.setCountry(country);
+				supplier.setAddress(address);
+				supplier.setPhoneNumber(phone);
+				supplier.setTaxCode(taxcode);
+				return supplier;
+			}
+
+			boolean check() {
+				if (textSupplierID.getText().isEmpty()) {
+					textSupplierID.getStyleClass().add("error");
+					textSupplierID.requestFocus();
+					return false;
+				}
+				if (textSupplierName.getText().isEmpty()) {
+					textSupplierName.getStyleClass().add("error");
+					textSupplierName.requestFocus();
+					return false;
+				}
+				if (textSupplierCountry.getText().isEmpty()) {
+					textSupplierCountry.getStyleClass().add("error");
+					textSupplierCountry.requestFocus();
+					return false;
+				}
+				if (textSupplierAddress.getText().isEmpty()) {
+					textSupplierAddress.getStyleClass().add("error");
+					textSupplierAddress.requestFocus();
+					return false;
+				}
+				if (textSupplierPhone.getText().isEmpty()) {
+					textSupplierPhone.getStyleClass().add("error");
+					textSupplierPhone.requestFocus();
+					return false;
+				}
+				if (textSupplierTaxCode.getText().isEmpty()) {
+					textSupplierTaxCode.getStyleClass().add("error");
+					textSupplierTaxCode.requestFocus();
+					return false;
+				}
+				textSupplierID.getStyleClass().remove("error");
+				textSupplierName.getStyleClass().remove("error");
+				textSupplierCountry.getStyleClass().remove("error");
+				textSupplierPhone.getStyleClass().remove("error");
+				textSupplierAddress.getStyleClass().remove("error");
+				textSupplierTaxCode.getStyleClass().remove("error");
+				return true;
+			}
+		});
+		btnDeleteSup.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Supplier selected = tableSupplier.getSelectionModel().getSelectedItem();
+				boolean check = new SupplierDAO().delete(selected);
+				if (check) {
+					ErrorAlert error = new ErrorAlert("Xóa thành công",
+							"Mã :" + selected.getSupplierID() + " đã được xóa.");
+					handler.setError(error);
+					reloadTable_S();
+					Main.newWindow("AlertMessage", "Thông báo");
+				}
+			}
+
+		});
+	}
+
+	void initTableSupplier() {
+		listSupplier = new SupplierDAO().getAll(Supplier.class);
+		loadSupplier(listSupplier);
+		Action_S();
+	}
+
+	void loadModel(List<Model> listModel) {
+
+		///
+		TableColumn<Model, Model> colNumbered = new TableColumn<>("STT");
+		TableColumn<Model, String> colID = new TableColumn<>("Mã Model");
+		TableColumn<Model, String> colName = new TableColumn<>("Tên Model");
+		colNumbered.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Model, Model>, ObservableValue<Model>>() {
+
+					@Override
+					public ObservableValue<Model> call(CellDataFeatures<Model, Model> param) {
+						return new ReadOnlyObjectWrapper(param.getValue());
+					}
+				});
+		colNumbered.setCellFactory(new Callback<TableColumn<Model, Model>, TableCell<Model, Model>>() {
+
+			@Override
+			public TableCell<Model, Model> call(TableColumn<Model, Model> param) {
+				return new TableCell<Model, Model>() {
+					@Override
+					protected void updateItem(Model arg0, boolean arg1) {
+
+						super.updateItem(arg0, arg1);
+						if (this.getTableRow() != null && arg0 != null) {
+							setText(this.getTableRow().getIndex() + 1 + "");
+						} else {
+							setText("");
+						}
+					}
+				};
+			}
+		});
+		colNumbered.setSortable(false);
+		colID.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getModelID()));
+		colName.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getName()));
+		ObservableList<Model> items = FXCollections.observableArrayList(listModel);
+		tableModel.setItems(items);
+		tableModel.getColumns().addAll(colNumbered, colID, colName);
+		tableModel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Model>() {
+			@Override
+			public void changed(ObservableValue<? extends Model> observable, Model oldValue, Model newValue) {
+				if (newValue != null) {
+					clearField();
+					loadtoField_Model(newValue);
+				}
+
+			}
+
+			void loadtoField_Model(Model model) {
+				textModelIDD.setText(model.getModelID());
+				textModelNameD.setText(model.getName());
+			}
+
+			void clearField() {
+				textModelIDD.clear();
+				textModelNameD.clear();
+			}
+		});
+	}
+
+	void reloadTable_Model() {
+		tableModel.getColumns().clear();
+		listModel = new ModelDAO().getAll(Model.class);
+		loadModel(listModel);
+	}
+
+	void Action_Model() {
+		btnNewModel.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				textModelIDD.clear();
+				textModelNameD.clear();
+				textModelIDD.requestFocus();
+			}
+		});
+		btnSaveModel.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (check()) {
+					Model model;
+					String id = textModelIDD.getText();
+					if ((new ModelDAO().getById(Model.class, id)) != null) {
+						model = new ModelDAO().getById(Model.class, id);
+						new ModelDAO().update(setModel(model));
+					} else {
+						model = new Model();
+						new ModelDAO().save(setModel(model));
+					}
+					reloadTable_Model();
+				}
+			}
+
+			Model setModel(Model model) {
+				String id = textModelIDD.getText();
+				String name = textModelNameD.getText();
+				model.setModelID(id);
+				model.setName(name);
+				return model;
+			}
+
+			boolean check() {
+				if (textModelIDD.getText().isEmpty()) {
+					textModelIDD.getStyleClass().add("error");
+					textModelIDD.requestFocus();
+					return false;
+				}
+				if (textModelNameD.getText().isEmpty()) {
+					textModelNameD.getStyleClass().add("error");
+					textModelNameD.requestFocus();
+					return false;
+				}
+				textModelNameD.getStyleClass().remove("error");
+				textModelIDD.getStyleClass().remove("error");
+				return true;
+			}
+		});
+		btnDeleteModel.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Model selected = tableModel.getSelectionModel().getSelectedItem();
+				boolean check = new ModelDAO().delete(selected);
+				if (check) {
+					ErrorAlert error = new ErrorAlert("Xóa thành công",
+							"Mã :" + selected.getModelID() + " đã được xóa.");
+					handler.setError(error);
+					reloadTable_S();
+					Main.newWindow("AlertMessage", "Thông báo");
+				}
+			}
+
+		});
+	}
+
+	void initTableModel() {
+		listModel = new ModelDAO().getAll(Model.class);
+		loadModel(listModel);
+		Action_Model();
+	}
+
+	void ReloadData() {
+		reloadTable_R();
+		reloadTable_M();
+	}
+
 	@FXML
 	void initialize() {
+		handler = Main.getHandler();
 		initTableMotorbike();
 		initTableReplacement();
 		initCustomerTable();
 		initEmployeeTable();
+		initTableMotorbike_QNP();
+		initTableSupplier();
+		initTableModel();
 	}
 
 }

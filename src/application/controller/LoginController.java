@@ -28,6 +28,9 @@ public class LoginController {
 	private Button btnAbout;
 
 	@FXML
+	private Button btnHelp;
+
+	@FXML
 	private TextField passwordText;
 
 	@FXML
@@ -41,6 +44,9 @@ public class LoginController {
 		}
 		if (btn == btnAbout) {
 			Main.newWindow("About", "About");
+		}
+		if (btn == btnHelp) {
+			Main.newWindow("Tutorial", "Hướng dẫn");
 		}
 	}
 

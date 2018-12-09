@@ -61,6 +61,7 @@ public class Main extends Application {
 		listUI.put("LoadingScreen", "/application/fxml/LoadingScreen.fxml");
 		listUI.put("AlertMessage", "/application/fxml/AlertMessage.fxml");
 		listUI.put("OrderView", "/application/fxml/OrderView.fxml");
+		listUI.put("Tutorial", "/application/fxml/TutorialView.fxml");
 		primaryStage.setWidth(WIDTH);
 		primaryStage.setHeight(HEIGTH);
 		newWindow("LoadingScreen", "Loading");

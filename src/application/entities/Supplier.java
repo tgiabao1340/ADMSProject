@@ -7,33 +7,28 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
-
 @Entity
 public class Supplier {
-	
+
 	@Id
-	@GenericGenerator(name = "sequence_sup_id", strategy = "application.entities.SupplierGen")
-	@GeneratedValue(generator = "sequence_sup_id")
-	@Column(name="SupplierID")
+	@Column(name = "SupplierID")
 	private String supplierID;
-	@Column(name="Country",columnDefinition="nvarchar(30)")
+	@Column(name = "Country", columnDefinition = "nvarchar(30)")
 	private String country;
-	@Column(name="SupplierName",columnDefinition="nvarchar(50)")
+	@Column(name = "SupplierName", columnDefinition = "nvarchar(50)")
 	private String supplierName;
-	@Column(name="Address",columnDefinition="nvarchar(50)")
+	@Column(name = "Address", columnDefinition = "nvarchar(50)")
 	private String address;
-	@Column(name="PhoneNumber")
+	@Column(name = "PhoneNumber")
 	private String phoneNumber;
-	@Column(name="TaxCode")
+	@Column(name = "TaxCode")
 	private String taxCode;
-	
-	
+
 	public Supplier() {
 		super();
 	}
-	
-	public Supplier(String country, String supperName, String address, String phoneNumber,String taxCode) {
+
+	public Supplier(String country, String supperName, String address, String phoneNumber, String taxCode) {
 		super();
 		this.country = country;
 		this.supplierName = supperName;
@@ -41,7 +36,6 @@ public class Supplier {
 		this.phoneNumber = phoneNumber;
 		this.taxCode = taxCode;
 	}
-	
 
 	public String getSupplierID() {
 		return supplierID;
@@ -121,10 +115,5 @@ public class Supplier {
 		return "Supplier [supplierID=" + supplierID + ", country=" + country + ", supperName=" + supplierName
 				+ ", address=" + address + ", phoneNumber=" + phoneNumber + "]";
 	}
-
-	
-	
-	
-	
 
 }
