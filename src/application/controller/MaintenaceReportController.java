@@ -1,14 +1,19 @@
 package application.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import application.ErrorAlert;
 import application.Handler;
 import application.Main;
+import application.daos.EmployeeDAO;
+import application.daos.MaintenanceReportDAO;
 import application.daos.ReplacementDAO;
 import application.daos.SupplierDAO;
+import application.entities.Employee;
 import application.entities.MaintenanceReport;
 import application.entities.MaintenanceReportDetail;
 import application.entities.Model;
@@ -120,7 +125,20 @@ public class MaintenaceReportController {
 		List<Supplier> listsup = new SupplierDAO().getAll(Supplier.class);
 		List<Model> listModel = new ArrayList<>();
 		listrp = new ArrayList<>();
+		choiceReplacement.setConverter(new StringConverter<Replacement>() {
 
+			@Override
+			public Replacement fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String toString(Replacement object) {
+				// TODO Auto-generated method stub
+				return object.getProductName();
+			}
+		});
 		choiceSupplier.getItems().setAll(listsup);
 		choiceSupplier.setConverter(new StringConverter<Supplier>() {
 
@@ -208,13 +226,13 @@ public class MaintenaceReportController {
 
 			@Override
 			public void commitEdit(String newValue) {
-				System.out.println(newValue);
 				super.commitEdit(newValue);
 				for (int i = 0; i < list.size(); i++) {
 					if (newValue.chars().allMatch(Character::isDigit)) {
 						if (list.get(i).equals(tableMaintenaceReportDetail.getSelectionModel().getSelectedItem())) {
 							list.get(i).setUnitPrice(Double.valueOf(newValue));
 							reloadTable(list);
+							loadTotal(list);
 							super.commitEdit(newValue);
 						}
 					}
@@ -300,13 +318,15 @@ public class MaintenaceReportController {
 					System.out.println(choiceReplacement.getSelectionModel().getSelectedItem());
 					MaintenanceReportDetail maintenanceReportDetail = new MaintenanceReportDetail();
 					maintenanceReportDetail.setMaintenanceReport(rp);
+					System.out.println(maintenanceReportDetail);
 					maintenanceReportDetail.setReplacement(choiceReplacement.getSelectionModel().getSelectedItem());
 					maintenanceReportDetail
 							.setUnitPrice(choiceReplacement.getSelectionModel().getSelectedItem().getUnitPrice());
 					maintenanceReportDetail.setQuantity(1);
 					list_detail.add(maintenanceReportDetail);
 					rp.setDetails(list_detail);
-					// loadTotal(list_detail);
+					loadTotal(list_detail);
+
 					clearSection();
 					reloadTable(list_detail);
 					for (int i = 0; i < list_detail.size(); i++) {
@@ -332,25 +352,76 @@ public class MaintenaceReportController {
 				// TODO Auto-generated method stub
 				MaintenanceReportDetail selected = tableMaintenaceReportDetail.getSelectionModel().getSelectedItem();
 				list_detail.remove(selected);
-				// loadTotal(list_detail);
+				loadTotal(list_detail);
 				reloadTable(list_detail);
 			}
 		});
+		btnCheckout.setOnAction(new EventHandler<ActionEvent>() {
 
+			@Override
+			public void handle(ActionEvent event) {
+				if (checkOrder()) {
+					MaintenanceReportDAO mdao = new MaintenanceReportDAO();
+					mdao.save(rp);
+					System.out.println(rp);
+					// reload_Stock(od.getListItems());
+					Main.changeLayout("EmployeeUI");
+				}
+			}
+
+			boolean checkOrder() {
+				if (rp.getDetails() == null || rp.getDetails().size() == 0) {
+					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa có linh kiện trong danh sách");
+					handler.setError(error);
+					Main.newWindow("AlertMessage", "Thông báo");
+					return false;
+				}
+				return true;
+			}
+		});
 	}
 
-	void loadTotal(List<OrderDetail> list) {
+	void loadTotal(List<MaintenanceReportDetail> list) {
 		textTax.setText("");
 		double total = 0;
-		double tax = 0;
-		total += od.getSubTotal();
-		tax += od.getTotalVAT();
-		textTax.setText(String.format("%,12.0f VND", tax));
+		total += rp.getTotal();
+		textTax.setText(String.format("0 VND"));
 		textTotal.setText(String.format("%,12.0f VND", total));
 	}
 
 	@FXML
 	void initialize() {
+		rp = new MaintenanceReport();
+		handler = Main.getHandler();
+		MaintenanceReportDAO mdao = new MaintenanceReportDAO();
+		List<MaintenanceReport> list = mdao.getAll(MaintenanceReport.class);
+		///
+		if (!list.isEmpty()) {
+			String odlast = list.get(list.size() - 1).getMaintenanceReportID();
+			String prefix = odlast.substring(0, 2);
+			int numberOd = Integer.valueOf((odlast.substring(2, odlast.length())));
+			String odID = prefix + String.format("%04d", numberOd + 1);
+			textMaintenaceReportID.setText(odID);
+		} else {
+			textMaintenaceReportID.setText("RM000");
+		}
+
+		///
+		List<OrderDetail> listod = new ArrayList<>();
+		///
+		LocalDate date = LocalDate.now();
+		textDate.setValue(date);
+		rp.setDate(date);
+		textDate.setDisable(true);
+		//
+		String storename = "YAMAHA HOANGCAU";
+		textStoreName.setText(storename);
+		// Employee
+		EmployeeDAO emdao = new EmployeeDAO();
+		Employee emp = emdao.findByAc(handler.getAccount_using());
+		rp.setEmployee(emp);
+		//
+		textEmployeeID.setText(emp.getLastName() + " " + emp.getFirstName());
 		loadData();
 		Action();
 	}
