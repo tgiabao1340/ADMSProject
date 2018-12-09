@@ -54,9 +54,12 @@ public class FormHD {
 
 	public void formOrder(String url) throws InvalidFormatException {
 
-        try {
+		try {
+
             //Bước 1: Khởi tạo đối tượng để sinh ra file word
+
             XWPFDocument document = new XWPFDocument();
+
             //Bước 2: Tạo tiêu đề bài viết
          
             XWPFParagraph titleGraph2 = document.createParagraph();           
@@ -135,70 +138,69 @@ public class FormHD {
             para9Run.setText(dataPara9);
                                   
             XWPFTable table = document.createTable();
-           
-    		
+          //  CTTblWidth width = table.getCTTbl().addNewTblPr().addNewTblW();
+
+           // width.setType(STTblWidth.DXA);
+         //  width.setW(BigInteger.valueOf(1500));
+    
             XWPFTableRow tableRowOne = table.getRow(0);
             tableRowOne.getCell(0).setText("STT");
-            tableRowOne.addNewTableCell().setText("Tên Sản Phẩm");
-            tableRowOne.addNewTableCell().setText("Số lượng");
-            tableRowOne.addNewTableCell().setText("Màu sắc");
-            tableRowOne.addNewTableCell().setText("Thành tiền");
+            tableRowOne.addNewTableCell().setText("Tên Sản Phẩm" + Space(100));
+            tableRowOne.addNewTableCell().setText("Số lượng" + Space(50));
+            tableRowOne.addNewTableCell().setText("Màu sắc" + Space(50));
+            tableRowOne.addNewTableCell().setText("Thành tiền" + Space(50));
                       
            List<OrderDetail> details = order.getListItems();
-           for (int i = 0; i < details.size();i++) {
+           for (int m = 0; m < details.size();m++) {
         	   
-        	Motorbike b = details.get(i).getMotorbike();
+        	Motorbike b = details.get(m).getMotorbike();
         	
-        	 String stt = String.valueOf(i+1);
+        	 String stt = String.valueOf(m+1);
        	  	 XWPFTableRow tableRowTwo = table.createRow();
              tableRowTwo.getCell(0).setText(stt);
-     //      tableRowTwo.getCell(0).setVerticalAlignment();
              String name = b.getProductName();
              tableRowTwo.getCell(1).setText(name);
-             String qty = String.valueOf(new Long(details.get(i).getQuantity()));
+             String qty = String.valueOf(new Long(details.get(m).getQuantity()));
              tableRowTwo.getCell(2).setText(qty);
-             String col = details.get(i).getColor();
+             String col = details.get(m).getColor();
              tableRowTwo.getCell(3).setText(col);
-             String x = String.format("%,d",details.get(i).getSubTotal());             
+             long m0 = (long) details.get(m).getUnitPrice();
+             String x = String.format("%,d",m0);             
              tableRowTwo.getCell(4).setText(x + "VND");		
 		}
+
+     
            List<OrderDetail> details1 = order.getListItems();
            long y= 0;
-           for (int i = 0; i < details1.size();i++) {
+           for (int ie = 0; ie < details1.size();ie++) {
         	   
-        		   y+= details1.get(i).getSubTotal();
+        		   y+= details1.get(ie).getUnitPrice();
         		         		  
            }
            String x = String.format("%,d",y);
            XWPFParagraph para13 = document.createParagraph();
-           String dataPara13 ="------------------------------------------------"+"Tổng tiền hàng:"+"\n\n"+x +"VND";      
+           String dataPara13 ="Tổng tiền hàng:"+"\n\n"+x +"VND";      
            XWPFRun para13Run = para13.createRun();
            para13Run.setText(dataPara13);
         		          	              
-           
-           XWPFParagraph para14 = document.createParagraph();
-           String dataPara14 = "*Thuế suất(10%):" +"\n\n"+order.getTotalVAT()+"\n\n.";      
-           XWPFRun para14Run = para14.createRun();
-           para14Run.setText(dataPara14);
-           
            long tt=order.getTotalVAT();
            String x1 = String.format("%,d",tt);
-           XWPFParagraph para15 = document.createParagraph();
-           String dataPara15 ="------------------------------------------------"+"Tổng tiền thuế:"+"\n\n"+x1 +"VND";      
-           XWPFRun para15Run = para15.createRun();
-           para15Run.setText(dataPara15);
-           
+           XWPFParagraph para14 = document.createParagraph();
+           String dataPara14 = "Tiền thuế phải trả :"+"\n\n"+x1 +"VND"+"(Thuế suất 10%)";      
+           XWPFRun para14Run = para14.createRun();
+           para14Run.setText(dataPara14);
+                   
            XWPFParagraph para10 = document.createParagraph();
            long T = y+tt;
            String TT = String.format("%,d"+ "VND",T);
-           String dataPara10 = "------------------------------------------------"+"Tổng cộng tiền thanh toán:"+"\n\n" +TT;      
+           String dataPara10 ="Tổng cộng tiền thanh toán:"+"\n\n" +TT;      
            XWPFRun para10Run = para10.createRun();
            para10Run.setText(dataPara10);
            
   
            String tienchu =numberToString(T);
            XWPFParagraph para12 = document.createParagraph();
-           String dataPara12 = "Số tiền viết bằng chữ:"+"\n\n"+tienchu;      
+           String dataPara12 = "Số tiền viết bằng chữ:"+"\n\n"+tienchu + ".";      
            XWPFRun para12Run = para12.createRun();
            para12Run.setText(dataPara12);
  
@@ -411,6 +413,13 @@ public class FormHD {
 	        sb.append(s);
 	    }
 	    return sb.toString();
+	  }
+	  String Space(int n) {
+		  String y = " ";
+		  for (int i = 0; i < n; i++) {
+			y+=" ";
+		}
+		return y;
 	  }
 
 }

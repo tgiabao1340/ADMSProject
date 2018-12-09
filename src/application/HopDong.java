@@ -3,6 +3,7 @@ package application;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public class HopDong {
 	    }
 	    public void formHopDong(OrderDetail dt, String n, String url) throws InvalidFormatException {
 
-	        try {
+	    	try {
 
 	            //Bước 1: Khởi tạo đối tượng để sinh ra file word
 
@@ -82,7 +83,7 @@ public class HopDong {
 	            titleRun3.setText(title3);
 	            
 	            XWPFParagraph para1 = document.createParagraph();        
-	            String dataPara1 = "Hôm nay,"+"Ngày"+ "\n\n"+ order.getDate().getDayOfMonth()+"\n\n" + "Tháng"+"\n\n"+order.getDate().getMonthValue()+"\n\n"+"Năm"+"\n\n"+order.getDate().getYear()+"tại TPHCM , chúng tôi gồm có: ";
+	            String dataPara1 = "Hôm nay,"+"ngày"+ "\n\n"+ order.getDate().getDayOfMonth()+"\n\n" + "tháng"+"\n\n"+order.getDate().getMonthValue()+"\n\n"+"năm"+"\n\n"+order.getDate().getYear()+"\n\n"+"tại TPHCM , chúng tôi gồm có: ";
 	            XWPFRun para1Run = para1.createRun();
 	            para1Run.setText(dataPara1);
 	            
@@ -92,14 +93,21 @@ public class HopDong {
 	            XWPFRun titleRun4 = titleGraph4.createRun();
 	            titleRun4.setBold(true);
 	            titleRun4.setText(title4);
+	            
+	            XWPFParagraph para26 = document.createParagraph();        
+	            String dataPara26 = "Đơn vị bán hàng: CÔNG TY TNHH HOÀNG CẦU";
+	            XWPFRun para26Run = para26.createRun();
+	            para26Run.setText(dataPara26);
 
 	            XWPFParagraph para2 = document.createParagraph();        
 	            String dataPara2 = "Ông(Bà):"+"\n\n"+order.getEmployee().getLastName()+"\n"+order.getEmployee().getFirstName();
 	            XWPFRun para2Run = para2.createRun();
 	            para2Run.setText(dataPara2);
 	            
+	            DateTimeFormatter fm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            
 	            XWPFParagraph para3 = document.createParagraph();       
-	            String dataPara3 = "Năm sinh:"+"\n\n" + order.getEmployee().getDateOfBirth();
+	            String dataPara3 = "Ngày sinh:"+"\n\n" + order.getEmployee().getDateOfBirth().format(fm);
 	            XWPFRun para3Run = para3.createRun();
 	            para3Run.setText(dataPara3);
 	            
@@ -126,7 +134,7 @@ public class HopDong {
 	            para5Run.setText(dataPara5);
 	            
 	            XWPFParagraph para6 = document.createParagraph();       
-	            String dataPara6 = "Năm sinh:"+"\n\n" + order.getCustomer().getDateOfBirth();
+	            String dataPara6 = "Ngày sinh:"+"\n\n" + order.getCustomer().getDateOfBirth().format(fm);
 	            XWPFRun para6Run = para6.createRun();
 	            para6Run.setText(dataPara6);
 	            
@@ -134,6 +142,11 @@ public class HopDong {
 	            String dataPara7 = "Điện thoại:"+"\n\n" + order.getCustomer().getPhoneNumber();
 	            XWPFRun para7Run = para7.createRun();
 	            para7Run.setText(dataPara7);
+	            
+	            XWPFParagraph para20 = document.createParagraph();       
+	            String dataPara20 = "CMND:"+"\n\n" + order.getCustomer().getIdCard()+", cấp ngày:" + order.getCustomer().getIdCardDate().format(fm)+"\n\n"+ "tại \n\n" + order.getCustomer().getPermanentAddress();
+	            XWPFRun para20Run = para20.createRun();
+	            para20Run.setText(dataPara20);
 	            
 	            XWPFParagraph para9 = document.createParagraph();       
 	            String dataPara9 = "Địa chỉ:"+"\n\n" + order.getCustomer().getAddress();
@@ -155,9 +168,35 @@ public class HopDong {
 	            List<OrderDetail> details = order.getListItems();
 	            XWPFParagraph para11 = document.createParagraph();   
 	            Motorbike m =dt.getMotorbike();
-	            String dataPara11 = "Bên bán là chủ sở hữu của chiếc xe máy/xe môtô nhãn hiệu:"+m.getProductName()+". Loại xe:" + "\n\n"+m.getType()+". \n Màu sắc"+"\n\n"+dt.getColor() ;
+	            String dataPara11 = "Nhãn hiệu:"+m.getProductName();
 	            XWPFRun para11Run = para11.createRun();
 	            para11Run.setText(dataPara11);
+	            
+	            XWPFParagraph para21 = document.createParagraph();   
+	        //   Motorbike m =dt.getMotorbike();
+	            String dataPara21 ="Loại xe:" + "\n\n"+m.getType();
+	            XWPFRun para21Run = para21.createRun();
+	            para21Run.setText(dataPara21);
+	            
+	            XWPFParagraph para22 = document.createParagraph();   
+	            String dataPara22 = "Màu sắc:"+"\n\n"+dt.getColor();
+	            XWPFRun para22Run = para22.createRun();
+	            para22Run.setText(dataPara22);
+	            
+	            XWPFParagraph para23 = document.createParagraph();   
+	            String dataPara23 = "Số khung/số máy:"+"\n\n"+dt.getChassisNo();
+	            XWPFRun para23Run = para23.createRun();
+	            para23Run.setText(dataPara23);
+	            
+	            XWPFParagraph para24 = document.createParagraph();   
+	            String dataPara24 = "Năm sản xuất:"+"\n\n"+m.getManufactureYear();
+	            XWPFRun para24Run = para24.createRun();
+	            para24Run.setText(dataPara24);
+	            
+	            XWPFParagraph para25 = document.createParagraph();   
+	            String dataPara25 = "Dung tích xi lanh:"+"\n\n"+m.getCapacity();
+	            XWPFRun para25Run = para25.createRun();
+	            para25Run.setText(dataPara25);
 	            
 	            XWPFParagraph titleGraph7 = document.createParagraph();
 	            titleGraph7.setAlignment(ParagraphAlignment.LEFT);
@@ -166,16 +205,6 @@ public class HopDong {
 	            titleRun7.setBold(true);
 	            titleRun7.setText(title7);
 	            
-//	            List<OrderDetail> details1 = order.getListItems();
-//	            long y= 0;
-//	            for (int i = 0; i < details1.size();i++) {
-//	         	   
-//	         		   y+= details1.get(i).getSubTotal();
-//	         		         		  
-//	            }
-//	            long tt=order.getTotalVAT()+order.getTotalReg();
-//	            long T = y+tt;
-//	            String TT = String.format("%,d",T+ "VND");
 	            XWPFParagraph para12 = document.createParagraph();       
 	            String dataPara12 = "2.1. Bên bán đồng ý bán và Bên mua đồng ý mua chiếc xe nói trên như hiện trạng với giá là:"+"đồng và không thay đổi vì bất kỳ lý do gì." ;
 	            XWPFRun para12Run = para12.createRun();
@@ -236,6 +265,13 @@ public class HopDong {
 	            XWPFRun titleRun10 = titleGraph10.createRun();
 	            titleRun10.setBold(true);
 	            titleRun10.setText(title10);
+	            
+	            XWPFParagraph titleGraph11 = document.createParagraph();           
+	            titleGraph11.setAlignment(ParagraphAlignment.LEFT);
+	            String title11 = "(Kí, ghi rõ họ tên)"+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+"(Kí,ghi rõ họ tên)";  
+	            XWPFRun titleRun11 = titleGraph11.createRun();
+	            titleRun11.setBold(true);
+	            titleRun11.setText(title11);
 	            
 	            //Bước 4: Ghi dữ liệu ra file word         
 	            String s= order.getOrderID().toString() +"_"+ order.getDate().toString() + "_HopDong_" + n ;
