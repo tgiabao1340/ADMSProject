@@ -41,11 +41,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-<<<<<<< HEAD
-=======
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
->>>>>>> parent of 5c39366... Revert "UpdateStatictist"
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -67,35 +64,35 @@ public class ManagementTaskController {
 	List<Model> listModel = new ArrayList<>();
 	@FXML
 	private Button btnBack;
-    @FXML
-    private RadioButton radToday;
+	@FXML
+	private RadioButton radToday;
 
-    @FXML
-    private RadioButton radioThisMonth;
+	@FXML
+	private RadioButton radioThisMonth;
 
-    @FXML
-    private RadioButton radThisYear;
+	@FXML
+	private RadioButton radThisYear;
 
-    @FXML
-    private RadioButton radCustom;
+	@FXML
+	private RadioButton radCustom;
 
-    @FXML
-    private DatePicker datePickFrom;
+	@FXML
+	private DatePicker datePickFrom;
 
-    @FXML
-    private DatePicker datePickTo;
+	@FXML
+	private DatePicker datePickTo;
 
-    @FXML
-    private Label lbSaleNoTax;
+	@FXML
+	private Label lbSaleNoTax;
 
-    @FXML
-    private Label lbSaleTax;
+	@FXML
+	private Label lbSaleTax;
 
-    @FXML
-    private Label lbSaleWithTax;
+	@FXML
+	private Label lbSaleWithTax;
 
-    @FXML
-    private Label lbSumOfOrder;
+	@FXML
+	private Label lbSumOfOrder;
 
 	@FXML
 	private TextField textMotorbike_ID;
@@ -1948,6 +1945,7 @@ public class ManagementTaskController {
 		reloadTable_R();
 		reloadTable_M();
 	}
+
 	void SaleOrder() {
 		ToggleGroup gr = new ToggleGroup();
 		radToday.setToggleGroup(gr);
@@ -1956,7 +1954,7 @@ public class ManagementTaskController {
 		radCustom.setToggleGroup(gr);
 		datePickFrom.setDisable(true);
 		datePickTo.setDisable(true);
-		radToday.setOnAction(e->{
+		radToday.setOnAction(e -> {
 			List<Order> orders = new OrderDAO().getByDate(LocalDate.now());
 			long saleNoTax = 0l;
 			long saleTax = 0l;
@@ -1967,16 +1965,16 @@ public class ManagementTaskController {
 				saleTax += orders.get(i).getTotalVAT();
 				saleWithTax += orders.get(i).getSubTotal();
 			}
-			sumOfOrder+=new OrderDAO().sumOfOrderByDate(LocalDate.now());
-			lbSaleNoTax.setText(String.format("%,d",saleNoTax));
-			lbSaleTax.setText(String.format("%,d",saleTax));
-			lbSaleWithTax.setText(String.format("%,d",saleWithTax));
-			lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+			sumOfOrder += new OrderDAO().sumOfOrderByDate(LocalDate.now());
+			lbSaleNoTax.setText(String.format("%,d", saleNoTax));
+			lbSaleTax.setText(String.format("%,d", saleTax));
+			lbSaleWithTax.setText(String.format("%,d", saleWithTax));
+			lbSumOfOrder.setText(String.valueOf(sumOfOrder));
 			datePickFrom.setDisable(true);
 			datePickTo.setDisable(true);
 		});
 
-		radioThisMonth.setOnAction(e->{
+		radioThisMonth.setOnAction(e -> {
 			List<Order> orders = new OrderDAO().getByMonth(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
 			long saleNoTax = 0l;
 			long saleTax = 0l;
@@ -1987,15 +1985,15 @@ public class ManagementTaskController {
 				saleTax += orders.get(i).getTotalVAT();
 				saleWithTax += orders.get(i).getSubTotal();
 			}
-			sumOfOrder+=new OrderDAO().sumOfOrderByMonth(LocalDate.now());
-			lbSaleNoTax.setText(String.format("%,d",saleNoTax));
-			lbSaleTax.setText(String.format("%,d",saleTax));
-			lbSaleWithTax.setText(String.format("%,d",saleWithTax));
-			lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+			sumOfOrder += new OrderDAO().sumOfOrderByMonth(LocalDate.now());
+			lbSaleNoTax.setText(String.format("%,d", saleNoTax));
+			lbSaleTax.setText(String.format("%,d", saleTax));
+			lbSaleWithTax.setText(String.format("%,d", saleWithTax));
+			lbSumOfOrder.setText(String.valueOf(sumOfOrder));
 			datePickFrom.setDisable(true);
 			datePickTo.setDisable(true);
 		});
-		radThisYear.setOnAction(e->{
+		radThisYear.setOnAction(e -> {
 			List<Order> orders = new OrderDAO().getByYear(LocalDate.now().getYear());
 			long saleNoTax = 0l;
 			long saleTax = 0l;
@@ -2006,16 +2004,16 @@ public class ManagementTaskController {
 				saleTax += orders.get(i).getTotalVAT();
 				saleWithTax += orders.get(i).getSubTotal();
 			}
-			sumOfOrder+=new OrderDAO().sumOfOrderByMonth(LocalDate.now());
-			lbSaleNoTax.setText(String.format("%,d",saleNoTax));
-			lbSaleTax.setText(String.format("%,d",saleTax));
-			lbSaleWithTax.setText(String.format("%,d",saleWithTax));
-			lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
+			sumOfOrder += new OrderDAO().sumOfOrderByMonth(LocalDate.now());
+			lbSaleNoTax.setText(String.format("%,d", saleNoTax));
+			lbSaleTax.setText(String.format("%,d", saleTax));
+			lbSaleWithTax.setText(String.format("%,d", saleWithTax));
+			lbSumOfOrder.setText(String.valueOf(sumOfOrder));
 			datePickFrom.setDisable(true);
 			datePickTo.setDisable(true);
 
 		});
-		radCustom.setOnAction(e->{
+		radCustom.setOnAction(e -> {
 			datePickFrom.setDisable(false);
 			datePickTo.setDisable(false);
 
@@ -2024,8 +2022,9 @@ public class ManagementTaskController {
 
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if(check()) {
-					List<Order> orders = new OrderDAO().getFromDatetoDate(datePickFrom.getValue(),datePickTo.getValue());
+				if (check()) {
+					List<Order> orders = new OrderDAO().getFromDatetoDate(datePickFrom.getValue(),
+							datePickTo.getValue());
 					long saleNoTax = 0l;
 					long saleTax = 0l;
 					long saleWithTax = 0l;
@@ -2035,25 +2034,26 @@ public class ManagementTaskController {
 						saleTax += orders.get(i).getTotalVAT();
 						saleWithTax += orders.get(i).getSubTotal();
 					}
-					sumOfOrder+=new OrderDAO().sumOfOrderFromDateToDate(datePickFrom.getValue(), datePickTo.getValue());
-					lbSaleNoTax.setText(String.format("%,d",saleNoTax));
-					lbSaleTax.setText(String.format("%,d",saleTax));
-					lbSaleWithTax.setText(String.format("%,d",saleWithTax));
-					lbSumOfOrder.setText(String.valueOf(sumOfOrder));	
-					
+					sumOfOrder += new OrderDAO().sumOfOrderFromDateToDate(datePickFrom.getValue(),
+							datePickTo.getValue());
+					lbSaleNoTax.setText(String.format("%,d", saleNoTax));
+					lbSaleTax.setText(String.format("%,d", saleTax));
+					lbSaleWithTax.setText(String.format("%,d", saleWithTax));
+					lbSumOfOrder.setText(String.valueOf(sumOfOrder));
+
 				}
-				
+
 			}
 		});
-	
+
 	}
+
 	boolean check() {
-		if (datePickFrom.getValue()==null) {
+		if (datePickFrom.getValue() == null) {
 			datePickFrom.getStyleClass().add("error");
 			datePickFrom.requestFocus();
 			return false;
-		}
-		else {
+		} else {
 			if (datePickFrom.getValue().isAfter(datePickTo.getValue())) {
 				datePickFrom.getStyleClass().add("error");
 				datePickTo.getStyleClass().add("error");
@@ -2061,7 +2061,7 @@ public class ManagementTaskController {
 				return false;
 			}
 		}
-		
+
 		datePickFrom.getStyleClass().remove("error");
 		datePickTo.getStyleClass().remove("error");
 		return true;
@@ -2078,7 +2078,7 @@ public class ManagementTaskController {
 		initTableSupplier();
 		initTableModel();
 		SaleOrder();
-		
+
 	}
 
 }

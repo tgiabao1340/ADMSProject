@@ -292,15 +292,9 @@
                                                                                                 <Insets />
                                                                                              </VBox.margin>
                                                                                           </Label>
-<<<<<<< HEAD
-                                                                                          <HBox>
-                                                                                             <children>
-                                                                                                <ChoiceBox fx:id="choiceReplacement_SUP" prefWidth="150.0" />
-                                                                                             </children>
-                                                                                          </HBox>
-=======
+                                                                                          <HBox />
                                                                                           <ChoiceBox fx:id="choiceReplacement_SUP" prefHeight="39.0" prefWidth="226.0" />
->>>>>>> parent of 5c39366... Revert "UpdateStatictist"
+
                                                                                        </children>
                                                                                     </VBox>
       																									</children>

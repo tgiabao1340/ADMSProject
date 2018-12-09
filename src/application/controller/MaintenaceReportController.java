@@ -12,6 +12,7 @@ import application.daos.SupplierDAO;
 import application.entities.MaintenanceReport;
 import application.entities.MaintenanceReportDetail;
 import application.entities.Model;
+import application.entities.OrderDetail;
 import application.entities.Replacement;
 import application.entities.Supplier;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -21,6 +22,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -289,11 +291,67 @@ public class MaintenaceReportController {
 	}
 
 	void Action() {
+		List<MaintenanceReportDetail> list_detail = new ArrayList<>();
+		btnAddReplacement.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				if (choiceReplacement.getSelectionModel().getSelectedItem() != null) {
+					System.out.println(choiceReplacement.getSelectionModel().getSelectedItem());
+					MaintenanceReportDetail maintenanceReportDetail = new MaintenanceReportDetail();
+					maintenanceReportDetail.setMaintenanceReport(rp);
+					maintenanceReportDetail.setReplacement(choiceReplacement.getSelectionModel().getSelectedItem());
+					maintenanceReportDetail
+							.setUnitPrice(choiceReplacement.getSelectionModel().getSelectedItem().getUnitPrice());
+					maintenanceReportDetail.setQuantity(1);
+					list_detail.add(maintenanceReportDetail);
+					rp.setDetails(list_detail);
+					// loadTotal(list_detail);
+					clearSection();
+					reloadTable(list_detail);
+					for (int i = 0; i < list_detail.size(); i++) {
+						System.out.println(list_detail.get(i).toString());
+					}
 
+				} else {
+					// Messomething
+				}
+			}
+
+			private void clearSection() {
+				choiceSupplier.getSelectionModel().clearSelection();
+				choiceReplacement.getSelectionModel().clearSelection();
+				choiceModel.getSelectionModel().clearSelection();
+			}
+
+		});
+		btnRemoveReplacement.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				MaintenanceReportDetail selected = tableMaintenaceReportDetail.getSelectionModel().getSelectedItem();
+				list_detail.remove(selected);
+				// loadTotal(list_detail);
+				reloadTable(list_detail);
+			}
+		});
+
+	}
+
+	void loadTotal(List<OrderDetail> list) {
+		textTax.setText("");
+		double total = 0;
+		double tax = 0;
+		total += od.getSubTotal();
+		tax += od.getTotalVAT();
+		textTax.setText(String.format("%,12.0f VND", tax));
+		textTotal.setText(String.format("%,12.0f VND", total));
 	}
 
 	@FXML
 	void initialize() {
 		loadData();
+		Action();
 	}
 }
