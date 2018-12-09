@@ -1,31 +1,17 @@
 package application.controller;
 
-import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import application.ErrorAlert;
 import application.Handler;
 import application.Main;
-import application.daos.CustomerDAO;
-import application.daos.EmployeeDAO;
-import application.daos.MaintenanceReportDAO;
-import application.daos.MotorbikeDAO;
-import application.daos.OrderDAO;
 import application.daos.ReplacementDAO;
 import application.daos.SupplierDAO;
-import application.entities.Customer;
-import application.entities.Employee;
 import application.entities.MaintenanceReport;
 import application.entities.MaintenanceReportDetail;
-import application.entities.Motorbike;
-import application.entities.Order;
-import application.entities.OrderDetail;
+import application.entities.Model;
 import application.entities.Replacement;
 import application.entities.Supplier;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -35,10 +21,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -46,75 +30,75 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 public class MaintenaceReportController {
 	Handler handler;
 	MaintenanceReport rp;
-	
-	 @FXML
-	    private TextField textMaintenaceReportID;
+	List<Replacement> listrp;
+	@FXML
+	private TextField textMaintenaceReportID;
 
-	    @FXML
-	    private DatePicker textDate;
+	@FXML
+	private DatePicker textDate;
 
-	    @FXML
-	    private TextField textStoreName;
+	@FXML
+	private TextField textStoreName;
 
-	    @FXML
-	    private TextField textEmployeeID;
+	@FXML
+	private TextField textEmployeeID;
 
-	    @FXML
-	    private TextField textCustomer;
+	@FXML
+	private TextField textCustomer;
 
-	    @FXML
-	    private Button btnAddCustomer;
+	@FXML
+	private Button btnAddCustomer;
 
-	    @FXML
-	    private Label textCustomerName;
+	@FXML
+	private Label textCustomerName;
 
-	    @FXML
-	    private Label textCustomerPhone;
+	@FXML
+	private Label textCustomerPhone;
 
-	    @FXML
-	    private Label textCustomerIDCard;
+	@FXML
+	private Label textCustomerIDCard;
 
-	    @FXML
-	    private Label textCustomerAdress;
+	@FXML
+	private Label textCustomerAdress;
 
-	    @FXML
-	    private ChoiceBox<?> choiceSupplier;
+	@FXML
+	private ChoiceBox<Supplier> choiceSupplier;
 
-	    @FXML
-	    private ChoiceBox<?> choiceModel;
+	@FXML
+	private ChoiceBox<Model> choiceModel;
 
-	    @FXML
-	    private ChoiceBox<?> choiceReplacementName;
+	@FXML
+	private ChoiceBox<Replacement> choiceReplacement;
 
-	    @FXML
-	    private Button btnRemoveReplacement;
+	@FXML
+	private Button btnRemoveReplacement;
 
-	    @FXML
-	    private Button btnAddReplacement;
+	@FXML
+	private Button btnAddReplacement;
 
-	    @FXML
-	    private TableView<?> tableMaintenaceReportDetail;
+	@FXML
+	private TableView<MaintenanceReportDetail> tableMaintenaceReportDetail;
 
-	    @FXML
-	    private Text textTax;
+	@FXML
+	private Text textTax;
 
-	    @FXML
-	    private Text textTotal;
+	@FXML
+	private Text textTotal;
 
-	    @FXML
-	    private Button btnCancel;
+	@FXML
+	private Button btnCancel;
 
-	    @FXML
-	    private Button btnCheckout;
+	@FXML
+	private Button btnCheckout;
 
 	@FXML
 	void createOrderAction(final ActionEvent event) {
@@ -130,271 +114,77 @@ public class MaintenaceReportController {
 		}
 	}
 
-	@FXML
-	void initialize() {
+	void loadData() {
+		List<Supplier> listsup = new SupplierDAO().getAll(Supplier.class);
+		List<Model> listModel = new ArrayList<>();
+		listrp = new ArrayList<>();
 
-		rp = new MaintenanceReport();
-		// System.out.println(od.toString());
-		handler = Main.getHandler();
-		MaintenanceReportDAO rpDAO = new MaintenanceReportDAO();
-		List<MaintenanceReport> listrp = rpDAO.getAll(MaintenanceReport.class);
-		///
-		if (!listrp.isEmpty()) {
-			String odlast = listrp.get(listrp.size() - 1).getMaintenanceReportID();
-			String prefix = odlast.substring(0, 2);
-			int numberOd = Integer.valueOf((odlast.substring(2, odlast.length())));
-			String odID = prefix + String.format("%04d", numberOd + 1);
-			textMaintenaceReportID.setText(odID);
-		} else {
-			textMaintenaceReportID.setText("OR0000");
-		}
-
-		///
-		List<MaintenanceReport> listod = new ArrayList<>();
-		///
-		LocalDate date = LocalDate.now();
-		textDate.setValue(date);
-		rp.setDate(date);
-		textDate.setDisable(true);
-		//
-		String storename = "YAMAHA HOANGCAU";
-		textStoreName.setText(storename);
-		// Employee
-		EmployeeDAO emdao = new EmployeeDAO();
-		Employee emp = emdao.findByAc(handler.getAccount_using());
-		rp.setEmployee(emp);
-		//
-		textEmployeeID.setText(emp.getLastName() + " " + emp.getFirstName());
-		LoadType();
-		LoadTable(listod);
-		// Customer
-		textCustomer.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		choiceSupplier.getItems().setAll(listsup);
+		choiceSupplier.setConverter(new StringConverter<Supplier>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			public String toString(Supplier object) {
 				// TODO Auto-generated method stub
-				if (!newValue) {
-					String cust_phone = textCustomer.getText();
-					CustomerDAO custDAO = new CustomerDAO();
-					Customer customer = custDAO.findbyPhone(cust_phone);
-					if (customer != null) {
-						od.setCustomer(customer);
-						textCustomerName.setText(customer.getLastName() + " " + customer.getFirstName());
-						textCustomerAdress.setText(customer.getAddress());
-						textCustomerIDCard.setText(customer.getIdCard());
-						textCustomerPhone.setText(customer.getPhoneNumber());
-						textCustomer.getStyleClass().remove("error");
-					} else {
-						textCustomerName.setText("-unknown");
-						textCustomerAdress.setText("-unknown");
-						textCustomerIDCard.setText("-unknown");
-						textCustomerPhone.setText("-unknown");
-						textCustomer.getStyleClass().add("error");
+				return object.getSupplierName() + " | " + object.getSupplierID();
+			}
+
+			@Override
+			public Supplier fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		choiceModel.setConverter(new StringConverter<Model>() {
+
+			@Override
+			public Model fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String toString(Model object) {
+				// TODO Auto-generated method stub
+				return object.getName();
+			}
+		});
+		AtomicReference<Supplier> supplier_selected = new AtomicReference<Supplier>();
+		choiceSupplier.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Supplier>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Supplier> observable, Supplier oldValue, Supplier newValue) {
+				if (newValue != null) {
+					supplier_selected.set(newValue);
+					listrp = new ReplacementDAO().findbySup(supplier_selected.get());
+					for (int i = 0; i < listrp.size(); i++) {
+						if (!listModel.contains(listrp.get(i).getModel()))
+							listModel.add(listrp.get(i).getModel());
 					}
+					choiceModel.getItems().setAll(listModel);
+					choiceReplacement.getItems().clear();
 				}
 			}
+
 		});
-		btnCheckout.setOnAction(new EventHandler<ActionEvent>() {
+		AtomicReference<Model> model_selected = new AtomicReference<Model>();
+		choiceModel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Model>() {
 
 			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				if (checkOrder()) {
-					ReplacementDAO odDao = new ReplacementDAO();
-					rpDAO.save(rp);
-					// reload_Stock(od.getListItems());
-					Main.changeLayout("EmployeeUI");
-				}
-			}
-
-			private boolean checkOrder() {
-				if (rp.getDetails() == null || rp.getDetails().size() == 0) {
-					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa có xe trong danh sách mua");
-					handler.setError(error);
-					Main.newWindow("AlertMessage", "Thông báo");
-					return false;
-				}
-				return true;
-			}
-		});
-//		tableOrderDetail.setOnMouseClicked(event -> {
-//			if (event.getClickCount() == 2) {
-//				System.out.println(tableOrderDetail.getSelectionModel().getSelectedItem());
-//			}
-//		});
-	}
-
-	void LoadReplacement() {
-		ReplacementDAO rDAO = new ReplacementDAO();
-		List<MaintenanceReportDetail> list_detail = new ArrayList<>();
-		List<Supplier> listSupplier = new SupplierDAO().getAll(Supplier.class);
-		List<String> listSuplierName = new ArrayList<>();
-		List<String> listType = new ArrayList<String>();
-		for (int i = 0; i < listSupplier.size(); i++) {
-			Supplier sup = listSupplier.get(i);
-			if (!listSuplierName.contains(sup.getSupplierName()))
-				listSuplierName.add(sup.getSupplierName());
-		}
-		choiceSupplier.getItems().addAll(listSuplierName);
-		AtomicReference<String> sp = new AtomicReference<String>();
-		choiceSupplier.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			public void changed(ObservableValue<? extends Model> observable, Model oldValue, Model newValue) {
 				// TODO Auto-generated method stub
 				if (newValue != null) {
-					sp.set(newValue);
-					choiceReplacementName.getItems().clear();
-				}
-			}
-
-		});
-		choiceModel.getItems().addAll(listType);
-		choiceModel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				if (newValue != null) {
-					choiceReplacementName.getItems().clear();
-					try {
-						List<Motorbike> listMotorbike = mDAO.findbyTypeWSup(newValue, sp.get());
-						List<String> listMotorbikeName = new ArrayList<>();
-
-						for (int i = 0; i < listMotorbike.size(); i++) {
-							String mb_name = listMotorbike.get(i).getProductName();
-							if (!listMotorbikeName.contains(mb_name)) {
-								listMotorbikeName.add(mb_name);
-							}
-						}
-						choiceReplacementName.getItems().addAll(listMotorbikeName);
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-
+					model_selected.set(newValue);
+					listrp = new ReplacementDAO().findbySupWModel(supplier_selected.get(), model_selected.get());
+					choiceReplacement.getItems().setAll(listrp);
 				}
 			}
 		});
-		AtomicReference<Replacement> replacement = new AtomicReference<Replacement>();
-		choiceReplacementName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				if (newValue != null) {
-					Replacement rp = mDAO.findbyName(newValue).get(0);
-					replacement.set(rp);
-				}
-			}
-
-		});
-		AtomicInteger quantity = new AtomicInteger(1);
-
-		/**
-		 * Add motorbike to list
-		 */
-		btnAddReplacement.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				if (replacement.get() != null && validate()) {
-					MaintenanceReportDetail mt_detail = new MaintenanceReportDetail();
-					mt_detail.setMaintenanceReport(rp);
-					mt_detail.setUnitPrice(replacement.get().getUnitPrice());
-					mt_detail.setQuantity(quantity.get());
-					mt_detail.setChassisNo(textChassisp1.getText() + "/" + textChassisp2.getText());
-					mt_detail.setColor(color_name.get());
-					list_detail.add(od_detail);
-					od.setListItems(list_detail);
-					loadTotal(list_detail);
-					for (int i = 0; i < list_detail.size(); i++) {
-						OrderDetail d = list_detail.get(i);
-						d.setOrderDetailID(String.valueOf(i));
-					}
-					clearSection();
-					reloadTable(list_detail);
-
-				} else {
-					// Messomething
-				}
-			}
-
-			private boolean validate() {
-				if (choiceSupplier.getSelectionModel().isEmpty() || choiceType.getSelectionModel().isEmpty()
-						|| choiceMotorbikeName.getSelectionModel().isEmpty()
-						|| choiceColor.getSelectionModel().isEmpty()) {
-					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa chọn thông tin xe");
-					handler.setError(error);
-					Main.newWindow("AlertMessage", "Thông báo");
-					return false;
-				}
-				if (textChassisp1.getText().isEmpty() || textChassisp1.getText().equals("")) {
-					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin số khung");
-					handler.setError(error);
-					Main.newWindow("AlertMessage", "Thông báo");
-					return false;
-				}
-				if (textChassisp2.getText().isEmpty() || textChassisp2.getText().equals("")) {
-					ErrorAlert error = new ErrorAlert("Thiếu thông tin", "Chưa điền thông tin số sường");
-					handler.setError(error);
-					Main.newWindow("AlertMessage", "Thông báo");
-					return false;
-				}
-				return true;
-			}
-
-			private void clearSection() {
-				choiceColor.getSelectionModel().clearSelection();
-				choiceSupplier.getSelectionModel().clearSelection();
-				choiceMotorbikeName.getSelectionModel().clearSelection();
-				choiceType.getSelectionModel().clearSelection();
-				textChassisp1.clear();
-				textChassisp2.clear();
-
-			}
-
-		});
-		btnRemoveMotobike.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				OrderDetail od_selected = tableOrderDetail.getSelectionModel().getSelectedItem();
-				list_detail.remove(od_selected);
-				loadTotal(list_detail);
-				reloadTable(list_detail);
-			}
-		});
-
 	}
 
-	void reload_Stock(List<OrderDetail> list) {
-		MotorbikeDAO mDAO = new MotorbikeDAO();
-		for (int i = 0; i < list.size(); i++) {
-			OrderDetail odd = list.get(i);
-			int instock = odd.getMotorbike().getQuantity();
-			System.out.println(instock);
-			int new_instock = instock - odd.getQuantity();
-			Motorbike mb = mDAO.getById(Motorbike.class, odd.getMotorbike().getProductID());
-			mb.setQuantity(new_instock);
-			mDAO.update(mb);
-		}
-
-	}
-
-	void loadTotal(List<OrderDetail> list) {
-		textTax.setText("");
-		double total = 0;
-		double tax = 0;
-		total += od.getSubTotal();
-		tax += od.getTotalVAT();
-		textTax.setText(String.format("%,12.0f VND", tax));
-		textTotal.setText(String.format("%,12.0f VND", total));
-	}
-
-	void LoadTable(List<OrderDetail> list) {
-		tableOrderDetail.setEditable(true);
-		Callback<TableColumn<OrderDetail, String>, TableCell<OrderDetail, String>> cellFactory = col -> new TableCell<OrderDetail, String>() {
+	@SuppressWarnings("unchecked")
+	void LoadTable(List<MaintenanceReportDetail> list) {
+		tableMaintenaceReportDetail.setEditable(true);
+		Callback<TableColumn<MaintenanceReportDetail, String>, TableCell<MaintenanceReportDetail, String>> cellFactory = col -> new TableCell<MaintenanceReportDetail, String>() {
 			{
 				setEditable(true);
 			}
@@ -420,8 +210,7 @@ public class MaintenaceReportController {
 				super.commitEdit(newValue);
 				for (int i = 0; i < list.size(); i++) {
 					if (newValue.chars().allMatch(Character::isDigit)) {
-						if (list.get(i).getOrderDetailID() == tableOrderDetail.getSelectionModel().getSelectedItem()
-								.getOrderDetailID()) {
+						if (list.get(i).equals(tableMaintenaceReportDetail.getSelectionModel().getSelectedItem())) {
 							list.get(i).setUnitPrice(Double.valueOf(newValue));
 							reloadTable(list);
 							super.commitEdit(newValue);
@@ -439,32 +228,32 @@ public class MaintenaceReportController {
 
 		};
 		///
-		TableColumn<OrderDetail, OrderDetail> colNumbered = new TableColumn<>("STT");
-		TableColumn<OrderDetail, String> colName = new TableColumn<>("Tên Xe");
-		TableColumn<OrderDetail, String> colSup = new TableColumn<>("Hãng");
-		TableColumn<OrderDetail, String> colColor = new TableColumn<>("Màu");
-		TableColumn<OrderDetail, String> colQuantity = new TableColumn<>("Số Lượng");
-		TableColumn<OrderDetail, String> colUP = new TableColumn<>("Đơn giá");
-		TableColumn<OrderDetail, String> colST = new TableColumn<>("Thành tiền");
+		TableColumn<MaintenanceReportDetail, MaintenanceReportDetail> colNumbered = new TableColumn<>("STT");
+		TableColumn<MaintenanceReportDetail, String> colName = new TableColumn<>("Tên Linh kiện");
+		TableColumn<MaintenanceReportDetail, String> colSup = new TableColumn<>("Hãng");
+		TableColumn<MaintenanceReportDetail, String> colQuantity = new TableColumn<>("Số Lượng");
+		TableColumn<MaintenanceReportDetail, String> colUP = new TableColumn<>("Đơn giá");
+		TableColumn<MaintenanceReportDetail, String> colST = new TableColumn<>("Thành tiền");
 		colNumbered.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<OrderDetail, OrderDetail>, ObservableValue<OrderDetail>>() {
+				new Callback<TableColumn.CellDataFeatures<MaintenanceReportDetail, MaintenanceReportDetail>, ObservableValue<MaintenanceReportDetail>>() {
 
-					@SuppressWarnings("rawtypes")
+					@SuppressWarnings({ "rawtypes" })
 					@Override
-					public ObservableValue<OrderDetail> call(CellDataFeatures<OrderDetail, OrderDetail> param) {
-						// TODO Auto-generated method stub
+					public ObservableValue<MaintenanceReportDetail> call(
+							CellDataFeatures<MaintenanceReportDetail, MaintenanceReportDetail> param) {
 						return new ReadOnlyObjectWrapper(param.getValue());
 					}
 				});
 		colNumbered.setCellFactory(
-				new Callback<TableColumn<OrderDetail, OrderDetail>, TableCell<OrderDetail, OrderDetail>>() {
+				new Callback<TableColumn<MaintenanceReportDetail, MaintenanceReportDetail>, TableCell<MaintenanceReportDetail, MaintenanceReportDetail>>() {
 
 					@Override
-					public TableCell<OrderDetail, OrderDetail> call(TableColumn<OrderDetail, OrderDetail> param) {
+					public TableCell<MaintenanceReportDetail, MaintenanceReportDetail> call(
+							TableColumn<MaintenanceReportDetail, MaintenanceReportDetail> param) {
 
-						return new TableCell<OrderDetail, OrderDetail>() {
+						return new TableCell<MaintenanceReportDetail, MaintenanceReportDetail>() {
 							@Override
-							protected void updateItem(OrderDetail arg0, boolean arg1) {
+							protected void updateItem(MaintenanceReportDetail arg0, boolean arg1) {
 
 								super.updateItem(arg0, arg1);
 								if (this.getTableRow() != null && arg0 != null) {
@@ -478,10 +267,9 @@ public class MaintenaceReportController {
 				});
 		colNumbered.setSortable(false);
 		colName.setCellValueFactory(
-				celldata -> new SimpleStringProperty(celldata.getValue().getMotorbike().getProductName()));
+				celldata -> new SimpleStringProperty(celldata.getValue().getReplacement().getProductName()));
 		colSup.setCellValueFactory(celldata -> new SimpleStringProperty(
-				celldata.getValue().getMotorbike().getSupplier().getSupplierName()));
-		colColor.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getColor()));
+				celldata.getValue().getReplacement().getSupplier().getSupplierName()));
 		colQuantity.setCellValueFactory(
 				celldata -> new SimpleStringProperty(String.valueOf(celldata.getValue().getQuantity())));
 		colUP.setCellValueFactory(
@@ -489,14 +277,23 @@ public class MaintenaceReportController {
 		colUP.setCellFactory(cellFactory);
 		colST.setCellValueFactory(celldata -> new SimpleStringProperty(
 				String.format("%,12.0f", celldata.getValue().getUnitPrice() * celldata.getValue().getQuantity())));
-		ObservableList<OrderDetail> items = FXCollections.observableArrayList(list);
-		tableOrderDetail.setItems(items);
-		tableOrderDetail.getColumns().addAll(colNumbered, colName, colSup, colColor, colQuantity, colUP, colST);
+		ObservableList<MaintenanceReportDetail> items = FXCollections.observableArrayList(list);
+		tableMaintenaceReportDetail.setItems(items);
+		tableMaintenaceReportDetail.getColumns().addAll(colNumbered, colName, colSup, colQuantity, colUP, colST);
 
 	}
 
-	void reloadTable(List<OrderDetail> list) {
-		tableOrderDetail.getColumns().clear();
+	void reloadTable(List<MaintenanceReportDetail> list) {
+		tableMaintenaceReportDetail.getColumns().clear();
 		LoadTable(list);
+	}
+
+	void Action() {
+
+	}
+
+	@FXML
+	void initialize() {
+		loadData();
 	}
 }

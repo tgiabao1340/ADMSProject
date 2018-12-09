@@ -12,31 +12,35 @@ import javax.persistence.ManyToOne;
 public class MaintenanceReportDetail {
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "MaintenanceReportID",referencedColumnName="MaintenanceReportID")
+	@JoinColumn(name = "MaintenanceReportID", referencedColumnName = "MaintenanceReportID")
 	private MaintenanceReport maintenanceReport;
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "ReplacementID",referencedColumnName="ReplacementID")
+	@JoinColumn(name = "ReplacementID", referencedColumnName = "ReplacementID")
 	private Replacement replacement;
-	@Column(name="Comment",columnDefinition="nvarchar(50)")
+	@Column(name = "Comment", columnDefinition = "nvarchar(50)")
 	private String comment;
-	@Column(name="Quantity")
+	@Column(name = "Quantity")
 	private int quantity;
-	@Column(name="UnitPrice")
+	@Column(name = "UnitPrice")
 	private double unitPrice;
+
 	public MaintenanceReportDetail() {
 		super();
 	}
-	
+
 	public double getUnitPrice() {
 		return unitPrice;
 	}
+
 	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
+
 	public Replacement getReplacement() {
 		return replacement;
 	}
+
 	public void setReplacement(Replacement replacement) {
 		this.replacement = replacement;
 	}
@@ -47,14 +51,6 @@ public class MaintenanceReportDetail {
 
 	public void setMaintenanceReport(MaintenanceReport maintenanceReport) {
 		this.maintenanceReport = maintenanceReport;
-	}
-
-	public Replacement getReplacementID() {
-		return replacement;
-	}
-
-	public void setReplacementID(Replacement replacementID) {
-		replacement = replacementID;
 	}
 
 	public String getComment() {
@@ -72,20 +68,16 @@ public class MaintenanceReportDetail {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
 	public long getTotalRaw() {
 
-		return (long) (quantity*unitPrice);
+		return (long) (quantity * unitPrice);
 	}
 
 	@Override
 	public String toString() {
-		return "MaintenanceReportDetail [MaintenanceReportID=" + maintenanceReport + ", ReplacementID="
-				+ replacement + ", comment=" + comment + ", Quantity=" + quantity + "]";
+		return "MaintenanceReportDetail [MaintenanceReportID=" + maintenanceReport + ", ReplacementID=" + replacement
+				+ ", comment=" + comment + ", Quantity=" + quantity + "]";
 	}
-	
-	
-	
-	
-	
-	
+
 }

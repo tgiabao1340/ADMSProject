@@ -5,11 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional.TxType;
-
 import org.controlsfx.control.CheckComboBox;
-
-import com.jfoenix.controls.JFXAutoCompletePopup;
 
 import application.ErrorAlert;
 import application.Handler;
@@ -43,7 +39,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -51,6 +46,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 public class ManagementTaskController {
 	Handler handler;
@@ -58,11 +54,9 @@ public class ManagementTaskController {
 	// Motorbike
 	List<String> years = new ArrayList<>();
 	List<Supplier> suppliers = new SupplierDAO().getAll(Supplier.class);
-	List<String> suppliers_name = new ArrayList<>();
 	List<String> types = new ArrayList<>();
 	List<Motorbike> listM;
 	List<Model> listModel = new ArrayList<>();
-	List<String> listModelID = new ArrayList<>();
 	@FXML
 	private Button btnBack;
 
@@ -76,7 +70,7 @@ public class ManagementTaskController {
 	private ChoiceBox<String> choiceMotorbike_YEAR;
 
 	@FXML
-	private ChoiceBox<String> choiceMotorbike_SUP;
+	private ChoiceBox<Supplier> choiceMotorbike_SUP;
 
 	@FXML
 	private ChoiceBox<String> choiceMotorbike_TYPE;
@@ -88,10 +82,7 @@ public class ManagementTaskController {
 	private TextField textDes;
 
 	@FXML
-	private TextField textModelID;
-
-	@FXML
-	private Label textModelname;
+	private ChoiceBox<Model> choiceMotorbike_MODEL;
 
 	@FXML
 	private CheckComboBox<String> comboxMotorbike_COLOR;
@@ -108,6 +99,7 @@ public class ManagementTaskController {
 	@FXML
 	private Button btnDelete_M;
 	// Replacement
+
 	List<Replacement> listR;
 	@FXML
 	private TableView<Replacement> tableRepacement;
@@ -124,7 +116,10 @@ public class ManagementTaskController {
 	private TextField textReplacement_STATUS;
 
 	@FXML
-	private ChoiceBox<String> choiceReplacement_SUP;
+	private ChoiceBox<Supplier> choiceReplacement_SUP;
+
+	@FXML
+	private ChoiceBox<Model> choiceReplacement_MODEL;
 
 	@FXML
 	private Button btnSave_R;
@@ -362,36 +357,33 @@ public class ManagementTaskController {
 			void loadtoField_M(Motorbike motorbike) {
 				choiceMotorbike_YEAR.getItems().addAll(years);
 				choiceMotorbike_TYPE.getItems().addAll(types);
-				choiceMotorbike_SUP.getItems().addAll(suppliers_name);
+				choiceMotorbike_SUP.getItems().addAll(listSupplier);
+				choiceMotorbike_MODEL.getItems().addAll(listModel);
 				textMotorbike_ID.setText(motorbike.getProductID());
 				textMotorbike_NAME.setText(motorbike.getProductName());
 				choiceMotorbike_YEAR.getSelectionModel()
 						.select(years.indexOf(String.valueOf(motorbike.getManufactureYear())));
 				choiceMotorbike_TYPE.getSelectionModel().select(types.indexOf(motorbike.getType()));
-				choiceMotorbike_SUP.getSelectionModel().select(suppliers_name.indexOf(
-						motorbike.getSupplier().getSupplierName() + "-" + motorbike.getSupplier().getSupplierID()));
+				choiceMotorbike_SUP.getSelectionModel().select(motorbike.getSupplier());
 				String color[] = motorbike.getColor().split(", ");
 				for (int i = 0; i < color.length; i++) {
 					comboxMotorbike_COLOR.getCheckModel().check(color[i]);
 				}
 				textCapacity.setText(String.format("%.0f", motorbike.getCapacity()));
 				textDes.setText(motorbike.getStatus());
-				textModelID.setText(motorbike.getModel().getModelID());
-				textModelname.setText(motorbike.getModel().getName());
+				choiceMotorbike_MODEL.getSelectionModel().select(motorbike.getModel());
 			}
 
 			void clearField() {
 				textMotorbike_ID.clear();
 				textMotorbike_NAME.clear();
-
 				choiceMotorbike_YEAR.getItems().clear();
 				choiceMotorbike_SUP.getItems().clear();
 				choiceMotorbike_TYPE.getItems().clear();
 				comboxMotorbike_COLOR.getCheckModel().clearChecks();
+				choiceMotorbike_MODEL.getItems().clear();
 				textCapacity.clear();
 				textDes.clear();
-				textModelID.clear();
-				textModelname.setText("");
 			}
 		});
 	}
@@ -400,32 +392,10 @@ public class ManagementTaskController {
 		tableMotorbike.getColumns().clear();
 		listM = new MotorbikeDAO().getAll(Motorbike.class);
 		listModel = new ModelDAO().getAll(Model.class);
-		listModelID = new ArrayList<>();
-		for (int i = 0; i < listModel.size(); i++) {
-			listModelID.add(listModel.get(i).getModelID());
-		}
 		loadMotorbike(listM);
 	}
 
 	void Action_M() {
-		JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
-		autoCompletePopup.getSuggestions().addAll(listModelID);
-		autoCompletePopup.setCellLimit(2);
-		autoCompletePopup.setAutoFix(false);
-		autoCompletePopup.setSelectionHandler(event -> {
-			textModelID.setText(event.getObject());
-		});
-
-		textModelID.textProperty().addListener(observable -> {
-			autoCompletePopup.filter(string -> string.toLowerCase().contains(textModelID.getText().toLowerCase()));
-			if (autoCompletePopup.getFilteredSuggestions().isEmpty() || textModelID.getText().isEmpty()) {
-				autoCompletePopup.hide();
-			} else {
-				if (textModelID.isFocused()) {
-					autoCompletePopup.show(textModelID);
-				}
-			}
-		});
 		textCapacity.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
@@ -450,11 +420,11 @@ public class ManagementTaskController {
 				textCapacity.clear();
 				comboxMotorbike_COLOR.getCheckModel().clearChecks();
 				textDes.clear();
-				textModelID.clear();
-				textModelname.setText("");
+				choiceMotorbike_MODEL.getSelectionModel().clearSelection();
 				choiceMotorbike_YEAR.getSelectionModel().clearSelection();
 				choiceMotorbike_SUP.getSelectionModel().clearSelection();
 				choiceMotorbike_TYPE.getSelectionModel().clearSelection();
+				choiceMotorbike_MODEL.getSelectionModel().clearSelection();
 				textMotorbike_NAME.requestFocus();
 				if (!listM.isEmpty()) {
 					String id_last = listM.get(listM.size() - 1).getProductID();
@@ -490,9 +460,9 @@ public class ManagementTaskController {
 				String name = textMotorbike_NAME.getText();
 				String status = textDes.getText();
 				String type = choiceMotorbike_TYPE.getSelectionModel().getSelectedItem();
-				String[] sup = choiceMotorbike_SUP.getSelectionModel().getSelectedItem().split("-");
+				Supplier sup = choiceMotorbike_SUP.getSelectionModel().getSelectedItem();
 				String year = choiceMotorbike_YEAR.getSelectionModel().getSelectedItem();
-				String modelID = textModelID.getText();
+				Model model = choiceMotorbike_MODEL.getSelectionModel().getSelectedItem();
 
 				motorbike.setProductName(name);
 				String color = "";
@@ -503,10 +473,8 @@ public class ManagementTaskController {
 				motorbike.setCapacity(Double.valueOf(textCapacity.getText()));
 				motorbike.setStatus(status);
 				motorbike.setType(type);
-				Supplier s = new SupplierDAO().findById(sup[1]);
-				motorbike.setSupplier(s);
+				motorbike.setSupplier(sup);
 				motorbike.setManufactureYear(Integer.valueOf(year));
-				Model model = new ModelDAO().findById(modelID);
 				motorbike.setModel(model);
 				return motorbike;
 			}
@@ -533,19 +501,7 @@ public class ManagementTaskController {
 					return false;
 				}
 				if (choiceMotorbike_SUP.getSelectionModel().isEmpty()) {
-					choiceMotorbike_SUP.getStyleClass().add("error");
 					return false;
-				} else {
-					String[] sup = choiceMotorbike_SUP.getSelectionModel().getSelectedItem().split("-");
-					Supplier s = new SupplierDAO().findById(sup[1]);
-					if (s == null) {
-						ErrorAlert error = new ErrorAlert("Nhà cung cấp không hợp lệ",
-								"Nhà cung cấp không tồn tại hoặc chưa chọn nhà cung cấp");
-						handler.setError(error);
-						Main.newWindow("AlertMessage", "Thông báo");
-						return false;
-					}
-
 				}
 				if (choiceMotorbike_TYPE.getSelectionModel().isEmpty()) {
 					choiceMotorbike_TYPE.getStyleClass().add("error");
@@ -560,25 +516,12 @@ public class ManagementTaskController {
 					textDes.requestFocus();
 					return false;
 				}
-				if (textModelID.getText().isEmpty()) {
-					textModelID.getStyleClass().add("error");
-					textModelID.requestFocus();
+				if (choiceMotorbike_MODEL.getSelectionModel().isEmpty()) {
 					return false;
-				} else {
-					Model m = new ModelDAO().findById(textModelID.getText());
-					if (m == null) {
-						ErrorAlert error = new ErrorAlert("Model không hợp lệ",
-								"Model không tồn tại hoặc chưa chọn model");
-						handler.setError(error);
-						Main.newWindow("AlertMessage", "Thông báo");
-						return false;
-					}
-
 				}
 				textMotorbike_ID.getStyleClass().remove("error");
 				textMotorbike_NAME.getStyleClass().remove("error");
 				textDes.getStyleClass().remove("error");
-				textModelID.getStyleClass().remove("error");
 				return true;
 			}
 		});
@@ -607,23 +550,48 @@ public class ManagementTaskController {
 
 	void initTableMotorbike() {
 		listM = new MotorbikeDAO().getAll(Motorbike.class);
+		listModel = new ModelDAO().getAll(Model.class);
+		listSupplier = new SupplierDAO().getAll(Supplier.class);
 		handler = Main.getHandler();
 		for (int i = 1990; i < LocalDate.now().getYear() + 1; i++) {
 			years.add(String.valueOf(i));
 		}
-		for (int i = 0; i < suppliers.size(); i++) {
-			suppliers_name.add(suppliers.get(i).getSupplierName() + "-" + suppliers.get(i).getSupplierID());
-		}
 		types.add("Tay ga");
 		types.add("Tay côn");
 		types.add("Xe số");
-		for (int i = 0; i < listModel.size(); i++) {
-			listModelID.add(listModel.get(i).getModelID());
-		}
-		listModel = new ModelDAO().getAll(Model.class);
+
 		choiceMotorbike_YEAR.getItems().addAll(years);
 		choiceMotorbike_TYPE.getItems().addAll(types);
-		choiceMotorbike_SUP.getItems().addAll(suppliers_name);
+		choiceMotorbike_SUP.getItems().addAll(listSupplier);
+		choiceMotorbike_SUP.setConverter(new StringConverter<Supplier>() {
+
+			@Override
+			public Supplier fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String toString(Supplier object) {
+				// TODO Auto-generated method stub
+				return object.getSupplierName() + " | " + object.getSupplierID();
+			}
+		});
+		choiceMotorbike_MODEL.setConverter(new StringConverter<Model>() {
+
+			@Override
+			public Model fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String toString(Model object) {
+				// TODO Auto-generated method stub
+				return object.getName();
+			}
+		});
+		choiceMotorbike_MODEL.getItems().addAll(listModel);
 		ObservableList<String> colors = FXCollections.observableArrayList();
 		colors.add("Đen");
 		colors.add("Trắng");
@@ -696,20 +664,23 @@ public class ManagementTaskController {
 			}
 
 			void loadtoField(Replacement replacement) {
-				choiceReplacement_SUP.getItems().addAll(suppliers_name);
+				choiceReplacement_SUP.getItems().addAll(listSupplier);
+				choiceReplacement_MODEL.getItems().addAll(listModel);
 				textReplacement_ID.setText(replacement.getProductID());
-				textMotorbike_NAME.setText(replacement.getProductName());
-				choiceMotorbike_SUP.getSelectionModel().select(suppliers_name.indexOf(
-						replacement.getSupplier().getSupplierName() + "-" + replacement.getSupplier().getSupplierID()));
+				textReplacement_NAME.setText(replacement.getProductName());
+				choiceReplacement_SUP.getSelectionModel().select(replacement.getSupplier());
 				textReplacement_DES.setText(replacement.getDescription());
 				textReplacement_STATUS.setText(replacement.getStatus());
+				choiceReplacement_MODEL.getSelectionModel().select(replacement.getModel());
 			}
 
 			void clearField() {
 				textReplacement_ID.clear();
 				textReplacement_NAME.clear();
 				choiceReplacement_SUP.getItems().clear();
+				textReplacement_STATUS.clear();
 				textReplacement_DES.clear();
+				choiceReplacement_MODEL.getItems().clear();
 			}
 		});
 	}
@@ -717,6 +688,8 @@ public class ManagementTaskController {
 	void reloadTable_R() {
 		tableRepacement.getColumns().clear();
 		listR = new ReplacementDAO().getAll(Replacement.class);
+		listSupplier = new SupplierDAO().getAll(Supplier.class);
+		listModel = new ModelDAO().getAll(Model.class);
 		loadReplacement(listR);
 	}
 
@@ -728,6 +701,7 @@ public class ManagementTaskController {
 				textReplacement_ID.clear();
 				textReplacement_NAME.clear();
 				choiceReplacement_SUP.getSelectionModel().clearSelection();
+				choiceMotorbike_MODEL.getSelectionModel().clearSelection();
 				textReplacement_DES.clear();
 				textReplacement_STATUS.clear();
 				textMotorbike_NAME.requestFocus();
@@ -765,12 +739,13 @@ public class ManagementTaskController {
 				String name = textReplacement_NAME.getText();
 				String status = textReplacement_STATUS.getText();
 				String des = textReplacement_DES.getText();
-				String[] sup = choiceReplacement_SUP.getSelectionModel().getSelectedItem().split("-");
 				replacement.setProductName(name);
-				Supplier s = new SupplierDAO().findById(sup[1]);
-				replacement.setSupplier(s);
+				Supplier sup = choiceReplacement_SUP.getSelectionModel().getSelectedItem();
+				Model model = choiceReplacement_MODEL.getSelectionModel().getSelectedItem();
+				replacement.setSupplier(sup);
 				replacement.setStatus(status);
 				replacement.setDescription(des);
+				replacement.setModel(model);
 				return replacement;
 			}
 
@@ -786,19 +761,7 @@ public class ManagementTaskController {
 					return false;
 				}
 				if (choiceReplacement_SUP.getSelectionModel().isEmpty()) {
-					choiceReplacement_SUP.getStyleClass().add("error");
 					return false;
-				} else {
-					String[] sup = choiceReplacement_SUP.getSelectionModel().getSelectedItem().split("-");
-					Supplier s = new SupplierDAO().findById(sup[1]);
-					if (s == null) {
-						ErrorAlert error = new ErrorAlert("Nhà cung cấp không hợp lệ",
-								"Nhà cung cấp không tồn tại hoặc chưa chọn nhà cung cấp");
-						handler.setError(error);
-						Main.newWindow("AlertMessage", "Thông báo");
-						return false;
-					}
-
 				}
 				if (textReplacement_DES.getText().isEmpty()) {
 					textReplacement_DES.getStyleClass().add("error");
@@ -808,6 +771,9 @@ public class ManagementTaskController {
 				if (textReplacement_STATUS.getText().isEmpty()) {
 					textReplacement_STATUS.getStyleClass().add("error");
 					textReplacement_STATUS.requestFocus();
+					return false;
+				}
+				if (choiceReplacement_MODEL.getSelectionModel().isEmpty()) {
 					return false;
 				}
 				textReplacement_ID.getStyleClass().remove("error");
@@ -837,11 +803,39 @@ public class ManagementTaskController {
 
 	void initTableReplacement() {
 		listR = new ReplacementDAO().getAll(Replacement.class);
+		listModel = new ModelDAO().getAll(Model.class);
+		listSupplier = new SupplierDAO().getAll(Supplier.class);
 		handler = Main.getHandler();
-		for (int i = 0; i < listModel.size(); i++) {
-			listModelID.add(listModel.get(i).getModelID());
-		}
-		choiceReplacement_SUP.getItems().addAll(suppliers_name);
+		choiceReplacement_SUP.setConverter(new StringConverter<Supplier>() {
+
+			@Override
+			public Supplier fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String toString(Supplier object) {
+				// TODO Auto-generated method stub
+				return object.getSupplierName() + " | " + object.getSupplierID();
+			}
+		});
+		choiceReplacement_MODEL.setConverter(new StringConverter<Model>() {
+
+			@Override
+			public String toString(Model object) {
+				// TODO Auto-generated method stub
+				return object.getName();
+			}
+
+			@Override
+			public Model fromString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		choiceReplacement_SUP.getItems().addAll(listSupplier);
+		choiceReplacement_MODEL.getItems().addAll(listModel);
 		loadReplacement(listR);
 		Action_R();
 	}
@@ -1290,7 +1284,7 @@ public class ManagementTaskController {
 					Employee employee;
 					String id = textEmployee_ID.getText();
 					if ((new EmployeeDAO().getById(Employee.class, id)) != null) {
-						
+
 						employee = new EmployeeDAO().getById(Employee.class, id);
 						new EmployeeDAO().update(setE(employee));
 					} else {
@@ -1355,7 +1349,7 @@ public class ManagementTaskController {
 				if (textEmployee_ACCOUNTID.getText().isEmpty()) {
 					textEmployee_ACCOUNTID.getStyleClass().add("error");
 					textEmployee_ACCOUNTID.requestFocus();
-					
+
 					return false;
 				}
 				String id = textEmployee_ACCOUNTID.getText();
@@ -1363,7 +1357,7 @@ public class ManagementTaskController {
 					textEmployee_ACCOUNTID.getStyleClass().add("error");
 					textEmployee_ACCOUNTID.requestFocus();
 					return false;
-				} 
+				}
 				textEmployee_ID.getStyleClass().remove("error");
 				textEmployee_FNAME.getStyleClass().remove("error");
 				textEmployee_LNAME.getStyleClass().remove("error");
@@ -1604,7 +1598,7 @@ public class ManagementTaskController {
 		colCountry.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getCountry()));
 		colAddress.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getAddress()));
 		colPhone.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getPhoneNumber()));
-		colPhone.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getTaxCode()));
+		colTaxCode.setCellValueFactory(celldata -> new SimpleStringProperty(celldata.getValue().getTaxCode()));
 		ObservableList<Supplier> items = FXCollections.observableArrayList(listSupplier);
 		tableSupplier.setItems(items);
 		tableSupplier.getColumns().addAll(colNumbered, colID, colName, colCountry, colAddress, colTaxCode);
