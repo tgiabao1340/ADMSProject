@@ -76,5 +76,26 @@ public class OrderDAO extends GeneralCRUD<Order> {
 		Query q = em.createQuery(s);
 		return q.getResultList();
 	}
+	public int sumOfOrderByDate(LocalDate date) {
+		String s = "select count(*) from " + Order.class.getName() + " where Date = '" + date + "'";
+		Query q = em.createQuery(s);
+		return q.getSingleResult()!=null?Integer.parseInt(q.getSingleResult().toString()):0;
+	}
+	public int sumOfOrderByMonth(LocalDate date) {
+		String s = "select count(*) from " + Order.class.getName() + " where year(Date) = '" + date.getYear() + "' and "+ "month(Date) = '" + date.getMonthValue() + "'";
+		Query q = em.createQuery(s);
+		return q.getSingleResult()!=null?Integer.parseInt(q.getSingleResult().toString()):0;
+	}
+	public int sumOfOrderByYear(LocalDate date) {
+		String s = "select count(*) from " + Order.class.getName() + " where year(Date) = '" + date.getYear() + "' and "+ "month(Date) = '" + date.getYear() + "'";
+		Query q = em.createQuery(s);
+		return q.getSingleResult()!=null?Integer.parseInt(q.getSingleResult().toString()):0;
+	}
+	public int sumOfOrderFromDateToDate(LocalDate date1, LocalDate date2) {
+		String s = "select count(*) from " + Order.class.getName() + " where Date between '" + date1 + "' and '" + date2 + "'";
+		Query q = em.createQuery(s);
+		return q.getSingleResult()!=null?Integer.parseInt(q.getSingleResult().toString()):0;
+	}
 
 }
+
