@@ -113,7 +113,7 @@
 						<VBox>
 							<children>
 								<Label text="Tên linh kiện :" />
-								<ChoiceBox fx:id="choiceReplacementName" prefWidth="180.0" />
+								<ChoiceBox fx:id="choiceReplacement" prefWidth="180.0" />
 							</children>
 							<VBox.margin>
 								<Insets left="8.0" />
